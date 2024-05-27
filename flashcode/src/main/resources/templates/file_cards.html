@@ -18,9 +18,11 @@
 		<table class = "table table-striped">
 			<thead class = "table-dark">
 				<tr>
-					<th>Field 1</th>
-					<th>Field 2</th>
-					<th>Field 3</th>
+					<th>Question</th>
+					<th>Approach</th>
+					<th>Code</th>
+					<th>Time Complexity</th>
+					<th>Space Complexity</th>
 				</tr>
 			</thead>
 			
@@ -29,6 +31,8 @@
 					<td th:text = "${card.question}"></td>
 					<td th:text = "${card.approach}"></td>
 					<td th:text = "${card.code}"></td>
+					<td th:text = "${card.timeComplexity}"></td>
+					<td th:text = "${card.spaceComplexity}"></td>
 				</tr>
 			</tbody>
 		</table>

@@ -29,6 +29,4 @@ public class CardController {
         return "file_cards";
     }
 
-    // TODO: GET all of the cards in a specific set
-
 }
