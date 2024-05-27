@@ -2,14 +2,11 @@ package com.stevenbui.flashcode.models;
 
 import java.util.List;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,32 +16,34 @@ public class Card {
     @Id
     @GeneratedValue ( strategy = GenerationType.IDENTITY )
     @Column ( name = "id" )
-    private Long         id;
+    private Long   id;
 
     @Column ( name = "question" )
-    private String       question;
+    private String question;
 
     @Column ( name = "approach" )
-    private String       approach;
+    private String approach;
 
     @Column ( name = "code" )
-    private String       code;
+    private String code;
 
     @Column ( name = "time_complexity" )
-    private String       timeComplexity;
+    private String timeComplexity;
 
     @Column ( name = "space_complexity" )
-    private String       spaceComplexity;
+    private String spaceComplexity;
 
-    // ElementCollection = indicates that this field is a collection of elements
-    // that should be stored in a separate table
-    @ElementCollection
-    // CollectionTable = specifies the table to store the strings is named
-    // card_tags and is joined to this table (cards) using card_id as the
-    // foreign key
-    @CollectionTable ( name = "card_tags", joinColumns = @JoinColumn ( name = "card_id" ) )
-    @Column ( name = "tags" )
-    private List<String> tags;
+    // // ElementCollection = indicates that this field is a collection of
+    // elements
+    // // that should be stored in a separate table
+    // @ElementCollection
+    // // CollectionTable = specifies the table to store the strings is named
+    // // card_tags and is joined to this table (cards) using card_id as the
+    // // foreign key
+    // @CollectionTable ( name = "card_tags", joinColumns = @JoinColumn ( name =
+    // "card_id" ) )
+    // @Column ( name = "tags" )
+    // private List<String> tags;
 
     public Card () {
 
@@ -58,7 +57,7 @@ public class Card {
         this.code = code;
         this.timeComplexity = timeComplexity;
         this.spaceComplexity = spaceComplexity;
-        this.tags = tags;
+        // this.tags = tags;
     }
 
     public Long getId () {
@@ -109,12 +108,12 @@ public class Card {
         this.spaceComplexity = spaceComplexity;
     }
 
-    public List<String> getTags () {
-        return tags;
-    }
-
-    public void setTags ( final List<String> tags ) {
-        this.tags = tags;
-    }
+    // public List<String> getTags () {
+    // return tags;
+    // }
+    //
+    // public void setTags ( final List<String> tags ) {
+    // this.tags = tags;
+    // }
 
 }
