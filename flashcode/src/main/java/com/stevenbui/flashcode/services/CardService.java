@@ -1,12 +1,22 @@
 package com.stevenbui.flashcode.services;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.stevenbui.flashcode.models.Card;
+import com.stevenbui.flashcode.repositories.CardRepository;
 
-public interface CardService {
+public class CardService extends Service {
 
-    // abstract method for getting all flash cards
-    List<Card> getAllCards ();
+    private final CardRepository cardRepository;
+
+    public CardService ( final CardRepository cardRepository ) {
+        super();
+        this.cardRepository = cardRepository;
+    }
+
+    @Override
+    protected JpaRepository<Card, Long> getRepository () {
+        return cardRepository;
+    }
 
 }
