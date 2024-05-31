@@ -19,13 +19,13 @@ public class FlashcodeApplication implements CommandLineRunner {
 
     @Override
     public void run ( final String... args ) throws Exception {
-        // final Card c1 = new Card( "Q1", "A1", "C1", "TC1", "SC1", null );
+        // final Card c1 = new Card( "Q1", "A1", "C1", "TC1", "SC1" );
         // studentRepository.save( c1 );
         //
-        // final Card c2 = new Card( "Q2", "A2", "C2", "TC2", "SC2", null );
+        // final Card c2 = new Card( "Q2", "A2", "C2", "TC2", "SC2" );
         // studentRepository.save( c2 );
         //
-        // final Card c3 = new Card( "Q3", "A3", "C3", "TC3", "SC3", null );
+        // final Card c3 = new Card( "Q3", "A3", "C3", "TC3", "SC3" );
         // studentRepository.save( c3 );
     }
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>All Cards</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/app.css" />
+	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+</head>
+<body ng-app="myApp">
+
+	<!-- div to put script and code in any order -->
+	<div class="content">
+	
+		<!-- PART ONE: angularjs -->
+		<script>
+	        var app = angular.module('myApp', []);
+	        app.controller('getCardsCtrl', function($scope, $http, $q) {
+	        	
+	            $scope.cards = [];
+	            $scope.errorMessage = '';
+	
+	            /* GET /cards: get all cards from the database */
+	            $scope.fetchCards = function() {
+	                $http.get('/cards')
+	                    .then(function(response) {
+	                        $scope.cards = response.data;
+	                        $scope.errorMessage = '';
+	                    }, function(error) {
+	                        $scope.errorMessage = 'Error fetching cards.';
+	                    });
+	            };
+	        });
+	    </script>
+	
+		<!-- PART TWO: html -->
+	    <div class="container mt-5" ng-controller="getCardsCtrl">
+	    
+	    	<!-- Header -->
+	        <h1 class="mb-4">Card List</h1>
+	        
+	        <!-- Load Cards button -->
+	        <button class="btn btn-primary mb-4" ng-click="fetchCards()">Load Cards</button>
+	        <div class="alert alert-danger" ng-show="errorMessage" ng-bind="errorMessage"></div>
+	        
+	        <ul id="cardList" class="list-group">
+	            <li class="list-group-item" ng-repeat="card in cards">{{ card.question }}</li>
+	        </ul>
+	    </div>
+    
+    </div>
+
+</body>
+</html>
