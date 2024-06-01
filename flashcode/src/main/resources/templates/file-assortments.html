@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>All Cards</title>
+	<title>All Assortments</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/app.css" />
 	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
@@ -15,36 +15,36 @@
 		<!-- PART ONE: angularjs -->
 		<script>
 	        var app = angular.module('myApp', []);
-	        app.controller('cardsCtrl', function($scope, $http, $q) {
+	        app.controller('assortmentsCtrl', function($scope, $http, $q) {
 	        	
-	            $scope.cards = [];
+	            $scope.assortments = [];
 	            $scope.errorMessage = '';
 	
-	            /* Gets all cards from the database */
-	            $scope.getCards = function() {
-	                $http.get('/api/v1/cards')
+	            /* GETs all assortments from the database */
+	            $scope.getAssortments = function() {
+	                $http.get('/api/v1/assortments')
 	                    .then(function(response) {
-	                        $scope.cards = response.data;
+	                        $scope.assortments = response.data;
 	                        $scope.errorMessage = '';
 	                    }, function(error) {
-	                        $scope.errorMessage = 'Error fetching cards.';
+	                        $scope.errorMessage = 'Error fetching assortments.';
 	                    });
 	            };
 	        });
 	    </script>
 	
 		<!-- PART TWO: html -->
-	    <div class="container mt-5" ng-controller="cardsCtrl">
+	    <div class="container mt-5" ng-controller="assortmentsCtrl">
 	    
 	    	<!-- Header -->
-	        <h1 class="mb-4">Card List</h1>
+	        <h1 class="mb-4">Assortment List</h1>
 	        
-	        <!-- Load Cards button -->
-	        <button class="btn btn-primary mb-4" ng-click="getCards()">Load Cards</button>
+	        <!-- Load Assortments button -->
+	        <button class="btn btn-primary mb-4" ng-click="getAssortments()">Load Assortments</button>
 	        <div class="alert alert-danger" ng-show="errorMessage" ng-bind="errorMessage"></div>
 	        
-	        <ul id="cardList" class="list-group">
-	            <li class="list-group-item" ng-repeat="card in cards">{{ card.question }}</li>
+	        <ul id="assortmentList" class="list-group">
+	            <li class="list-group-item" ng-repeat="assortment in assortments">{{ assortment.title }}</li>
 	        </ul>
 	    </div>
     

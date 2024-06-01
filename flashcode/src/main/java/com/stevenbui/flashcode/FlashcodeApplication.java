@@ -29,6 +29,12 @@ public class FlashcodeApplication implements CommandLineRunner {
         if ( assortmentRepository.count() == 0 ) {
             final Assortment a1 = new Assortment( "title1", "description1" );
             assortmentRepository.save( a1 );
+
+            final Assortment a2 = new Assortment( "title2", "description2" );
+            assortmentRepository.save( a2 );
+
+            final Assortment a3 = new Assortment( "title3", "description3" );
+            assortmentRepository.save( a3 );
         }
 
         if ( cardRepository.count() == 0 ) {
