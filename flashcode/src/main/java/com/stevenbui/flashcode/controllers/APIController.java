@@ -7,10 +7,13 @@ import com.google.gson.Gson;
  */
 public abstract class APIController {
 
+    /** Base path of API (for holding data) */
+    static final protected String BASE_PATH = "/api/v1";
+
     /**
      * Serializes data to JSON for transmitting through REST API
      */
-    static final private Gson GSON = new Gson();
+    static final private Gson     GSON      = new Gson();
 
     /**
      * Turns the given object to JSON

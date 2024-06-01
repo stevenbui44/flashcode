@@ -16,7 +16,7 @@ public class Assortment extends DomainObject {
     @Id
     @GeneratedValue ( strategy = GenerationType.IDENTITY )
     @Column ( name = "id" )
-    private String id;
+    private Long   id;
 
     @Column ( name = "title" )
     private String title;
@@ -42,7 +42,7 @@ public class Assortment extends DomainObject {
         return id;
     }
 
-    public void setId ( final String id ) {
+    public void setId ( final Long id ) {
         this.id = id;
     }
 

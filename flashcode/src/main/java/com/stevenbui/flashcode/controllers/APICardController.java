@@ -14,7 +14,7 @@ import com.stevenbui.flashcode.services.CardService;
  */
 @SuppressWarnings ( { "unchecked", "rawtypes" } )
 @RestController
-public class APICardController {
+public class APICardController extends APIController {
 
     /**
      * CardService object, intermediary between repository and controller
@@ -38,7 +38,8 @@ public class APICardController {
      *
      * @return list of all cards
      */
-    @GetMapping ( "/cards" )
+    // NOTE: changed from /cards to /api/v1/cards
+    @GetMapping ( BASE_PATH + "/cards" )
     public List<Card> getCards () {
         return cardService.findAll();
     }

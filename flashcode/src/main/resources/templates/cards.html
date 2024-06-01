@@ -22,7 +22,8 @@
 	
 	            /* GET /cards: get all cards from the database */
 	            $scope.fetchCards = function() {
-	                $http.get('/cards')
+	            	/* NOTE: changed from /cards to /api/v1/cards */
+	                $http.get('/api/v1/cards')
 	                    .then(function(response) {
 	                        $scope.cards = response.data;
 	                        $scope.errorMessage = '';

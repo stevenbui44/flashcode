@@ -10,7 +10,7 @@ import com.stevenbui.flashcode.services.AssortmentService;
  */
 @SuppressWarnings ( { "unchecked", "rawtypes" } )
 @RestController
-public class APIAssortmentController {
+public class APIAssortmentController extends APIController {
 
     /**
      * AssortmentService object, intermediary between repository and controller
