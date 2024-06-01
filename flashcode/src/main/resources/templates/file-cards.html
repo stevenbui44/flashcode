@@ -1,3 +1,5 @@
+<!-- This class is used for  -->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -15,7 +17,7 @@
 		<!-- PART ONE: angularjs -->
 		<script>
 	        var app = angular.module('myApp', []);
-	        app.controller('getCardsCtrl', function($scope, $http, $q) {
+	        app.controller('cardsCtrl', function($scope, $http, $q) {
 	        	
 	            $scope.cards = [];
 	            $scope.errorMessage = '';
@@ -35,7 +37,7 @@
 	    </script>
 	
 		<!-- PART TWO: html -->
-	    <div class="container mt-5" ng-controller="getCardsCtrl">
+	    <div class="container mt-5" ng-controller="cardsCtrl">
 	    
 	    	<!-- Header -->
 	        <h1 class="mb-4">Card List</h1>

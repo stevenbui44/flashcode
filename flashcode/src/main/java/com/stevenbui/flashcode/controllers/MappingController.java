@@ -12,7 +12,7 @@ public class MappingController {
     // /cards.html
     @GetMapping ( { "cards", "/cards.html" } )
     public String getAllCards ( final Model model ) {
-        return "cards";
+        return "file-cards";
     }
 
 }
