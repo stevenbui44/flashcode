@@ -38,7 +38,6 @@ public class APICardController extends APIController {
      *
      * @return list of all cards
      */
-    // NOTE: changed from /cards to /api/v1/cards
     @GetMapping ( BASE_PATH + "/cards" )
     public List<Card> getCards () {
         return cardService.findAll();
