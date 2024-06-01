@@ -7,7 +7,7 @@ import com.stevenbui.flashcode.models.Card;
 import com.stevenbui.flashcode.repositories.CardRepository;
 
 @Component
-public class CardService extends Service {
+public class CardService extends Service<Card, Long> {
 
     private final CardRepository cardRepository;
 

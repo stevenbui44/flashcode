@@ -7,7 +7,7 @@ import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.repositories.AssortmentRepository;
 
 @Component
-public class AssortmentService extends Service {
+public class AssortmentService extends Service<Assortment, Long> {
 
     private final AssortmentRepository assortmentRepository;
 

@@ -19,7 +19,7 @@
 	        	
 	            $scope.assortments = [];
 	            $scope.errorMessage = '';
-	
+	            	
 	            /* GETs all assortments from the database */
 	            $scope.getAssortments = function() {
 	                $http.get('/api/v1/assortments')
@@ -30,6 +30,8 @@
 	                        $scope.errorMessage = 'Error fetching assortments.';
 	                    });
 	            };
+	            
+	            $scope.getAssortments();
 	        });
 	    </script>
 	
