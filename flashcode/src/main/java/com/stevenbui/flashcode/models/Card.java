@@ -1,7 +1,5 @@
 package com.stevenbui.flashcode.models;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table ( name = "cards" )
-public class Card {
+public class Card extends DomainObject {
 
     @Id
     @GeneratedValue ( strategy = GenerationType.IDENTITY )
@@ -33,33 +31,21 @@ public class Card {
     @Column ( name = "space_complexity" )
     private String spaceComplexity;
 
-    // // ElementCollection = indicates that this field is a collection of
-    // elements
-    // // that should be stored in a separate table
-    // @ElementCollection
-    // // CollectionTable = specifies the table to store the strings is named
-    // // card_tags and is joined to this table (cards) using card_id as the
-    // // foreign key
-    // @CollectionTable ( name = "card_tags", joinColumns = @JoinColumn ( name =
-    // "card_id" ) )
-    // @Column ( name = "tags" )
-    // private List<String> tags;
-
     public Card () {
 
     }
 
     public Card ( final String question, final String approach, final String code, final String timeComplexity,
-            final String spaceComplexity, final List<String> tags ) {
+            final String spaceComplexity ) {
         super();
         this.question = question;
         this.approach = approach;
         this.code = code;
         this.timeComplexity = timeComplexity;
         this.spaceComplexity = spaceComplexity;
-        // this.tags = tags;
     }
 
+    @Override
     public Long getId () {
         return id;
     }
@@ -107,13 +93,5 @@ public class Card {
     public void setSpaceComplexity ( final String spaceComplexity ) {
         this.spaceComplexity = spaceComplexity;
     }
-
-    // public List<String> getTags () {
-    // return tags;
-    // }
-    //
-    // public void setTags ( final List<String> tags ) {
-    // this.tags = tags;
-    // }
 
 }
