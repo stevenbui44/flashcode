@@ -31,6 +31,11 @@ public class Card extends DomainObject {
     @Column ( name = "space_complexity" )
     private String spaceComplexity;
 
+    // // many cards can be in one assortment
+    // @ManyToOne ( fetch = FetchType.LAZY )
+    // @JoinColumn ( name = "assortment_id" )
+    // private Assortment assortment;
+
     public Card () {
 
     }
@@ -43,6 +48,7 @@ public class Card extends DomainObject {
         this.code = code;
         this.timeComplexity = timeComplexity;
         this.spaceComplexity = spaceComplexity;
+        // this.assortment = assortment;
     }
 
     @Override
@@ -93,5 +99,13 @@ public class Card extends DomainObject {
     public void setSpaceComplexity ( final String spaceComplexity ) {
         this.spaceComplexity = spaceComplexity;
     }
+
+    // public Assortment getAssortment () {
+    // return assortment;
+    // }
+    //
+    // public void setAssortment ( final Assortment assortment ) {
+    // this.assortment = assortment;
+    // }
 
 }

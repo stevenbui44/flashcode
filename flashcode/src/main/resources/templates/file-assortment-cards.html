@@ -4,22 +4,106 @@
 	<meta charset="UTF-8">
 	<title>Assortment Cards</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/app.css" />
+<!-- 	<link rel="stylesheet" href="css/app.css" /> -->
 	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 </head>
-<body>
+<body ng-app="myApp">
 
-	<!-- NOTE: The file knows what assortment is already since it is passed from
-	Mapping Controller to this view using the Model object -->
-    <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
-    <ul>
-        <li th:each="card : ${assortment.cards}">
-            <h2 th:text="${card.question}"></h2>
-            <p>Approach: <span th:text="${card.approach}"></span></p>
-            <p>Code: <span th:text="${card.code}"></span></p>
-            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
-            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
-        </li>
-    </ul>
+	<!-- div to put script and code in any order -->
+	<div class="content">
+
+		<script>
+	        var app = angular.module('myApp', []);
+	        app.controller('assortmentCardsCtrl', function($scope, $http, $q) {
+	            
+	        	// paste here
+	        	var assortmentId = /* [[${assortment.id}]] */ 1;
+	        	console.log('/api/v1/assortments/' + assortmentId);
+	        	
+	        	$scope.newCard = {
+                    question: '',
+                    approach: '',
+                    code: '',
+                    timeComplexity: '',
+                    spaceComplexity: '',
+                };
+	        	
+	        	$scope.addCard = function() {
+	        		
+	        		console.log("inside");
+	        		console.log($scope.newCard);
+	        		
+	                $http.post('/api/v1/assortments/' + assortmentId, $scope.newCard)
+	                    .then(function(response) {
+	                        // Clear the form fields after successfully adding the card
+	                        $scope.newCard = {
+                                question: '',
+                                approach: '',
+                                code: '',
+                                timeComplexity: '',
+                                spaceComplexity: '',
+                            };
+	                        
+	                        console.log("response.data:");
+	                        console.log(response.data);
+	                        
+	                    }, function(error) {
+	                        console.error('Error adding card:', error);
+	                    });
+            	};
+            	
+            	/* $scope.cards = [];
+                $http.get('/api/v1/assortments/' + assortmentId)
+                    .then(function(response) {
+                        $scope.cards = response.data;
+                    }, function(error) {
+                        console.error('Error fetching cards:', error);
+                    }); */
+	        });
+	    </script>
+
+		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
+		
+			<!-- NOTE: The file knows what assortment is already since it is passed from
+			Mapping Controller to this view using the Model object -->
+		    <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
+		    
+	        <form ng-submit="addCard()">
+	            <div class="form-group">
+	                <label for="question">Question:</label>
+	                <input type="text" class="form-control" id="question" ng-model="newCard.question" required>
+	            </div>
+	            <div class="form-group">
+	                <label for="approach">Approach:</label>
+	                <textarea class="form-control" id="approach" ng-model="newCard.approach" required></textarea>
+	            </div>
+	            <div class="form-group">
+	                <label for="code">Code:</label>
+	                <textarea class="form-control" id="code" ng-model="newCard.code" required></textarea>
+	            </div>
+	            <div class="form-group">
+	                <label for="timeComplexity">Time Complexity:</label>
+	                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
+	            </div>
+	            <div class="form-group">
+	                <label for="spaceComplexity">Space Complexity:</label>
+	                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
+	            </div>
+	            <button type="submit" class="btn btn-primary">Add Card</button>
+	        </form>
+		    
+		    <ul>
+		    
+		    	<!-- Using Thymeleaf to show each card -->
+		        <li th:each="card : ${assortment.cards}">
+		            <h2 th:text="${card.question}"></h2>
+		            <p>Approach: <span th:text="${card.approach}"></span></p>
+		            <p>Code: <span th:text="${card.code}"></span></p>
+		            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
+		            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
+		        </li>
+		    </ul>
+	    </div>
+    </div>
 </body>
 </html>

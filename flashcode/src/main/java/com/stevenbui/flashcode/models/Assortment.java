@@ -76,4 +76,14 @@ public class Assortment extends DomainObject {
         this.cards = cards;
     }
 
+    public void addCard ( final Card card ) {
+        cards.add( card );
+        // card.setAssortment( this );
+    }
+
+    public void removeCard ( final Card card ) {
+        cards.remove( card );
+        // card.setAssortment( null );
+    }
+
 }
