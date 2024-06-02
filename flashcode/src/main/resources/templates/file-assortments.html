@@ -46,7 +46,10 @@
 	        <div class="alert alert-danger" ng-show="errorMessage" ng-bind="errorMessage"></div>
 	        
 	        <ul id="assortmentList" class="list-group">
-	            <li class="list-group-item" ng-repeat="assortment in assortments">{{ assortment.title }}</li>
+	            <li class="list-group-item" ng-repeat="assortment in assortments">
+	            	{{ assortment.title }}
+	            	<a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
+	            </li>
 	        </ul>
 	    </div>
     

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Assortment Cards</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/app.css" />
+	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+</head>
+<body>
+
+	<!-- NOTE: The file knows what assortment is already since it is passed from
+	Mapping Controller to this view using the Model object -->
+    <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
+    <ul>
+        <li th:each="card : ${assortment.cards}">
+            <h2 th:text="${card.question}"></h2>
+            <p>Approach: <span th:text="${card.approach}"></span></p>
+            <p>Code: <span th:text="${card.code}"></span></p>
+            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
+            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
+        </li>
+    </ul>
+</body>
+</html>

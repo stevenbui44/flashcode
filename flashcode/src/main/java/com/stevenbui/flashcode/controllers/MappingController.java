@@ -49,7 +49,20 @@ public class MappingController {
         return "file-assortments";
     }
 
-    @GetMapping ( "/assortment/{id}/cards" )
+    /**
+     * Method invoked whenever a GET reponse is made to /assortments/{id}
+     *
+     * NOTE: /assortments/{id} = path of localhost browser view
+     *
+     * NOTE: /api/v1/assortments/{id} does not exist
+     *
+     * @param assortmentId
+     *            id of the assortment
+     * @param model
+     *            the underlying UI model
+     * @return contents of file-assortment-cards.html
+     */
+    @GetMapping ( "/assortments/{id}" )
     public String getAssortmentCards ( @PathVariable ( "id" ) final Long assortmentId, final Model model ) {
         final Assortment assortment = assortmentRepository.findById( assortmentId )
                 .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
