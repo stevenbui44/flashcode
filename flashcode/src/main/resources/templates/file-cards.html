@@ -1,3 +1,4 @@
+<!-- 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -9,10 +10,10 @@
 </head>
 <body ng-app="myApp">
 
-	<!-- div to put script and code in any order -->
+	div to put script and code in any order
 	<div class="content">
 	
-		<!-- PART ONE: angularjs -->
+		PART ONE: angularjs
 		<script>
 	        var app = angular.module('myApp', []);
 	        app.controller('cardsCtrl', function($scope, $http, $q) {
@@ -33,13 +34,13 @@
 	        });
 	    </script>
 	
-		<!-- PART TWO: html -->
+		PART TWO: html
 	    <div class="container mt-5" ng-controller="cardsCtrl">
 	    
-	    	<!-- Header -->
+	    	Header
 	        <h1 class="mb-4">Card List</h1>
 	        
-	        <!-- Load Cards button -->
+	        Load Cards button
 	        <button class="btn btn-primary mb-4" ng-click="getCards()">Load Cards</button>
 	        <div class="alert alert-danger" ng-show="errorMessage" ng-bind="errorMessage"></div>
 	        
@@ -51,4 +52,5 @@
     </div>
 
 </body>
-</html>
+</html> 
+-->

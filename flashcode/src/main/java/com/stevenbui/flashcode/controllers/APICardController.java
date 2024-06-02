@@ -1,12 +1,8 @@
 package com.stevenbui.flashcode.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stevenbui.flashcode.models.Card;
 import com.stevenbui.flashcode.services.CardService;
 
 /**
@@ -33,14 +29,14 @@ public class APICardController extends APIController {
         this.cardService = cardService;
     }
 
-    /**
-     * REST API endpoint to allow GET access for all cards
-     *
-     * @return list of all cards
-     */
-    @GetMapping ( BASE_PATH + "/cards" )
-    public List<Card> getCards () {
-        return cardService.findAll();
-    }
+    // /**
+    // * REST API endpoint to allow GET access for all cards
+    // *
+    // * @return list of all cards
+    // */
+    // @GetMapping ( BASE_PATH + "/cards" )
+    // public List<Card> getCards () {
+    // return cardService.findAll();
+    // }
 
 }
