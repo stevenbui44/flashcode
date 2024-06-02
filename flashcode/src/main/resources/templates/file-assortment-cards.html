@@ -16,49 +16,46 @@
 	        var app = angular.module('myApp', []);
 	        app.controller('assortmentCardsCtrl', function($scope, $http, $q) {
 	            
-	        	// paste here
-	        	var assortmentId = /* [[${assortment.id}]] */ 1;
+	        	$scope.reset = function() {
+	        		$scope.newCard = {
+                        question: '',
+                        approach: '',
+                        code: '',
+                        timeComplexity: '',
+                        spaceComplexity: '',
+                    };
+	        	}
+	        	
+	        	var assortmentId = [[${assortment.id}]];
 	        	console.log('/api/v1/assortments/' + assortmentId);
 	        	
-	        	$scope.newCard = {
-                    question: '',
-                    approach: '',
-                    code: '',
-                    timeComplexity: '',
-                    spaceComplexity: '',
-                };
 	        	
 	        	$scope.addCard = function() {
-	        		
-	        		console.log("inside");
-	        		console.log($scope.newCard);
-	        		
+	        		$scope.success = false;
+					$scope.failure = false;
 	                $http.post('/api/v1/assortments/' + assortmentId, $scope.newCard)
 	                    .then(function(response) {
-	                        // Clear the form fields after successfully adding the card
-	                        $scope.newCard = {
-                                question: '',
-                                approach: '',
-                                code: '',
-                                timeComplexity: '',
-                                spaceComplexity: '',
-                            };
-	                        
-	                        console.log("response.data:");
-	                        console.log(response.data);
-	                        
-	                    }, function(error) {
-	                        console.error('Error adding card:', error);
+	                    	console.log('a');
+	                    	console.log(response)
+	                        $scope.reset();
+	                    }, function(rejection) {
+	                    	console.log('b');
+	                        console.error('Error adding card:', rejection);
 	                    });
             	};
             	
-            	/* $scope.cards = [];
-                $http.get('/api/v1/assortments/' + assortmentId)
-                    .then(function(response) {
-                        $scope.cards = response.data;
-                    }, function(error) {
-                        console.error('Error fetching cards:', error);
-                    }); */
+            	/* $scope.deleteCard = function(card) {
+                    $http.delete('/api/v1/cards/' + card.id)
+                        .then(function(response) {
+                            // Remove the deleted card from the UI
+                            var index = $scope.assortment.cards.indexOf(card);
+                            if (index !== -1) {
+                                $scope.assortment.cards.splice(index, 1);
+                            }
+                        }, function(error) {
+                            console.error('Error deleting card:', error);
+                        });
+                }; */
 	        });
 	    </script>
 
@@ -101,6 +98,7 @@
 		            <p>Code: <span th:text="${card.code}"></span></p>
 		            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
 		            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
+		            <!-- <button class="btn btn-danger" ng-click="deleteCard(card)">Delete</button> -->
 		        </li>
 		    </ul>
 	    </div>
