@@ -3,12 +3,8 @@ package com.stevenbui.flashcode.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stevenbui.flashcode.models.Assortment;
@@ -55,18 +51,20 @@ public class APIAssortmentController extends APIController {
         return assortment.getCards();
     }
 
-    @PostMapping ( BASE_PATH + "/assortments/{id}" )
-    public ResponseEntity addAssortmentCard ( @PathVariable ( "id" ) final Long assortmentId,
-            @RequestBody final Card card ) {
-        final Assortment assortment = assortmentService.findById( assortmentId );
-        if ( assortment == null ) {
-            return new ResponseEntity( "Assortment not found with ID: " + assortmentId, HttpStatus.NOT_FOUND );
-        }
-        assortment.addCard( card );
-        assortmentService.save( assortment );
-        return new ResponseEntity( HttpStatus.OK );
-    }
-
+    // @PostMapping ( BASE_PATH + "/assortments/{id}" )
+    // public ResponseEntity addAssortmentCard ( @PathVariable ( "id" ) final
+    // Long assortmentId,
+    // @RequestBody final Card card ) {
+    // final Assortment assortment = assortmentService.findById( assortmentId );
+    // if ( assortment == null ) {
+    // return new ResponseEntity( "Assortment not found with ID: " +
+    // assortmentId, HttpStatus.NOT_FOUND );
+    // }
+    // assortment.addCard( card );
+    // assortmentService.save( assortment );
+    // return new ResponseEntity( HttpStatus.OK );
+    // }
+    //
     // @DeleteMapping ( BASE_PATH + "/cards/{id}" )
     // public ResponseEntity deleteCard ( @PathVariable ( "id" ) final Long
     // cardId ) {

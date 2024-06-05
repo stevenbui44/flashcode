@@ -26,17 +26,23 @@
                     };
 	        	}
 	        	
-	        	var assortmentId = [[${assortment.id}]];
-	        	console.log('/api/v1/assortments/' + assortmentId);
+	        	/* var assortmentId = [[${assortment.id}]];
+	        	console.log('/api/v1/assortments/' + assortmentId);	  */   
 	        	
+	        	$scope.assortment = { 
+        			id: [[${assortment.id}]], 
+        			cards: [] 
+	        	};
+	        	$scope.assortment.cards = /*[[${assortment.cards}]]*/[];
 	        	
 	        	$scope.addCard = function() {
 	        		$scope.success = false;
 					$scope.failure = false;
-	                $http.post('/api/v1/assortments/' + assortmentId, $scope.newCard)
+	                $http.post('/api/v1/assortments/' + $scope.assortment.id, $scope.newCard)
 	                    .then(function(response) {
 	                    	console.log('a');
 	                    	console.log(response)
+	                    	$scope.assortment.cards.push(response.data);
 	                        $scope.reset();
 	                    }, function(rejection) {
 	                    	console.log('b');
@@ -44,18 +50,24 @@
 	                    });
             	};
             	
-            	/* $scope.deleteCard = function(card) {
-                    $http.delete('/api/v1/cards/' + card.id)
-                        .then(function(response) {
-                            // Remove the deleted card from the UI
-                            var index = $scope.assortment.cards.indexOf(card);
-                            if (index !== -1) {
-                                $scope.assortment.cards.splice(index, 1);
-                            }
-                        }, function(error) {
-                            console.error('Error deleting card:', error);
-                        });
-                }; */
+            	$scope.deleteCard = function(cardId) {
+            		console.log('cardId:');
+            		console.log(cardId);
+            	        
+            		$http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
+	                    .then(function(response) {
+	                        // Remove the deleted card from the UI
+	                        var index = $scope.assortment.cards.findIndex(function(card) {
+	                            return card.id === parseInt(cardId);
+	                        });
+	                        if (index !== -1) {
+	                            $scope.assortment.cards.splice(index, 1);
+	                        }
+	                    }, function(error) {
+	                        console.error('Error deleting card:', error);
+	                    });
+            	};
+            	
 	        });
 	    </script>
 
@@ -88,6 +100,9 @@
 	            </div>
 	            <button type="submit" class="btn btn-primary">Add Card</button>
 	        </form>
+	        
+	        
+	        <!-- TODO: figure out how to remove a card -->
 		    
 		    <ul>
 		    
@@ -98,7 +113,15 @@
 		            <p>Code: <span th:text="${card.code}"></span></p>
 		            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
 		            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
-		            <!-- <button class="btn btn-danger" ng-click="deleteCard(card)">Delete</button> -->
+		            <!-- <button class="btn btn-danger" ng-click="deleteCard(cardId) (cardId=${card.id})">Delete</button> -->
+		            <!-- <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button> -->
+		            
+		            <button class="btn btn-danger" th:attr="ng-click='deleteCard(' + ${card.id} + ')'">Delete</button>
+		            
+		            <!-- <form th:action="@{/api/v1/assortments/{assortmentId}/{cardId}(assortmentId=${assortment.id}, cardId=${card.id})}" method="post">
+	                    <input type="hidden" name="_method" value="delete"/>
+	                    <button type="submit" class="btn btn-danger">Delete</button>
+	                </form> -->
 		        </li>
 		    </ul>
 	    </div>
