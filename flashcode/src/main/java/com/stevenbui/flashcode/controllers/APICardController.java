@@ -42,16 +42,6 @@ public class APICardController extends APIController {
         this.assortmentService = assortmentService;
     }
 
-    // /**
-    // * REST API endpoint to allow GET access for all cards
-    // *
-    // * @return list of all cards
-    // */
-    // @GetMapping ( BASE_PATH + "/cards" )
-    // public List<Card> getCards () {
-    // return cardService.findAll();
-    // }
-
     @PostMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity addAssortmentCard ( @PathVariable ( "id" ) final Long assortmentId,
             @RequestBody final Card card ) {

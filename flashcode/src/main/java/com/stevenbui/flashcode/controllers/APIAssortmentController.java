@@ -51,30 +51,4 @@ public class APIAssortmentController extends APIController {
         return assortment.getCards();
     }
 
-    // @PostMapping ( BASE_PATH + "/assortments/{id}" )
-    // public ResponseEntity addAssortmentCard ( @PathVariable ( "id" ) final
-    // Long assortmentId,
-    // @RequestBody final Card card ) {
-    // final Assortment assortment = assortmentService.findById( assortmentId );
-    // if ( assortment == null ) {
-    // return new ResponseEntity( "Assortment not found with ID: " +
-    // assortmentId, HttpStatus.NOT_FOUND );
-    // }
-    // assortment.addCard( card );
-    // assortmentService.save( assortment );
-    // return new ResponseEntity( HttpStatus.OK );
-    // }
-    //
-    // @DeleteMapping ( BASE_PATH + "/cards/{id}" )
-    // public ResponseEntity deleteCard ( @PathVariable ( "id" ) final Long
-    // cardId ) {
-    // final Assortment assortment = assortmentService.findById( assortmentId );
-    // if ( assortment == null ) {
-    // throw new EntityNotFoundException( "Assortment not found with ID: " +
-    // assortmentId );
-    // }
-    // assortment.removeCard( card );
-    // assortmentService.save( assortment );
-    // }
-
 }

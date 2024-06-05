@@ -101,9 +101,6 @@
 	            <button type="submit" class="btn btn-primary">Add Card</button>
 	        </form>
 	        
-	        
-	        <!-- TODO: figure out how to remove a card -->
-		    
 		    <ul>
 		    
 		    	<!-- Using Thymeleaf to show each card -->
@@ -113,15 +110,7 @@
 		            <p>Code: <span th:text="${card.code}"></span></p>
 		            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
 		            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
-		            <!-- <button class="btn btn-danger" ng-click="deleteCard(cardId) (cardId=${card.id})">Delete</button> -->
-		            <!-- <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button> -->
-		            
 		            <button class="btn btn-danger" th:attr="ng-click='deleteCard(' + ${card.id} + ')'">Delete</button>
-		            
-		            <!-- <form th:action="@{/api/v1/assortments/{assortmentId}/{cardId}(assortmentId=${assortment.id}, cardId=${card.id})}" method="post">
-	                    <input type="hidden" name="_method" value="delete"/>
-	                    <button type="submit" class="btn btn-danger">Delete</button>
-	                </form> -->
 		        </li>
 		    </ul>
 	    </div>
