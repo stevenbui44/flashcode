@@ -34,7 +34,7 @@
 
 		<script>
 	        var app = angular.module('myApp', []);
-	        app.controller('assortmentCardsCtrl', function($scope, $http, $q) {
+	        app.controller('assortmentCardsCtrl', function($scope, $http, $q, $timeout) {
 	            
 	        	$scope.reset = function() {
 	        		$scope.newCard = {
@@ -53,7 +53,19 @@
         			id: [[${assortment.id}]], 
         			cards: [] 
 	        	};
-	        	$scope.assortment.cards = /*[[${assortment.cards}]]*/[];
+	        	
+	        	
+	        	$scope.getCards = function() {
+            	    $http.get('/api/v1/assortments/' + $scope.assortment.id)
+            	        .then(function(response) {
+            	            $scope.assortment.cards = response.data;
+             	            console.log('bingo');
+            	        }, function(error) {
+            	            console.error('Error fetching cards:', error);
+            	        });
+            	};
+            	
+            	$scope.getCards();
 	        	
 	        	$scope.addCard = function() {
 	        		$scope.success = false;
@@ -88,15 +100,21 @@
 	                    });
             	};
             	
+            	
 	        });
 	    </script>
+	    
+	    <script th:inline="javascript">
+		    console.log('Assortment Cards:', /*[[${assortment.cards}]]*/);
+		</script>
 
 		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
-		
+				
 			<!-- NOTE: The file knows what assortment is already since it is passed from
 			Mapping Controller to this view using the Model object -->
 		    <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
 		    
+		    <!-- PART 1: Form at the top to create a new card -->
 	        <form ng-submit="addCard()">
 	            <div class="form-group">
 	                <label for="question">Question:</label>
@@ -121,16 +139,43 @@
 	            <button type="submit" class="btn btn-primary">Add Card</button>
 	        </form>
 	        
-		    <ul>
-		    
-		    	<!-- Using Thymeleaf to show each card -->
+	        
+	        <!-- PART 2: Using Thymeleaf to show each card -->
+		    <!-- <ul>
 		        <li th:each="card : ${assortment.cards}">
 		            <h2 th:text="${card.question}"></h2>
-		            <p>Approach: <span th:text="${card.approach}"></span></p>
-		            <p>Code: <span th:text="${card.code}"></span></p>
-		            <p>Time Complexity: <span th:text="${card.timeComplexity}"></span></p>
-		            <p>Space Complexity: <span th:text="${card.spaceComplexity}"></span></p>
+		            
+				     
+			        <p>Approach:</p>
+			        <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
+					Add this line to debug
+					<p>{{ card.approach }}</p>
+			
+			        <p>Code:</p>
+			        <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
+			
+			        <p>Time Complexity:</p>
+			        <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
+			
+			        <p>Space Complexity:</p>
+			        <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
+		            
 		            <button class="btn btn-danger" th:attr="ng-click='deleteCard(' + ${card.id} + ')'">Delete</button>
+		        </li>
+		    </ul> -->
+		    
+		    <ul>
+		        <li ng-repeat="card in assortment.cards">
+		            <h2>{{ card.question }}</h2>
+		            <p>Approach:</p>
+		            <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
+		            <p>Code:</p>
+		            <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
+		            <p>Time Complexity:</p>
+		            <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
+		            <p>Space Complexity:</p>
+		            <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
+		            <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
 		        </li>
 		    </ul>
 	    </div>
