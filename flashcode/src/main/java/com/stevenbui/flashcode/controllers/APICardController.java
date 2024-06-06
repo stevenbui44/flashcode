@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -74,6 +75,35 @@ public class APICardController extends APIController {
         assortment.removeCard( card );
         assortmentService.save( assortment );
         return new ResponseEntity( HttpStatus.OK );
+    }
+
+    @PutMapping ( BASE_PATH + "/assortments/{assortmentId}/{cardId}" )
+    public ResponseEntity updateCard ( @PathVariable ( "assortmentId" ) final Long assortmentId,
+            @PathVariable ( "cardId" ) final Long cardId, @RequestBody final Card card ) {
+        try {
+            final Assortment assortment = assortmentService.findById( assortmentId );
+            if ( assortment == null ) {
+                return new ResponseEntity( HttpStatus.NOT_FOUND );
+            }
+            final Card existingCard = assortment.getCards().stream().filter( c -> c.getId().equals( cardId ) )
+                    .findFirst().orElse( null );
+            if ( existingCard == null ) {
+                return new ResponseEntity( HttpStatus.NOT_FOUND );
+            }
+            existingCard.setQuestion( card.getQuestion() );
+            existingCard.setApproach( card.getApproach() );
+            existingCard.setCode( card.getCode() );
+            existingCard.setTimeComplexity( card.getTimeComplexity() );
+            existingCard.setSpaceComplexity( card.getSpaceComplexity() );
+            assortmentService.save( assortment );
+
+            return new ResponseEntity( HttpStatus.OK );
+
+        }
+        catch ( final Exception e ) {
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+
     }
 
 }
