@@ -57,7 +57,6 @@
 	                    });
 	            };
 	            
-	       
                 $scope.createAssortment = function() {
                 	console.log('im in');
                 	  if ($scope.newAssortmentTitle) {
@@ -66,6 +65,7 @@
                 	        $scope.assortments.push(response.data);
                 	        $scope.newAssortmentTitle = '';
                 	        $('#createAssortmentModal').modal('hide');
+                	        return $scope.getAssortments();
                 	      }, function(error) {
                 	        $scope.errorMessage = 'Error creating assortment.';
                 	      });
