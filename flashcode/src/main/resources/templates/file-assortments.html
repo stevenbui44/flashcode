@@ -130,13 +130,13 @@
                	                    $scope.assortments[index] = updatedAssortment;
                	                }
                	                $('#editAssortmentModal').modal('hide');
+               	             	$scope.getAssortments();
                	            })
                	            .catch(function(error) {
                	                console.error('Error updating assortment:', error);
                	            });
                	    }
                	};
-               	
                	
 	            
 	            $scope.getAssortments();
