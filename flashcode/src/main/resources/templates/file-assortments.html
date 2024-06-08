@@ -6,6 +6,10 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<!-- <link rel="stylesheet" href="css/app.css" /> -->
 	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="myApp">
 
@@ -38,8 +42,11 @@
 	        	
 	            $scope.assortments = [];
 	            $scope.errorMessage = '';
+	            
+	            $scope.newAssortment = {
+                    title: ''
+                };
 	            	
-	            /* GETs all assortments from the database */
 	            $scope.getAssortments = function() {
 	                $http.get('/api/v1/assortments')
 	                    .then(function(response) {
@@ -49,6 +56,19 @@
 	                        $scope.errorMessage = 'Error fetching assortments.';
 	                    });
 	            };
+	            
+	            $scope.addAssortment = function() {
+                    $http.post('/api/v1/assortments', $scope.newAssortment)
+                        .then(function(response) {
+                            $scope.assortments.push(response.data);
+                            $scope.newAssortment.title = '';
+                            $scope.errorMessage = '';
+                            $('#addAssortmentModal').modal('hide'); // Hide the modal on success
+                        }, function(error) {
+                            $scope.errorMessage = 'Error adding assortment.';
+                        });
+                };
+	            
 	            
 	            $scope.getAssortments();
 	        });
@@ -60,9 +80,16 @@
 	    	<!-- Header -->
 	        <h1 class="mb-4">Assortment List</h1>
 	        
-	        <!-- Load Assortments button -->
-	        <!-- <button class="btn btn-primary mb-4" ng-click="getAssortments()">Load Assortments</button>
-	        <div class="alert alert-danger" ng-show="errorMessage" ng-bind="errorMessage"></div> -->
+	        <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addAssortmentModal">Add New Assortment</button>
+	        
+	        <!-- New Assortment Form -->
+            <!-- <form ng-submit="addAssortment()" class="mb-4">
+                <div class="form-group">
+                    <label for="newAssortmentTitle">New Assortment Title:</label>
+                    <input type="text" class="form-control" id="newAssortmentTitle" ng-model="newAssortment.title" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Assortment</button>
+            </form> -->
 	        
 	        <ul id="assortmentList" class="list-group">
 	            <li class="list-group-item" ng-repeat="assortment in assortments">
@@ -71,6 +98,28 @@
 	            </li>
 	        </ul>
 	    </div>
+	    
+	    <div class="modal fade" id="addAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="addAssortmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addAssortmentModalLabel">Add New Assortment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form ng-submit="addAssortment()">
+                            <div class="form-group">
+                                <label for="newAssortmentTitle">New Assortment Title:</label>
+                                <input type="text" class="form-control" id="newAssortmentTitle" ng-model="newAssortment.title" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Assortment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     
     </div>
 
