@@ -15,23 +15,6 @@ public class MappingController {
     @Autowired
     private AssortmentRepository assortmentRepository;
 
-    // /**
-    // * Method invoked whenever a GET request is made to either /cards or
-    // * /cards.html
-    // *
-    // * NOTE: /cards = path of localhost browser view
-    // *
-    // * NOTE: /api/v1/cards is called in file-cards.html instead
-    // *
-    // * @param model
-    // * the underlying UI model
-    // * @return contents of src/main/resources/templates/file-cards.html
-    // */
-    // @GetMapping ( { "/cards", "/cards.html" } )
-    // public String getCards ( final Model model ) {
-    // return "file-cards";
-    // }
-
     /**
      * Method invoked whenever a GET request is made to either /assortments or
      * /assortments.html
@@ -50,7 +33,7 @@ public class MappingController {
     }
 
     /**
-     * Method invoked whenever a GET reponse is made to /assortments/{id}
+     * Method invoked whenever a GET request is made to /assortments/{id}
      *
      * NOTE: /assortments/{id} = path of localhost browser view
      *
@@ -68,6 +51,27 @@ public class MappingController {
                 .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
         model.addAttribute( "assortment", assortment );
         return "file-assortment-cards";
+    }
+
+    /**
+     * Method invoked whenever a GET request is made to /assortments/{id}/study
+     *
+     * NOTE: /assortments/{id}/study path of localhost browser view
+     *
+     * NOTE: /api/v1/assortments/{id} does not exist
+     *
+     * @param assortmentId
+     *            id of the assortment
+     * @param model
+     *            the underlying UI model
+     * @return contents of file-study.html
+     */
+    @GetMapping ( "/assortments/{id}/study" )
+    public String getAsortmentStudy ( @PathVariable ( "id" ) final Long assortmentId, final Model model ) {
+        final Assortment assortment = assortmentRepository.findById( assortmentId )
+                .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
+        model.addAttribute( "assortment", assortment );
+        return "file-study";
     }
 
 }

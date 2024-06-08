@@ -43,6 +43,15 @@ public class APICardController extends APIController {
         this.assortmentService = assortmentService;
     }
 
+    /**
+     * Adds a card to the given assortment
+     *
+     * @param assortmentId
+     *            id of the assortment to add a card to
+     * @param card
+     *            card to add to the assortment
+     * @return NOT_FOUND is assortment not found, OK if good
+     */
     @PostMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity addAssortmentCard ( @PathVariable ( "id" ) final Long assortmentId,
             @RequestBody final Card card ) {
@@ -55,6 +64,15 @@ public class APICardController extends APIController {
         return new ResponseEntity( HttpStatus.OK );
     }
 
+    /**
+     * Deletes a given card from a given assortment
+     *
+     * @param assortmentId
+     *            id of the assortment to remove a card from
+     * @param cardId
+     *            id of the card to remove
+     * @return NOT_FOUND if assortment or card could not be found, OK if good
+     */
     @DeleteMapping ( BASE_PATH + "/assortments/{assortmentId}/{cardId}" )
     public ResponseEntity deleteCard ( @PathVariable ( "assortmentId" ) final Long assortmentId,
             @PathVariable ( "cardId" ) final Long cardId ) {
@@ -77,6 +95,18 @@ public class APICardController extends APIController {
         return new ResponseEntity( HttpStatus.OK );
     }
 
+    /**
+     * Updates a given card from a given assortment
+     *
+     * @param assortmentId
+     *            id of the assortment to update a card
+     * @param cardId
+     *            id of the card to update
+     * @param card
+     *            card with updated data
+     * @return NOT_FOUND if assortment or card could not be found, OK if good,
+     *         BAD_REQUEST otherwise
+     */
     @PutMapping ( BASE_PATH + "/assortments/{assortmentId}/{cardId}" )
     public ResponseEntity updateCard ( @PathVariable ( "assortmentId" ) final Long assortmentId,
             @PathVariable ( "cardId" ) final Long cardId, @RequestBody final Card card ) {
@@ -98,7 +128,6 @@ public class APICardController extends APIController {
             assortmentService.save( assortment );
 
             return new ResponseEntity( HttpStatus.OK );
-
         }
         catch ( final Exception e ) {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );

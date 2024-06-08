@@ -44,11 +44,23 @@ public class APIAssortmentController extends APIController {
         this.assortmentService = assortmentService;
     }
 
+    /**
+     * Gets a list of all assortments
+     *
+     * @return all assortments
+     */
     @GetMapping ( BASE_PATH + "/assortments" )
     public List<Assortment> getAssortments () {
         return assortmentService.findAll();
     }
 
+    /**
+     * Gets a specific assortment
+     *
+     * @param assortmentId
+     *            id of the assortment to get
+     * @return a specific assortment with the given ID
+     */
     @GetMapping ( BASE_PATH + "/assortments/{id}" )
     public List<Card> getAssortmentCards ( @PathVariable ( "id" ) final Long assortmentId ) {
         final Assortment assortment = assortmentService.findById( assortmentId );
@@ -58,15 +70,29 @@ public class APIAssortmentController extends APIController {
         return assortment.getCards();
     }
 
+    /**
+     * Creates a new assortment
+     *
+     * @param assortment
+     *            assortment with data to add to assortments
+     * @return the newly created assortment
+     */
     @PostMapping ( BASE_PATH + "/assortments" )
     public Assortment createAssortment ( @RequestBody final Assortment assortment ) {
         assortment.setDescription( "" );
         assortment.setCards( new ArrayList<>() );
         assortmentService.save( assortment );
-        // return new ResponseEntity( HttpStatus.OK );
         return assortment;
     }
 
+    /**
+     * Deletes an assortment with the given id
+     *
+     * @param id
+     *            id of the assortment to delete
+     * @return NOT_FOUND if the assortment could not be found, OK if good,
+     *         BAD_REQUEST otherwise
+     */
     @DeleteMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity deleteAssortment ( @PathVariable ( "id" ) final Long id ) {
         try {
@@ -82,6 +108,16 @@ public class APIAssortmentController extends APIController {
         }
     }
 
+    /**
+     * Updates an assortment with a given assortment id
+     *
+     * @param id
+     *            id of the assortment to replace
+     * @param updatedAssortment
+     *            assortment with data to replace the existing assortment
+     * @return NOT_FOUND if the assortment could not be found, OK if good,
+     *         BAD_REQUEST otherwise
+     */
     @PutMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity updateAssortment ( @PathVariable ( "id" ) final Long id,
             @RequestBody final Assortment updatedAssortment ) {
@@ -99,7 +135,5 @@ public class APIAssortmentController extends APIController {
         catch ( final Exception e ) {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
-
     }
-
 }

@@ -4,16 +4,14 @@
 	<meta charset="UTF-8">
 	<title>Assortment Cards</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- 	<link rel="stylesheet" href="css/app.css" /> -->
 	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 </head>
 <body ng-app="myApp">
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-	  <!-- Brand -->
-	  <a class="navbar-brand" href="#">FlashCode</a>
+	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
 	
-	  <!-- Toggler/collapsibe Button -->
+	  <!-- Toggler/collapsible Button -->
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -22,7 +20,7 @@
 	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
 	    <ul class="navbar-nav">
 	      <li class="nav-item">
-	        <a class="nav-link" th:href="@{/assortments}">Assortments</a>
+	       <!--  <a class="nav-link" th:href="@{/assortments}">Assortments</a> -->
 	      </li>
 	    </ul>
 	  </div>
@@ -110,10 +108,11 @@
 	    
 		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
 				
-			<!-- NOTE: The file knows what assortment is already since it is passed from
-			Mapping Controller to this view using the Model object -->
-		    <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
-		    <!-- <p><strong>Description:</strong> assortment.description }}</p> -->
+		    <!-- <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1> -->
+		    <div class="d-flex justify-content-between align-items-center">
+                <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
+                <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
+            </div>
 		    <p><span th:text="${assortment.description}"></span></p>
 		    
 		    <!-- PART 1: Form at the top to create a new card -->
