@@ -65,21 +65,23 @@
             	};
             	
             	$scope.getCards();
-	        	
-	        	$scope.addCard = function() {
-	        		$scope.success = false;
-					$scope.failure = false;
-	                $http.post('/api/v1/assortments/' + $scope.assortment.id, $scope.newCard)
-	                    .then(function(response) {
-	                    	console.log('a');
-	                    	console.log(response)
-	                    	$scope.assortment.cards.push(response.data);
-	                        $scope.reset();
-	                        $timeout($scope.getCards, 100);
-	                    }, function(rejection) {
-	                    	console.log('b');
-	                        console.error('Error adding card:', rejection);
-	                    });
+            	
+            	$scope.addCard = function() {
+            	    $scope.success = false;
+            	    $scope.failure = false;
+            	    $http.post('/api/v1/assortments/' + $scope.assortment.id, $scope.newCard)
+            	        .then(function(response) {
+            	            console.log('Card added successfully');
+            	            $scope.reset();
+            	            return $scope.getCards();  // Chain the getCards call here
+            	        })
+            	        .then(function() {
+            	            $scope.success = true;
+            	        })
+            	        .catch(function(rejection) {
+            	            console.error('Error adding card:', rejection);
+            	            $scope.failure = true;
+            	        });
             	};
             	
             	$scope.deleteCard = function(cardId) {
