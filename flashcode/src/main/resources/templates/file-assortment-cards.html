@@ -46,11 +46,8 @@
                     };
 	        	}
 	        	
-	        	/* var assortmentId = [[${assortment.id}]];
-	        	console.log('/api/v1/assortments/' + assortmentId);	  */   
-	        	
 	        	$scope.assortment = { 
-        			id: [[${assortment.id}]], 
+        			id: /* [[${assortment.id}]] */ 1, 
         			cards: [] 
 	        	};
 	        	
@@ -84,10 +81,7 @@
             	        });
             	};
             	
-            	$scope.deleteCard = function(cardId) {
-            		console.log('cardId:');
-            		console.log(cardId);
-            	        
+            	$scope.deleteCard = function(cardId) {  
             		$http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
 	                    .then(function(response) {
 	                        // Remove the deleted card from the UI
