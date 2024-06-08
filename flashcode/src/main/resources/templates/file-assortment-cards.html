@@ -75,6 +75,7 @@
 	                    	console.log(response)
 	                    	$scope.assortment.cards.push(response.data);
 	                        $scope.reset();
+	                        $timeout($scope.getCards, 100);
 	                    }, function(rejection) {
 	                    	console.log('b');
 	                        console.error('Error adding card:', rejection);
@@ -159,23 +160,6 @@
 		        </li>
 		    </ul>
 		    
-		    
-		    <!-- <ul>
-		        <li th:each="card : ${assortment.cards}">
-		            <h2 th:text="${card.question}"></h2>
-			        <p>Approach:</p>
-			        <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
-					Add this line to debug
-					<p>{{ card.approach }}</p>
-			        <p>Code:</p>
-			        <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
-			        <p>Time Complexity:</p>
-			        <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
-			        <p>Space Complexity:</p>
-			        <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
-		            <button class="btn btn-danger" th:attr="ng-click='deleteCard(' + ${card.id} + ')'">Delete</button>
-		        </li>
-		    </ul> -->
 	    </div>
     </div>
 </body>
