@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,18 +67,6 @@ public class APIAssortmentController extends APIController {
         return assortment;
     }
 
-    // @DeleteMapping ( "/api/v1/assortments/{id}" )
-    // public ResponseEntity<String> deleteAssortment ( @PathVariable final Long
-    // id ) {
-    // try {
-    // assortmentService.delete
-    // return ResponseEntity.ok( "Assortment deleted successfully" );
-    // }
-    // catch ( final Exception e ) {
-    // return ResponseEntity.status( HttpStatus.BAD_REQUEST);
-    // }
-    // }
-
     @DeleteMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity deleteAssortment ( @PathVariable ( "id" ) final Long id ) {
         try {
@@ -92,4 +81,25 @@ public class APIAssortmentController extends APIController {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
     }
+
+    @PutMapping ( BASE_PATH + "/assortments/{id}" )
+    public ResponseEntity updateAssortment ( @PathVariable ( "id" ) final Long id,
+            @RequestBody final Assortment updatedAssortment ) {
+
+        try {
+            final Assortment assortment = assortmentService.findById( id );
+            if ( assortment == null ) {
+                return new ResponseEntity( HttpStatus.NOT_FOUND );
+            }
+            assortment.setTitle( updatedAssortment.getTitle() );
+            assortment.setDescription( updatedAssortment.getDescription() );
+            assortmentService.save( assortment );
+            return new ResponseEntity( HttpStatus.OK );
+        }
+        catch ( final Exception e ) {
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+
+    }
+
 }

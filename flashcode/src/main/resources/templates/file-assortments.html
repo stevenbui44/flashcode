@@ -100,6 +100,44 @@
                	            });
                	    }
                	};
+               	
+               	$scope.editAssortment = {};
+               	$scope.editAssortmentId = null;
+
+               	/* Shows the pop up */
+               	$scope.openEditAssortmentModal = function(assortmentId) {
+               	    var assortment = $scope.assortments.find(function(assortment) {
+               	        return assortment.id === assortmentId;
+               	    });
+
+               	    if (assortment) {
+               	        $scope.editAssortment = angular.copy(assortment);
+               	        $scope.editAssortmentId = assortmentId;
+               	        $('#editAssortmentModal').modal('show');
+               	    }
+               	};
+
+               	/* Edits */
+               	$scope.saveAssortmentChanges = function() {
+               	    if ($scope.editAssortmentId) {
+               	        $http.put('/api/v1/assortments/' + $scope.editAssortmentId, $scope.editAssortment)
+               	            .then(function(response) {
+               	                var updatedAssortment = response.data;
+               	                var index = $scope.assortments.findIndex(function(assortment) {
+               	                    return assortment.id === $scope.editAssortmentId;
+               	                });
+               	                if (index !== -1) {
+               	                    $scope.assortments[index] = updatedAssortment;
+               	                }
+               	                $('#editAssortmentModal').modal('hide');
+               	            })
+               	            .catch(function(error) {
+               	                console.error('Error updating assortment:', error);
+               	            });
+               	    }
+               	};
+               	
+               	
 	            
 	            $scope.getAssortments();
 	        });
@@ -123,6 +161,7 @@
 	            	
 	            	<a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
 	            	<button class="btn btn-danger btn-sm ml-2" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
+	            	<button class="btn btn-primary btn-sm ml-2" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
 	            	
 	            </li>
 	        </ul>
@@ -170,6 +209,34 @@
 			            <div class="modal-footer">
 			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 			                <button type="button" class="btn btn-danger" ng-click="deleteAssortmentConfirmed()">Delete</button>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			
+			<!-- Modal 3: Editing an assortment -->
+			<div class="modal fade" id="editAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="editAssortmentModalLabel" aria-hidden="true">
+			    <div class="modal-dialog" role="document">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h5 class="modal-title" id="editAssortmentModalLabel">Edit Assortment</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+			            </div>
+			            <div class="modal-body">
+			                <div class="form-group">
+			                    <label for="editAssortmentTitle">Assortment Title</label>
+			                    <input type="text" class="form-control" id="editAssortmentTitle" ng-model="editAssortment.title" placeholder="Enter assortment title" required>
+			                </div>
+			                <div class="form-group">
+			                    <label for="editAssortmentDescription">Assortment Description</label>
+			                    <textarea class="form-control" id="editAssortmentDescription" ng-model="editAssortment.description" placeholder="Enter assortment description"></textarea>
+			                </div>
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			                <button type="button" class="btn btn-primary" ng-click="saveAssortmentChanges()">Save</button>
 			            </div>
 			        </div>
 			    </div>
