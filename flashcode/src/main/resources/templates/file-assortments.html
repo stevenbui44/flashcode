@@ -59,18 +59,19 @@
 	            
                 $scope.createAssortment = function() {
                 	console.log('im in');
-                	  if ($scope.newAssortmentTitle) {
-                	    $http.post('/api/v1/assortments', { title: $scope.newAssortmentTitle })
-                	      .then(function(response) {
-                	        $scope.assortments.push(response.data);
-                	        $scope.newAssortmentTitle = '';
-                	        $('#createAssortmentModal').modal('hide');
-                	        return $scope.getAssortments();
-                	      }, function(error) {
-                	        $scope.errorMessage = 'Error creating assortment.';
-                	      });
-                	  }
-                	};
+                	if ($scope.newAssortmentTitle) {
+                		$http.post('/api/v1/assortments', { title: $scope.newAssortmentTitle })
+                		.then(function(response) {
+                			var newAssortment = response.data;
+                			$scope.assortments.push(newAssortment);
+                			$scope.newAssortmentTitle = '';
+                			$('#createAssortmentModal').modal('hide');
+                			window.location.href = '/assortments/' + newAssortment.id;
+               			}, function(error) {
+               				$scope.errorMessage = 'Error creating assortment.';
+             			});
+               		}
+               	};
 	            
 	            $scope.getAssortments();
 	        });
