@@ -113,6 +113,8 @@
 			<!-- NOTE: The file knows what assortment is already since it is passed from
 			Mapping Controller to this view using the Model object -->
 		    <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
+		    <!-- <p><strong>Description:</strong> assortment.description }}</p> -->
+		    <p><span th:text="${assortment.description}"></span></p>
 		    
 		    <!-- PART 1: Form at the top to create a new card -->
 	        <form ng-submit="addCard()">
