@@ -57,18 +57,20 @@
 	                    });
 	            };
 	            
-	            $scope.addAssortment = function() {
-                    $http.post('/api/v1/assortments', $scope.newAssortment)
-                        .then(function(response) {
-                            $scope.assortments.push(response.data);
-                            $scope.newAssortment.title = '';
-                            $scope.errorMessage = '';
-                            $('#addAssortmentModal').modal('hide'); // Hide the modal on success
-                        }, function(error) {
-                            $scope.errorMessage = 'Error adding assortment.';
-                        });
-                };
-	            
+	       
+                $scope.createAssortment = function() {
+                	console.log('im in');
+                	  if ($scope.newAssortmentTitle) {
+                	    $http.post('/api/v1/assortments', { title: $scope.newAssortmentTitle })
+                	      .then(function(response) {
+                	        $scope.assortments.push(response.data);
+                	        $scope.newAssortmentTitle = '';
+                	        $('#createAssortmentModal').modal('hide');
+                	      }, function(error) {
+                	        $scope.errorMessage = 'Error creating assortment.';
+                	      });
+                	  }
+                	};
 	            
 	            $scope.getAssortments();
 	        });
@@ -77,50 +79,48 @@
 		<!-- PART TWO: html -->
 	    <div class="container mt-5" ng-controller="assortmentsCtrl">
 	    
-	    	<!-- Header -->
+	    	<!-- 2.1 Header -->
 	        <h1 class="mb-4">Assortment List</h1>
 	        
-	        <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#addAssortmentModal">Add New Assortment</button>
-	        
-	        <!-- New Assortment Form -->
-            <!-- <form ng-submit="addAssortment()" class="mb-4">
-                <div class="form-group">
-                    <label for="newAssortmentTitle">New Assortment Title:</label>
-                    <input type="text" class="form-control" id="newAssortmentTitle" ng-model="newAssortment.title" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Assortment</button>
-            </form> -->
-	        
+	        <!-- 2.2 Button for making a new assortment -->
+	        <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#createAssortmentModal">
+				Create New Assortment
+			</button>
+	         	         
+	        <!-- 2.3 Listing all assortments -->
 	        <ul id="assortmentList" class="list-group">
 	            <li class="list-group-item" ng-repeat="assortment in assortments">
 	            	{{ assortment.title }}
 	            	<a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
 	            </li>
 	        </ul>
+	        
+	        
+	        <div class="modal fade" id="createAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="createAssortmentModalLabel" aria-hidden="true">
+		        <div class="modal-dialog" role="document">
+		            <div class="modal-content">
+		                <form name="createAssortmentForm" ng-submit="createAssortment(createAssortmentForm.$valid)" novalidate>
+		                    <div class="modal-header">
+		                        <h5 class="modal-title" id="createAssortmentModalLabel">Create New Assortment</h5>
+		                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                            <span aria-hidden="true">&times;</span>
+		                        </button>
+		                    </div>
+		                    <div class="modal-body">
+		                        <div class="form-group">
+		                            <label for="assortmentTitle">Assortment Title</label>
+		                            <input type="text" class="form-control" id="assortmentTitle" ng-model="newAssortmentTitle" placeholder="Enter assortment title" required>
+		                        </div>
+		                    </div>
+		                    <div class="modal-footer">
+		                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		                        <button type="submit" class="btn btn-primary" ng-disabled="createAssortmentForm.$invalid">Create</button>
+		                    </div>
+		                </form>
+		            </div>
+		        </div>
+   			</div>
 	    </div>
-	    
-	    <div class="modal fade" id="addAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="addAssortmentModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addAssortmentModalLabel">Add New Assortment</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form ng-submit="addAssortment()">
-                            <div class="form-group">
-                                <label for="newAssortmentTitle">New Assortment Title:</label>
-                                <input type="text" class="form-control" id="newAssortmentTitle" ng-model="newAssortment.title" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add Assortment</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
     </div>
 
 </body>

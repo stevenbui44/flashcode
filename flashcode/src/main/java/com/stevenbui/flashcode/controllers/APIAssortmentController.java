@@ -1,10 +1,15 @@
 package com.stevenbui.flashcode.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stevenbui.flashcode.models.Assortment;
@@ -49,6 +54,21 @@ public class APIAssortmentController extends APIController {
             throw new EntityNotFoundException( "Assortment not found with ID: " + assortmentId );
         }
         return assortment.getCards();
+    }
+
+    // @PostMapping ( BASE_PATH + "/assortments" )
+    // public Assortment createAssortment ( @RequestBody final Assortment
+    // newAssortment ) {
+    // assortmentService.save( newAssortment );
+    // return
+    // }
+
+    @PostMapping ( BASE_PATH + "/assortments" )
+    public ResponseEntity createAssortment ( @RequestBody final Assortment assortment ) {
+        assortment.setDescription( "" );
+        assortment.setCards( new ArrayList<>() );
+        assortmentService.save( assortment );
+        return new ResponseEntity( HttpStatus.OK );
     }
 
 }
