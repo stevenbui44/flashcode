@@ -72,6 +72,11 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 2.3: text box area -->
+        <div class="mt-4">
+            <textarea class="form-control" rows="5" placeholder="Type here..." ng-keydown="handleTab($event)"></textarea>
+        </div>
     </div>
 
 	<!-- PART THREE: Angular JS code -->
@@ -107,6 +112,17 @@
                 if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
                     $scope.currentCardIndex++;
                     $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+                }
+            };
+            
+            $scope.handleTab = function(event) {
+                if (event.keyCode === 9) {
+                    event.preventDefault();
+                    var textarea = event.target;
+                    var start = textarea.selectionStart;
+                    var end = textarea.selectionEnd;
+                    textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+                    textarea.selectionStart = textarea.selectionEnd = start + 1;
                 }
             };
         });
