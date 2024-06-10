@@ -115,14 +115,34 @@
                 }
             };
             
+            
             $scope.handleTab = function(event) {
-                if (event.keyCode === 9) {
+                var textarea = event.target;
+                var start = textarea.selectionStart;
+                var end = textarea.selectionEnd;
+
+				// tab
+                if (event.key === "Tab") {
                     event.preventDefault();
-                    var textarea = event.target;
-                    var start = textarea.selectionStart;
-                    var end = textarea.selectionEnd;
-                    textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
-                    textarea.selectionStart = textarea.selectionEnd = start + 1;
+                    if (event.shiftKey) {
+                        // shift tab = go back one tab
+                        var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+                        if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
+                            textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
+                            textarea.selectionStart = textarea.selectionEnd = start - 1;
+                        }
+                    } else {
+                        // tab: tab forward
+                        textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+                        textarea.selectionStart = textarea.selectionEnd = start + 1;
+                    }
+                // enter
+                } else if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var currentLine = textarea.value.substring(0, start).split("\n").pop();
+                    var indentation = currentLine.match(/^\s*/)[0];
+                    textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
+                    textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
                 }
             };
         });
