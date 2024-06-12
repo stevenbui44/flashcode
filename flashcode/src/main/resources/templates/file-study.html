@@ -45,32 +45,37 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
+                    <div class="card mb-3" >
+                        <div class="card-body" ng-click="toggleVisibility('approach')">
                             <h2 class="card-title">Approach</h2>
-                            <p class="card-text">{{ currentCard.approach }}</p>
+                            <p class="card-text" ng-if="visible.approach">{{ currentCard.approach }}</p>
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-body">
+                        <div class="card-body" ng-click="toggleVisibility('code')">
                             <h2 class="card-title">Code</h2>
-                            <pre class="card-text">{{ currentCard.code }}</pre>
+                            <pre class="card-text" ng-if="visible.code">{{ currentCard.code }}</pre>
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-body">
+                        <div class="card-body" ng-click="toggleVisibility('timeComplexity')">
                             <h2 class="card-title">Time Complexity</h2>
-                            <p class="card-text">{{ currentCard.timeComplexity }}</p>
+                            <p class="card-text" ng-if="visible.timeComplexity">{{ currentCard.timeComplexity }}</p>
                         </div>
                     </div>
                     <div class="card mb-3">
-                        <div class="card-body">
+                        <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
                             <h2 class="card-title">Space Complexity</h2>
-                            <p class="card-text">{{ currentCard.spaceComplexity }}</p>
+                            <p class="card-text" ng-if="visible.spaceComplexity">{{ currentCard.spaceComplexity }}</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- 2.3: text box area -->
+        <div class="mt-4">
+            <textarea class="form-control" rows="5" placeholder="Type here..." ng-keydown="handleTab($event)"></textarea>
         </div>
     </div>
 
@@ -83,6 +88,13 @@
                 cards: [] 
             };
             $scope.currentCardIndex = 0;
+            $scope.visible = {
+                    question: false,
+                    approach: false,
+                    code: false,
+                    timeComplexity: false,
+                    spaceComplexity: false
+                };
 
             $scope.getCards = function() {
                 $http.get('/api/v1/assortments/' + $scope.assortment.id)
@@ -100,6 +112,7 @@
                 if ($scope.currentCardIndex > 0) {
                     $scope.currentCardIndex--;
                     $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+                    $scope.resetVisibility();
                 }
             };
 
@@ -107,6 +120,51 @@
                 if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
                     $scope.currentCardIndex++;
                     $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+                    $scope.resetVisibility();
+                }
+            };
+            
+            $scope.resetVisibility = function() {
+                $scope.visible = {
+                    question: false,
+                    approach: false,
+                    code: false,
+                    timeComplexity: false,
+                    spaceComplexity: false
+                };
+            };
+            
+            $scope.toggleVisibility = function(section) {
+                $scope.visible[section] = !$scope.visible[section];
+            };
+            
+            $scope.handleTab = function(event) {
+                var textarea = event.target;
+                var start = textarea.selectionStart;
+                var end = textarea.selectionEnd;
+
+				// tab
+                if (event.key === "Tab") {
+                    event.preventDefault();
+                    if (event.shiftKey) {
+                        // shift tab = go back one tab
+                        var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+                        if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
+                            textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
+                            textarea.selectionStart = textarea.selectionEnd = start - 1;
+                        }
+                    } else {
+                        // tab: tab forward
+                        textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+                        textarea.selectionStart = textarea.selectionEnd = start + 1;
+                    }
+                // enter
+                } else if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var currentLine = textarea.value.substring(0, start).split("\n").pop();
+                    var indentation = currentLine.match(/^\s*/)[0];
+                    textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
+                    textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
                 }
             };
         });
