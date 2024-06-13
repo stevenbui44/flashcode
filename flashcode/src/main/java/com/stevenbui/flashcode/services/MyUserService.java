@@ -1,5 +1,7 @@
 package com.stevenbui.flashcode.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.User;
@@ -27,14 +29,37 @@ public class MyUserService extends Service<MyUser, Long> implements UserDetailsS
         return userRepository;
     }
 
+    // @Override
+    // public UserDetails loadUserByUsername ( final String username ) throws
+    // UsernameNotFoundException {
+    // final MyUser user = userRepository.findByUsername( username );
+    // if ( user == null ) {
+    //
+    // System.out.println( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
+    //
+    // return User.builder()
+    // .username( user.getUsername() )
+    // .password( user.getPassword() )
+    // .roles( getRoles( user ) )
+    // .build();
+    // }
+    // else {
+    //
+    // System.out.println( "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB" );
+    //
+    // throw new UsernameNotFoundException( username );
+    // }
+    // }
+
     @Override
     public UserDetails loadUserByUsername ( final String username ) throws UsernameNotFoundException {
-        final MyUser user = userRepository.findByUsername( username );
-        if ( user == null ) {
+        final Optional<MyUser> user = userRepository.findByUsername( username );
+        if ( user.isPresent() ) {
+            final var userObj = user.get();
             return User.builder()
-                    .username( user.getUsername() )
-                    .password( user.getPassword() )
-                    .roles( getRoles( user ) )
+                    .username( userObj.getUsername() )
+                    .password( userObj.getPassword() )
+                    .roles( getRoles( userObj ) )
                     .build();
         }
         else {

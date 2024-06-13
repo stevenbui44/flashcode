@@ -10,8 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.Card;
+import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.repositories.AssortmentRepository;
 import com.stevenbui.flashcode.repositories.CardRepository;
+import com.stevenbui.flashcode.repositories.MyUserRepository;
 
 @SpringBootApplication
 public class FlashcodeApplication implements CommandLineRunner {
@@ -26,8 +28,34 @@ public class FlashcodeApplication implements CommandLineRunner {
     @Autowired
     private AssortmentRepository assortmentRepository;
 
+    @Autowired
+    private MyUserRepository     myUserRepository;
+
     @Override
     public void run ( final String... args ) throws Exception {
+
+        // if ( myUserRepository.count() == 0 ) {
+        // myUserRepository.deleteAll();
+
+        // myUserRepository.deleteAll();
+        //
+        // final MyUser user1 = new MyUser();
+        // user1.setUsername( "admin" );
+        // user1.setPassword(
+        // "$2a$12$OG2VWWPrqVsjp0LL/b1ni.nfVPNIBOQ8HNUWwV.oytSYrwbNaUnFm" );
+        // user1.setRole( "ADMIN,USER" );
+        //
+        // final MyUser user2 = new MyUser();
+        // user2.setUsername( "user" );
+        // user2.setPassword(
+        // "$2a$12$Oz1neXmbTJzj1FhC55IjtuG90P0aAJR3YpVkCYsFCK2/tzAwKnkAu" );
+        // user2.setRole( "USER" );
+        //
+        // myUserRepository.save( user1 );
+        // myUserRepository.save( user2 );
+        //
+        // System.out.println( "size:" + myUserRepository.count() );
+        // }
 
         if ( assortmentRepository.count() == 0 && cardRepository.count() == 0 ) {
 
@@ -106,6 +134,23 @@ public class FlashcodeApplication implements CommandLineRunner {
             assortmentRepository.save( assortment3 );
 
         }
+
+        myUserRepository.deleteAll();
+
+        final MyUser user1 = new MyUser();
+        user1.setUsername( "admin" );
+        user1.setPassword( "$2a$12$OG2VWWPrqVsjp0LL/b1ni.nfVPNIBOQ8HNUWwV.oytSYrwbNaUnFm" );
+        user1.setRole( "ADMIN,USER" );
+
+        final MyUser user2 = new MyUser();
+        user2.setUsername( "user" );
+        user2.setPassword( "$2a$12$Oz1neXmbTJzj1FhC55IjtuG90P0aAJR3YpVkCYsFCK2/tzAwKnkAu" );
+        user2.setRole( "USER" );
+
+        myUserRepository.save( user1 );
+        myUserRepository.save( user2 );
+
+        System.out.println( "size:" + myUserRepository.count() );
     }
 
 }
