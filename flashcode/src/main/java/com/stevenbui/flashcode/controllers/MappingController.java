@@ -67,11 +67,21 @@ public class MappingController {
      * @return contents of file-study.html
      */
     @GetMapping ( "/assortments/{id}/study" )
-    public String getAsortmentStudy ( @PathVariable ( "id" ) final Long assortmentId, final Model model ) {
+    public String getAssortmentStudy ( @PathVariable ( "id" ) final Long assortmentId, final Model model ) {
         final Assortment assortment = assortmentRepository.findById( assortmentId )
                 .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
         model.addAttribute( "assortment", assortment );
         return "file-study";
+    }
+
+    @GetMapping ( { "/error", "error.html" } )
+    public String error ( final Model model ) {
+        return "error";
+    }
+
+    @GetMapping ( "/login" )
+    public String login ( final Model model ) {
+        return "login";
     }
 
 }
