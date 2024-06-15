@@ -29,14 +29,14 @@ public class SecurityConfiguration {
                 .csrf( AbstractHttpConfigurer::disable )
                 .authorizeHttpRequests( registry -> {
 
-                    // for all
-                    registry.requestMatchers( "/", "/register/**" ).permitAll();
-
-                    // for admins
-                    registry.requestMatchers( "/**" ).hasRole( "ADMIN" );
+                    // everyone, even if they are not logged in
+                    registry.requestMatchers( "/login" ).permitAll();
 
                     // for just users
-                    registry.requestMatchers( "/assortments/**" ).hasRole( "USER" );
+                    registry.requestMatchers( "/assortments", "/assortments/**" ).hasRole( "USER" );
+
+                    // for admins
+                    // registry.requestMatchers( "/**" ).hasRole( "ADMIN" );
 
                     // any other pages, user must be authenticated
                     registry.anyRequest().authenticated();

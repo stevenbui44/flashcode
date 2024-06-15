@@ -34,28 +34,35 @@ public class FlashcodeApplication implements CommandLineRunner {
     @Override
     public void run ( final String... args ) throws Exception {
 
-        // if ( myUserRepository.count() == 0 ) {
-        // myUserRepository.deleteAll();
+        if ( myUserRepository.count() == 0 ) {
+            myUserRepository.deleteAll();
 
-        // myUserRepository.deleteAll();
-        //
-        // final MyUser user1 = new MyUser();
-        // user1.setUsername( "admin" );
-        // user1.setPassword(
-        // "$2a$12$OG2VWWPrqVsjp0LL/b1ni.nfVPNIBOQ8HNUWwV.oytSYrwbNaUnFm" );
-        // user1.setRole( "ADMIN,USER" );
-        //
-        // final MyUser user2 = new MyUser();
-        // user2.setUsername( "user" );
-        // user2.setPassword(
-        // "$2a$12$Oz1neXmbTJzj1FhC55IjtuG90P0aAJR3YpVkCYsFCK2/tzAwKnkAu" );
-        // user2.setRole( "USER" );
-        //
-        // myUserRepository.save( user1 );
-        // myUserRepository.save( user2 );
-        //
-        // System.out.println( "size:" + myUserRepository.count() );
-        // }
+            // admin
+            final MyUser admin = new MyUser();
+            admin.setUsername( "admin" );
+            admin.setPassword(
+                    "$2a$12$OG2VWWPrqVsjp0LL/b1ni.nfVPNIBOQ8HNUWwV.oytSYrwbNaUnFm" );
+            admin.setRole( "ADMIN,USER" );
+
+            // user 1
+            final MyUser user1 = new MyUser();
+            user1.setUsername( "user1" );
+            user1.setPassword(
+                    "$2a$12$6CxdJ9tz12oh/7F5BBXAZuYlWdc8xgoEoOcrNiROQzuSAaQChWxIK" );
+            user1.setRole( "USER" );
+
+            // user 2
+            final MyUser user2 = new MyUser();
+            user2.setUsername( "user2" );
+            user2.setPassword(
+                    "$2a$12$rrHy48bkw32yaPP1eT26tulmYVWs9fX/MkISAu0389Wb92zNFfH3a" );
+            user2.setRole( "USER" );
+
+            myUserRepository.save( admin );
+            myUserRepository.save( user1 );
+            myUserRepository.save( user2 );
+
+        }
 
         if ( assortmentRepository.count() == 0 && cardRepository.count() == 0 ) {
 
@@ -135,22 +142,6 @@ public class FlashcodeApplication implements CommandLineRunner {
 
         }
 
-        myUserRepository.deleteAll();
-
-        final MyUser user1 = new MyUser();
-        user1.setUsername( "admin" );
-        user1.setPassword( "$2a$12$OG2VWWPrqVsjp0LL/b1ni.nfVPNIBOQ8HNUWwV.oytSYrwbNaUnFm" );
-        user1.setRole( "ADMIN,USER" );
-
-        final MyUser user2 = new MyUser();
-        user2.setUsername( "user" );
-        user2.setPassword( "$2a$12$Oz1neXmbTJzj1FhC55IjtuG90P0aAJR3YpVkCYsFCK2/tzAwKnkAu" );
-        user2.setRole( "USER" );
-
-        myUserRepository.save( user1 );
-        myUserRepository.save( user2 );
-
-        System.out.println( "size:" + myUserRepository.count() );
     }
 
 }
