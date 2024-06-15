@@ -45,7 +45,10 @@ public class SecurityConfiguration {
                 // .formLogin( AbstractAuthenticationFilterConfigurer::permitAll
                 // )
                 .formLogin( httpSecurityFormLoginConfigurer -> {
-                    httpSecurityFormLoginConfigurer.loginPage( "/login" ).permitAll();
+                    httpSecurityFormLoginConfigurer
+                            .loginPage( "/login" )
+                            .successHandler( new AuthenticationSuccessHandler() )
+                            .permitAll();
                 } )
                 .build();
     }
