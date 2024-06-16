@@ -61,6 +61,14 @@ public class MappingController {
         final Assortment assortment = assortmentRepository.findById( assortmentId )
                 .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
         model.addAttribute( "assortment", assortment );
+
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ( authentication != null && authentication.getPrincipal() instanceof UserDetails ) {
+            final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            final String username = userDetails.getUsername();
+            model.addAttribute( "username", username );
+        }
+
         return "file-assortment-cards";
     }
 
@@ -82,6 +90,14 @@ public class MappingController {
         final Assortment assortment = assortmentRepository.findById( assortmentId )
                 .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
         model.addAttribute( "assortment", assortment );
+
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ( authentication != null && authentication.getPrincipal() instanceof UserDetails ) {
+            final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            final String username = userDetails.getUsername();
+            model.addAttribute( "username", username );
+        }
+
         return "file-study";
     }
 

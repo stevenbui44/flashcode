@@ -146,7 +146,6 @@
 	        	
 	            $scope.assortments = [];
 	            $scope.errorMessage = '';
-	            $scope.username = '';
 	            
 	            $scope.newAssortment = {
                     title: ''
@@ -159,15 +158,6 @@
 	                        $scope.errorMessage = '';
 	                    }, function(error) {
 	                        $scope.errorMessage = 'Error fetching assortments.';
-	                    });
-	            };
-	            
-	            $scope.getUsername = function() {
-	                $http.get('/api/v1/user/info')
-	                    .then(function(response) {
-	                        $scope.username = response.data;
-	                    }, function(error) {
-	                        $scope.username = 'Error fetching username';
 	                    });
 	            };
 	            
@@ -254,7 +244,6 @@
                	               	
 	            
 	            $scope.getAssortments();
-	            $scope.getUsername();
 	        });
 	    </script>
     </div>
