@@ -1,10 +1,15 @@
 package com.stevenbui.flashcode.models;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,26 +19,32 @@ public class MyUser extends DomainObject {
     @Id
     @GeneratedValue ( strategy = GenerationType.IDENTITY )
     @Column ( name = "id" )
-    private Long   id;
+    private Long             id;
 
     @Column ( name = "username" )
-    private String username;
+    private String           username;
 
     @Column ( name = "password" )
-    private String password;
+    private String           password;
 
     @Column ( name = "role" )
-    private String role;
+    private String           role;
+
+    @Column ( name = "assortments_id" )
+    @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+    private List<Assortment> assortments;
 
     public MyUser () {
 
     }
 
-    public MyUser ( final String username, final String password, final String role ) {
+    public MyUser ( final String username, final String password, final String role,
+            final List<Assortment> assortments ) {
         super();
         this.username = username;
         this.password = password;
         this.role = role;
+        this.assortments = assortments;
     }
 
     @Override
@@ -67,5 +78,13 @@ public class MyUser extends DomainObject {
 
     public void setRole ( final String role ) {
         this.role = role;
+    }
+
+    public List<Assortment> getAssortments () {
+        return assortments;
+    }
+
+    public void setAssortments ( final List<Assortment> assortments ) {
+        this.assortments = assortments;
     }
 }

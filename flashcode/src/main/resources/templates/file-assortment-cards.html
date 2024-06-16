@@ -29,8 +29,61 @@
 
 	<!-- div to put script and code in any order -->
 	<div class="content">
-
-		<script>
+	    
+		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
+				
+		    <!-- <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1> -->
+		    <div class="d-flex justify-content-between align-items-center">
+                <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
+                <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
+            </div>
+		    <p><span th:text="${assortment.description}"></span></p>
+		    
+		    <!-- PART 1: Form at the top to create a new card -->
+	        <form ng-submit="addCard()">
+	            <div class="form-group">
+	                <label for="question">Question:</label>
+	                <input type="text" class="form-control" id="question" ng-model="newCard.question" required>
+	            </div>
+	            <div class="form-group">
+	                <label for="approach">Approach:</label>
+	                <textarea class="form-control" id="approach" ng-model="newCard.approach" required></textarea>
+	            </div>
+	            <div class="form-group">
+	                <label for="code">Code:</label>
+	                <textarea class="form-control" id="code" ng-model="newCard.code" required></textarea>
+	            </div>
+	            <div class="form-group">
+	                <label for="timeComplexity">Time Complexity:</label>
+	                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
+	            </div>
+	            <div class="form-group">
+	                <label for="spaceComplexity">Space Complexity:</label>
+	                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
+	            </div>
+	            <button type="submit" class="btn btn-primary">Add Card</button>
+	        </form>
+	        
+	        
+	        <!-- PART 2: Using ng-repeat to show each card -->
+		    <ul>
+		        <li ng-repeat="card in assortment.cards">
+		            <h2>{{ card.question }}</h2>
+		            <p>Approach:</p>
+		            <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
+		            <p>Code:</p>
+		            <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
+		            <p>Time Complexity:</p>
+		            <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
+		            <p>Space Complexity:</p>
+		            <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
+		            <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
+		        </li>
+		    </ul>
+		    
+	    </div>
+	    
+	    <script>
 	        var app = angular.module('myApp', []);
 	        app.controller('assortmentCardsCtrl', function($scope, $http, $q, $timeout) {
 	            
@@ -105,59 +158,6 @@
             	
 	        });
 	    </script>
-	    
-		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
-				
-		    <!-- <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1> -->
-		    <div class="d-flex justify-content-between align-items-center">
-                <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
-                <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
-            </div>
-		    <p><span th:text="${assortment.description}"></span></p>
-		    
-		    <!-- PART 1: Form at the top to create a new card -->
-	        <form ng-submit="addCard()">
-	            <div class="form-group">
-	                <label for="question">Question:</label>
-	                <input type="text" class="form-control" id="question" ng-model="newCard.question" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="approach">Approach:</label>
-	                <textarea class="form-control" id="approach" ng-model="newCard.approach" required></textarea>
-	            </div>
-	            <div class="form-group">
-	                <label for="code">Code:</label>
-	                <textarea class="form-control" id="code" ng-model="newCard.code" required></textarea>
-	            </div>
-	            <div class="form-group">
-	                <label for="timeComplexity">Time Complexity:</label>
-	                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="spaceComplexity">Space Complexity:</label>
-	                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
-	            </div>
-	            <button type="submit" class="btn btn-primary">Add Card</button>
-	        </form>
-	        
-	        
-	        <!-- PART 2: Using ng-repeat to show each card -->
-		    <ul>
-		        <li ng-repeat="card in assortment.cards">
-		            <h2>{{ card.question }}</h2>
-		            <p>Approach:</p>
-		            <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
-		            <p>Code:</p>
-		            <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
-		            <p>Time Complexity:</p>
-		            <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
-		            <p>Space Complexity:</p>
-		            <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
-		            <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
-		        </li>
-		    </ul>
-		    
-	    </div>
     </div>
 </body>
 </html>
