@@ -71,18 +71,32 @@ public class MappingController {
      */
     @GetMapping ( "/assortments/{id}" )
     public String getAssortmentCards ( @PathVariable ( "id" ) final Long assortmentId, final Model model ) {
+
+        final MyUser currentUser = myUserService.getCurrentUser();
+        if ( currentUser == null ) {
+            return "redirect:/login";
+        }
         final Assortment assortment = assortmentRepository.findById( assortmentId )
                 .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
-        model.addAttribute( "assortment", assortment );
 
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if ( authentication != null && authentication.getPrincipal() instanceof UserDetails ) {
-            final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            final String username = userDetails.getUsername();
-            model.addAttribute( "username", username );
+        if ( currentUser.getAssortments().contains( assortment ) ) {
+            model.addAttribute( "assortment", assortment );
+            model.addAttribute( "username", currentUser.getUsername() );
+            return "file-assortment-cards";
         }
 
-        return "file-assortment-cards";
+        return "error";
+
+        // final Authentication authentication =
+        // SecurityContextHolder.getContext().getAuthentication();
+        // if ( authentication != null && authentication.getPrincipal()
+        // instanceof UserDetails ) {
+        // final UserDetails userDetails = (UserDetails)
+        // authentication.getPrincipal();
+        // final String username = userDetails.getUsername();
+        // model.addAttribute( "username", username );
+        // }
+
     }
 
     /**

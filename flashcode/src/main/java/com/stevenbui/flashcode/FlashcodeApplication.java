@@ -34,6 +34,10 @@ public class FlashcodeApplication implements CommandLineRunner {
     @Override
     public void run ( final String... args ) throws Exception {
 
+        cardRepository.deleteAll();
+        assortmentRepository.deleteAll();
+        myUserRepository.deleteAll();
+
         if ( assortmentRepository.count() == 0 && cardRepository.count() == 0 && myUserRepository.count() == 0 ) {
 
             // Create 3 cards

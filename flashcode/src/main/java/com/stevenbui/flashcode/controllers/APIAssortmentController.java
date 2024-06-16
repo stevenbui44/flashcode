@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.Card;
+import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.services.AssortmentService;
+import com.stevenbui.flashcode.services.MyUserService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -33,15 +35,19 @@ public class APIAssortmentController extends APIController {
     @Autowired
     private final AssortmentService assortmentService;
 
+    @Autowired
+    private final MyUserService     myUserService;
+
     /**
      * Constructor that uses a given AssortmentService
      *
      * @param assortmentService
      *            the AssortmentService
      */
-    public APIAssortmentController ( final AssortmentService assortmentService ) {
+    public APIAssortmentController ( final AssortmentService assortmentService, final MyUserService myUserService ) {
         super();
         this.assortmentService = assortmentService;
+        this.myUserService = myUserService;
     }
 
     /**
@@ -79,8 +85,14 @@ public class APIAssortmentController extends APIController {
      */
     @PostMapping ( BASE_PATH + "/assortments" )
     public Assortment createAssortment ( @RequestBody final Assortment assortment ) {
+        final MyUser currentUser = myUserService.getCurrentUser();
+        if ( currentUser == null ) {
+            return null;
+        }
+
         assortment.setDescription( "" );
         assortment.setCards( new ArrayList<>() );
+        currentUser.getAssortments().add( assortment );
         assortmentService.save( assortment );
         return assortment;
     }
