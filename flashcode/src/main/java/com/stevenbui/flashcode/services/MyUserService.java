@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,28 +31,6 @@ public class MyUserService extends Service<MyUser, Long> implements UserDetailsS
         return userRepository;
     }
 
-    // @Override
-    // public UserDetails loadUserByUsername ( final String username ) throws
-    // UsernameNotFoundException {
-    // final MyUser user = userRepository.findByUsername( username );
-    // if ( user == null ) {
-    //
-    // System.out.println( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
-    //
-    // return User.builder()
-    // .username( user.getUsername() )
-    // .password( user.getPassword() )
-    // .roles( getRoles( user ) )
-    // .build();
-    // }
-    // else {
-    //
-    // System.out.println( "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB" );
-    //
-    // throw new UsernameNotFoundException( username );
-    // }
-    // }
-
     @Override
     public UserDetails loadUserByUsername ( final String username ) throws UsernameNotFoundException {
         final Optional<MyUser> user = userRepository.findByUsername( username );
@@ -72,6 +52,19 @@ public class MyUserService extends Service<MyUser, Long> implements UserDetailsS
             return new String[] { "USER" };
         }
         return user.getRole().split( "," );
+    }
+
+    public MyUser getCurrentUser () {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ( authentication != null && authentication.isAuthenticated() ) {
+            final Object principal = authentication.getPrincipal();
+            if ( principal instanceof UserDetails ) {
+                final String username = ( (UserDetails) principal ).getUsername();
+                final Optional<MyUser> user = userRepository.findByUsername( username );
+                return user.orElse( null );
+            }
+        }
+        return null;
     }
 
 }

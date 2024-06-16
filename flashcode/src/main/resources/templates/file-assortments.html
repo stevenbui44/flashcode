@@ -43,17 +43,15 @@
 				Create New Assortment
 			</button>
 	         	         
-	        <!-- 2.3 Listing all assortments -->
+	        <!-- 2.3 Listing all user assortments -->
 	        <ul id="assortmentList" class="list-group">
-	            <li class="list-group-item" ng-repeat="assortment in assortments">
-	            	<span>{{ assortment.title }}</span>
-	            	
-	            	<a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
-	            	<button class="btn btn-danger btn-sm ml-2" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
+			    <li class="list-group-item" th:each="assortment : ${assortments}">
+			        <span th:text="${assortment.title}">Assortment Title</span>
+			        <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
+			        <button class="btn btn-danger btn-sm ml-2" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
 	            	<button class="btn btn-primary btn-sm ml-2" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
-	            	
-	            </li>
-	        </ul>
+			    </li>
+			</ul>
 	        
 	        
 	        <!-- Modal 1: Creating new assortment -->

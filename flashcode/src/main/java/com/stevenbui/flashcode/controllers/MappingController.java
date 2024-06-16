@@ -1,5 +1,7 @@
 package com.stevenbui.flashcode.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,13 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.stevenbui.flashcode.models.Assortment;
+import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.repositories.AssortmentRepository;
+import com.stevenbui.flashcode.services.MyUserService;
 
 @Controller
 public class MappingController {
 
     @Autowired
     private AssortmentRepository assortmentRepository;
+
+    @Autowired
+    private MyUserService        myUserService;
 
     /**
      * Method invoked whenever a GET request is made to either /assortments or
@@ -32,6 +39,12 @@ public class MappingController {
      */
     @GetMapping ( { "/assortments", "assortments.html", "/" } )
     public String getAllAssortments ( final Model model ) {
+
+        final MyUser currentUser = myUserService.getCurrentUser();
+        if ( currentUser != null ) {
+            final List<Assortment> userAssortments = currentUser.getAssortments();
+            model.addAttribute( "assortments", userAssortments );
+        }
 
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if ( authentication != null && authentication.getPrincipal() instanceof UserDetails ) {
