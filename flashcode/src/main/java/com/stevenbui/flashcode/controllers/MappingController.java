@@ -86,17 +86,6 @@ public class MappingController {
         }
 
         return "error";
-
-        // final Authentication authentication =
-        // SecurityContextHolder.getContext().getAuthentication();
-        // if ( authentication != null && authentication.getPrincipal()
-        // instanceof UserDetails ) {
-        // final UserDetails userDetails = (UserDetails)
-        // authentication.getPrincipal();
-        // final String username = userDetails.getUsername();
-        // model.addAttribute( "username", username );
-        // }
-
     }
 
     /**
@@ -114,18 +103,22 @@ public class MappingController {
      */
     @GetMapping ( "/assortments/{id}/study" )
     public String getAssortmentStudy ( @PathVariable ( "id" ) final Long assortmentId, final Model model ) {
-        final Assortment assortment = assortmentRepository.findById( assortmentId )
-                .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
-        model.addAttribute( "assortment", assortment );
 
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if ( authentication != null && authentication.getPrincipal() instanceof UserDetails ) {
-            final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            final String username = userDetails.getUsername();
-            model.addAttribute( "username", username );
+        final MyUser currentUser = myUserService.getCurrentUser();
+        if ( currentUser == null ) {
+            return "redirect:/login";
         }
 
-        return "file-study";
+        final Assortment assortment = assortmentRepository.findById( assortmentId )
+                .orElseThrow( () -> new IllegalArgumentException( "Invalid assortment ID: " + assortmentId ) );
+
+        if ( currentUser.getAssortments().contains( assortment ) ) {
+            model.addAttribute( "assortment", assortment );
+            model.addAttribute( "username", currentUser.getUsername() );
+            return "file-study";
+        }
+
+        return "error";
     }
 
     @GetMapping ( { "/error", "error.html" } )
