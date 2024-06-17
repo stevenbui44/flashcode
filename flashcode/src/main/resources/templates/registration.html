@@ -1,0 +1,100 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>All Assortments</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/app.css" />
+	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="myApp">
+
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav ml-auto">
+	      <li class="nav-item d-flex align-items-center">
+	      	Username
+	      	<span class="nav-link" th:text="${username}">Username</span>
+	      	Logout
+	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	       		<input class="btn btn-danger" type="submit" value="Logout" />
+	       	</form>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+
+	div to put script and code in any order
+	<div class="content">
+	
+		PART TWO: html
+	    <div class="container mt-5" ng-controller="usersCtrl">
+	    
+	    	2.1 Header
+	        <h1 class="mb-4">Register</h1>
+	        
+	        2.2 Button for making a new assortment
+	        <form th:action="@{/register}" th:object="${user}" method="post">
+	        <form ng-submit="addUser()">
+		        <div class="form-group">
+		            <label for="username">Username:</label>
+		            <input type="text" id="username" th:field="*{username}" required>
+		        </div>
+		        <div class="form-group">
+		            <label for="password">Password:</label>
+		            <input type="password" id="password" th:field="*{password}" required>
+		        </div>
+		        <div>
+		            <label for="role">Role:</label>
+		            <input type="text" id="role" th:field="*{role}" required>
+		        </div>
+		        <button type="submit">Register</button>
+		    </form>
+	    </div>
+	    
+	    PART ONE: angularjs
+		<script>
+	        var app = angular.module('myApp', []);
+	        app.controller('usersCtrl', function($scope, $http, $q) {
+	        	
+	            
+	        });
+	    </script>
+    </div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" th:field="*{username}" />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" />
+        </div>
+        <!-- <div>
+            <label for="role">Role:</label>
+            <input type="text" id="role" th:field="*{role}" />
+        </div>
+        <div>
+            <label for="assortments">Assortments:</label>
+            <input type="text" id="assortments" th:field="*{assortments}" />
+        </div> -->
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

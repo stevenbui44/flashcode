@@ -1,26 +1,48 @@
 package com.stevenbui.flashcode.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.repositories.AssortmentRepository;
+import com.stevenbui.flashcode.repositories.MyUserRepository;
 import com.stevenbui.flashcode.services.MyUserService;
 
 @Controller
 public class MappingController {
 
     @Autowired
-    private AssortmentRepository assortmentRepository;
+    private AssortmentRepository  assortmentRepository;
 
     @Autowired
-    private MyUserService        myUserService;
+    private MyUserService         myUserService;
+
+    @Autowired
+    private UserDetailsService    userDetailsService;
+
+    @Autowired
+    private MyUserRepository      myUserRepository;
+
+    @Autowired
+    private PasswordEncoder       passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     /**
      * Method invoked whenever a GET request is made to either /assortments or
@@ -122,6 +144,31 @@ public class MappingController {
     @GetMapping ( "/login" )
     public String login ( final Model model ) {
         return "login";
+    }
+
+    @GetMapping ( "/register" )
+    public String showRegistrationForm ( final Model model ) {
+        model.addAttribute( "user", new MyUser() );
+        return "registration";
+    }
+
+    @PostMapping ( "/register" )
+    public String createUser ( @ModelAttribute ( "user" ) final MyUser user, final Model model ) {
+
+        model.addAttribute( "username", user.getUsername() );
+        user.setPassword( passwordEncoder.encode( user.getPassword() ) );
+        user.setRole( "USER" );
+        user.setAssortments( new ArrayList<Assortment>() );
+        myUserRepository.save( user );
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername( user.getUsername() );
+        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities() );
+        SecurityContextHolder.getContext().setAuthentication(
+                authenticationToken );
+
+        return "redirect:/assortments";
+
     }
 
 }
