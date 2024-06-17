@@ -57,7 +57,11 @@ public class APIAssortmentController extends APIController {
      */
     @GetMapping ( BASE_PATH + "/assortments" )
     public List<Assortment> getAssortments () {
-        return assortmentService.findAll();
+
+        // return assortmentService.findAll();
+
+        final MyUser currentUser = myUserService.getCurrentUser();
+        return currentUser.getAssortments();
     }
 
     /**
@@ -107,15 +111,27 @@ public class APIAssortmentController extends APIController {
      */
     @DeleteMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity deleteAssortment ( @PathVariable ( "id" ) final Long id ) {
+        System.out.println( "inside" );
+
         try {
             final Assortment assortment = assortmentService.findById( id );
             if ( assortment == null ) {
                 return new ResponseEntity( HttpStatus.NOT_FOUND );
             }
+
+            final MyUser currentUser = myUserService.getCurrentUser();
+            if ( currentUser == null || !currentUser.getAssortments().contains( assortment ) ) {
+                return new ResponseEntity( HttpStatus.UNAUTHORIZED );
+            }
+
+            currentUser.getAssortments().remove( assortment );
+            myUserService.save( currentUser );
             assortmentService.delete( assortment );
+
             return new ResponseEntity( HttpStatus.OK );
         }
         catch ( final Exception e ) {
+            System.out.println( e.getMessage() );
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
     }
@@ -134,9 +150,11 @@ public class APIAssortmentController extends APIController {
     public ResponseEntity updateAssortment ( @PathVariable ( "id" ) final Long id,
             @RequestBody final Assortment updatedAssortment ) {
 
+        System.out.println( "inside" );
         try {
             final Assortment assortment = assortmentService.findById( id );
             if ( assortment == null ) {
+                System.out.println( "null" );
                 return new ResponseEntity( HttpStatus.NOT_FOUND );
             }
             assortment.setTitle( updatedAssortment.getTitle() );
@@ -145,6 +163,7 @@ public class APIAssortmentController extends APIController {
             return new ResponseEntity( HttpStatus.OK );
         }
         catch ( final Exception e ) {
+            System.out.println( "bad" );
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
     }

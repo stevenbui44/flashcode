@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.Card;
+import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.services.AssortmentService;
 import com.stevenbui.flashcode.services.CardService;
+import com.stevenbui.flashcode.services.MyUserService;
 
 /**
  * Handles REST API endpoints for flash cards
@@ -31,16 +33,21 @@ public class APICardController extends APIController {
     @Autowired
     private final AssortmentService assortmentService;
 
+    @Autowired
+    private final MyUserService     myUserService;
+
     /**
      * Constructor that uses a given CardService
      *
      * @param cardService
      *            the CardService
      */
-    public APICardController ( final CardService cardService, final AssortmentService assortmentService ) {
+    public APICardController ( final CardService cardService, final AssortmentService assortmentService,
+            final MyUserService myUserService ) {
         super();
         this.cardService = cardService;
         this.assortmentService = assortmentService;
+        this.myUserService = myUserService;
     }
 
     /**
@@ -55,9 +62,19 @@ public class APICardController extends APIController {
     @PostMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity addAssortmentCard ( @PathVariable ( "id" ) final Long assortmentId,
             @RequestBody final Card card ) {
+
+        final MyUser currentUser = myUserService.getCurrentUser();
+        if ( currentUser == null ) {
+            return new ResponseEntity( HttpStatus.UNAUTHORIZED );
+        }
+
         final Assortment assortment = assortmentService.findById( assortmentId );
         if ( assortment == null ) {
             return new ResponseEntity( HttpStatus.NOT_FOUND );
+        }
+
+        if ( !currentUser.getAssortments().contains( assortment ) ) {
+            return new ResponseEntity( HttpStatus.UNAUTHORIZED );
         }
         assortment.addCard( card );
         assortmentService.save( assortment );
