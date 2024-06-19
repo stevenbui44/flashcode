@@ -16,16 +16,34 @@
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
 	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    <ul class="navbar-nav ml-auto">
+	  
+	    <!-- <ul class="navbar-nav ml-auto">
 	      <li class="nav-item d-flex align-items-center">
-	      	<!-- Username -->
+	      	Username
 	      	<span class="nav-link" th:text="${username}">Username</span>
-	      	<!-- Logout -->
+	      	Logout
 	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
 	       		<input class="btn btn-danger" type="submit" value="Logout" />
 	       	</form>
 	      </li>
-	    </ul>
+	    </ul> -->
+	    
+	    <ul class="navbar-nav ml-auto">
+		  <li class="nav-item dropdown d-flex align-items-center">
+		    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <!-- Username -->
+		      <span th:text="${username}">Username</span>
+		    </a>
+		    <div class="dropdown-menu dropdown-menu-right">
+		      <a class="dropdown-item" href="#" ng-click="openDeleteAccountModal()">Delete Account</a>
+		    </div>
+		    <!-- Logout -->
+		    <form th:action="@{/logout}" method="post" class="form-inline ml-2">
+		      <input class="btn btn-danger" type="submit" value="Logout" />
+		    </form>
+		  </li>
+		</ul>
+	    
 	  </div>
 	</nav>
 
