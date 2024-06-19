@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,22 +26,19 @@ import com.stevenbui.flashcode.services.MyUserService;
 public class MappingController {
 
     @Autowired
-    private AssortmentRepository  assortmentRepository;
+    private AssortmentRepository assortmentRepository;
 
     @Autowired
-    private MyUserService         myUserService;
+    private MyUserService        myUserService;
 
     @Autowired
-    private UserDetailsService    userDetailsService;
+    private UserDetailsService   userDetailsService;
 
     @Autowired
-    private MyUserRepository      myUserRepository;
+    private MyUserRepository     myUserRepository;
 
     @Autowired
-    private PasswordEncoder       passwordEncoder;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private PasswordEncoder      passwordEncoder;
 
     /**
      * Method invoked whenever a GET request is made to either /assortments or
