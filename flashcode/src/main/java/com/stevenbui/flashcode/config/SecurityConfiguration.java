@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                     registry.requestMatchers( "/login", "/register" ).permitAll();
 
                     // for just users
-                    registry.requestMatchers( "/assortments", "/assortments/**", "/**" ).hasRole( "USER" );
+                    registry.requestMatchers( "/assortments", "/assortments/**", "/settings" ).hasRole( "USER" );
                     registry.requestMatchers( HttpMethod.DELETE, "/**" ).hasRole( "USER" );
 
                     // any other pages, user must be authenticated
