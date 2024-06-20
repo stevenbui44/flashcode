@@ -31,14 +31,15 @@
 		    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
 		        <div>
 				    <label for="username">Username:</label>
-				    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()"/>
+				    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()" />
 				    <span ng-if="usernameExists" class="text-danger">This username already exists!</span>
 				</div>
 		        <div>
 		            <label for="password">Password:</label>
-		            <input type="password" id="password" th:field="*{password}" />
+		            <input type="password" id="password" th:field="*{password}" ng-model="password" ng-change="checkFormValidity()" />
 		        </div>
-		        <button type="submit">Register</button>
+		        <!-- <button type="submit" ng-disabled="usernameExists">Register</button> -->
+		        <button type="submit" ng-disabled="isFormInvalid()">Register</button>
 		    </form>
 		    
 	    </div>
@@ -48,15 +49,14 @@
 		    app.controller('registrationCtrl', function($scope, $http) {
 		    	
 		        $scope.username = '';
+		        $scope.password = '';
 		        $scope.usernameExists = false;
 
 		        
 		        // Checks for valid username
 		        $scope.checkUsername = function() {
-		        	$scope.success = false;
-		        	$scope.failure = false;
+		        	$scope.usernameExists = false;
 		        	if ($scope.username.trim() === '') {
-                        $scope.usernameExists = false;
                         return;
                     }
 	                $http.get('/api/v1/users/' + $scope.username)
@@ -67,8 +67,22 @@
 	                        console.log("usernameExists");
 	                        console.log($scope.usernameExists);
 	                        
+	                        $scope.checkFormValidity();
+	                        
+	                    }, function(error) {
+	                        console.error('Error checking username:', error);
 	                    });
 		        }
+		        
+		        
+		        // Checks if ready to submit (username not empty, username not taken, password not empty)
+		        $scope.checkFormValidity = function() {
+                    return $scope.username.trim() !== '' && !$scope.usernameExists && $scope.password.trim() !== '';
+                }
+		        
+		        $scope.isFormInvalid = function() {
+                    return !$scope.checkFormValidity();
+                }
 		    });
 		</script>
     </div>
