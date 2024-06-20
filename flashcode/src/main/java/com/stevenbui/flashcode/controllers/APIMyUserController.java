@@ -14,6 +14,7 @@ import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.repositories.MyUserRepository;
 import com.stevenbui.flashcode.services.MyUserService;
 
+@SuppressWarnings ( { "unchecked", "rawtypes" } )
 @RestController
 public class APIMyUserController extends APIController {
 
@@ -46,6 +47,16 @@ public class APIMyUserController extends APIController {
         else {
             return ResponseEntity.badRequest().body( "User not found." );
         }
+    }
+
+    @GetMapping ( "/api/v1/users/{username}" )
+    public ResponseEntity checkUsername ( @PathVariable ( "username" ) final String username ) {
+
+        System.out.println( "username: " + username );
+
+        final Optional<MyUser> user = myUserRepository.findByUsername( username );
+        return ResponseEntity.ok( user.isPresent() );
+        // return user.get() != null;
     }
 
 }

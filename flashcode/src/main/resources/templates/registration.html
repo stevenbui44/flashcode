@@ -30,9 +30,10 @@
 		    <h1>Register</h1>
 		    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
 		        <div>
-		            <label for="username">Username:</label>
-		            <input type="text" id="username" th:field="*{username}" />
-		        </div>
+				    <label for="username">Username:</label>
+				    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()"/>
+				    <span ng-if="usernameExists" class="text-danger">This username already exists!</span>
+				</div>
 		        <div>
 		            <label for="password">Password:</label>
 		            <input type="password" id="password" th:field="*{password}" />
@@ -43,10 +44,33 @@
 	    </div>
 	    
 	    <script>
-	        var app = angular.module('myApp', []);
-	        app.controller('registrationCtrl', function($scope, $http, $q, $timeout) {
-	            
-	    </script>
+		    var app = angular.module('myApp', []);
+		    app.controller('registrationCtrl', function($scope, $http) {
+		    	
+		        $scope.username = '';
+		        $scope.usernameExists = false;
+
+		        
+		        // Checks for valid username
+		        $scope.checkUsername = function() {
+		        	$scope.success = false;
+		        	$scope.failure = false;
+		        	if ($scope.username.trim() === '') {
+                        $scope.usernameExists = false;
+                        return;
+                    }
+	                $http.get('/api/v1/users/' + $scope.username)
+	                    .then(function(response) {
+	                    			                    	
+	                        $scope.usernameExists = response.data;
+	                        
+	                        console.log("usernameExists");
+	                        console.log($scope.usernameExists);
+	                        
+	                    });
+		        }
+		    });
+		</script>
     </div>
 </body>
 </html>
