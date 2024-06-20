@@ -30,14 +30,20 @@
 		    <h1>Register</h1>
 		    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
 		        <div>
-				    <label for="username">Username:</label>
-				    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()" />
-				    <span ng-if="usernameExists" class="text-danger">This username already exists!</span>
-				</div>
-		        <div>
-		            <label for="password">Password:</label>
-		            <input type="password" id="password" th:field="*{password}" ng-model="password" ng-change="checkFormValidity()" />
-		        </div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()" />
+                    <span ng-if="usernameExists" class="text-danger">This username already exists!</span>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" th:field="*{password}" ng-model="password" ng-change="checkFormValidity()" />
+                </div>
+                <div>
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" ng-model="confirmPassword" ng-change="checkFormValidity()" />
+                    <span ng-if="passwordsDoNotMatch" class="text-danger">Passwords do not match!</span>
+                </div>
+		        
 		        <!-- <button type="submit" ng-disabled="usernameExists">Register</button> -->
 		        <button type="submit" ng-disabled="isFormInvalid()">Register</button>
 		    </form>
@@ -50,7 +56,9 @@
 		    	
 		        $scope.username = '';
 		        $scope.password = '';
+		        $scope.confirmPassword = '';
 		        $scope.usernameExists = false;
+		        $scope.passwordsDoNotMatch = false;
 
 		        
 		        // Checks for valid username
@@ -74,15 +82,21 @@
 	                    });
 		        }
 		        
+		        $scope.checkPasswordsMatch = function() {
+                    $scope.passwordsDoNotMatch = $scope.password !== $scope.confirmPassword;
+                }
 		        
 		        // Checks if ready to submit (username not empty, username not taken, password not empty)
 		        $scope.checkFormValidity = function() {
-                    return $scope.username.trim() !== '' && !$scope.usernameExists && $scope.password.trim() !== '';
+                    $scope.checkPasswordsMatch();
+                    return $scope.username.trim() !== '' && !$scope.usernameExists && $scope.password.trim() !== '' && $scope.confirmPassword.trim() !== '' && !$scope.passwordsDoNotMatch;
                 }
 		        
 		        $scope.isFormInvalid = function() {
                     return !$scope.checkFormValidity();
                 }
+		        
+		        
 		    });
 		</script>
     </div>
