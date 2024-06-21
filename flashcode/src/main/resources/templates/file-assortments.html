@@ -14,134 +14,26 @@
 <body ng-app="myApp">
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-	  <!-- Brand -->
-	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
-	
-	  <!-- Toggler/collapsibe Button -->
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	
-	  <!-- Navbar links -->
-	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    <ul class="navbar-nav">
-	      <li class="nav-item">
-	       <!--  <a class="nav-link" th:href="@{/assortments}">Assortments</a> -->
-	      </li>
-	    </ul>
-	  </div>
+	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item dropdown d-flex align-items-center">
+	                <a class="nav-link" href="/settings" role="button" aria-haspopup="true" aria-expanded="false">
+	                    <!-- Username -->
+	                    <span th:text="${username}">Username</span>
+	                </a>
+	                
+	                <!-- Logout -->
+	                <form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	                    <input class="btn btn-danger" type="submit" value="Logout" />
+	                </form>
+	            </li>
+	        </ul>
+	    </div>
 	</nav>
 
 	<!-- div to put script and code in any order -->
 	<div class="content">
-	
-		<!-- PART ONE: angularjs -->
-		<script>
-	        var app = angular.module('myApp', []);
-	        app.controller('assortmentsCtrl', function($scope, $http, $q) {
-	        	
-	            $scope.assortments = [];
-	            $scope.errorMessage = '';
-	            
-	            $scope.newAssortment = {
-                    title: ''
-                };
-	            	
-	            $scope.getAssortments = function() {
-	                $http.get('/api/v1/assortments')
-	                    .then(function(response) {
-	                        $scope.assortments = response.data;
-	                        $scope.errorMessage = '';
-	                    }, function(error) {
-	                        $scope.errorMessage = 'Error fetching assortments.';
-	                    });
-	            };
-	            
-                $scope.createAssortment = function() {
-                	console.log('im in');
-                	if ($scope.newAssortmentTitle) {
-                		$http.post('/api/v1/assortments', { title: $scope.newAssortmentTitle })
-                		.then(function(response) {
-                			var newAssortment = response.data;
-                			$scope.assortments.push(newAssortment);
-                			$scope.newAssortmentTitle = '';
-                			$('#createAssortmentModal').modal('hide');
-                			window.location.href = '/assortments/' + newAssortment.id;
-               			}, function(error) {
-               				$scope.errorMessage = 'Error creating assortment.';
-             			});
-               		}
-               	};
-               	
-               	
-               	$scope.deleteAssortmentId = null;
-
-               	/* Shows the pop up */
-               	$scope.openConfirmDeleteModal = function(assortmentId) {
-               	    $scope.deleteAssortmentId = assortmentId;
-               	    $('#confirmDeleteModal').modal('show');
-               	};
-
-               	/* Deletes */
-               	$scope.deleteAssortmentConfirmed = function() {
-               	    if ($scope.deleteAssortmentId) {
-               	        $http.delete('/api/v1/assortments/' + $scope.deleteAssortmentId)
-               	            .then(function(response) {
-               	                var index = $scope.assortments.findIndex(function(assortment) {
-               	                    return assortment.id === $scope.deleteAssortmentId;
-               	                });
-               	                if (index !== -1) {
-               	                    $scope.assortments.splice(index, 1);
-               	                }
-               	                $('#confirmDeleteModal').modal('hide');
-               	            })
-               	            .catch(function(error) {
-               	                console.error('Error deleting assortment:', error);
-               	            });
-               	    }
-               	};
-               	
-               	$scope.editAssortment = {};
-               	$scope.editAssortmentId = null;
-
-               	/* Shows the pop up */
-               	$scope.openEditAssortmentModal = function(assortmentId) {
-               	    var assortment = $scope.assortments.find(function(assortment) {
-               	        return assortment.id === assortmentId;
-               	    });
-
-               	    if (assortment) {
-               	        $scope.editAssortment = angular.copy(assortment);
-               	        $scope.editAssortmentId = assortmentId;
-               	        $('#editAssortmentModal').modal('show');
-               	    }
-               	};
-
-               	/* Edits */
-               	$scope.saveAssortmentChanges = function() {
-               	    if ($scope.editAssortmentId) {
-               	        $http.put('/api/v1/assortments/' + $scope.editAssortmentId, $scope.editAssortment)
-               	            .then(function(response) {
-               	                var updatedAssortment = response.data;
-               	                var index = $scope.assortments.findIndex(function(assortment) {
-               	                    return assortment.id === $scope.editAssortmentId;
-               	                });
-               	                if (index !== -1) {
-               	                    $scope.assortments[index] = updatedAssortment;
-               	                }
-               	                $('#editAssortmentModal').modal('hide');
-               	             	$scope.getAssortments();
-               	            })
-               	            .catch(function(error) {
-               	                console.error('Error updating assortment:', error);
-               	            });
-               	    }
-               	};
-               	
-	            
-	            $scope.getAssortments();
-	        });
-	    </script>
 	
 		<!-- PART TWO: html -->
 	    <div class="container mt-5" ng-controller="assortmentsCtrl">
@@ -154,8 +46,8 @@
 				Create New Assortment
 			</button>
 	         	         
-	        <!-- 2.3 Listing all assortments -->
-	        <ul id="assortmentList" class="list-group">
+	        <!-- 2.3 Listing all user assortments -->
+			<ul id="assortmentList" class="list-group">
 	            <li class="list-group-item" ng-repeat="assortment in assortments">
 	            	<span>{{ assortment.title }}</span>
 	            	
@@ -241,9 +133,132 @@
 			        </div>
 			    </div>
 			</div>
-   			
-   			
 	    </div>
+	    
+	    <!-- PART ONE: angularjs -->
+		<script>
+	        var app = angular.module('myApp', []);
+	        app.controller('assortmentsCtrl', function($scope, $http, $q) {
+	        	
+	            $scope.assortments = [];
+	            $scope.errorMessage = '';
+	            
+	            $scope.newAssortment = {
+                    title: ''
+                };
+	            
+	            $scope.deleteAssortmentId = null;
+	            	
+	            // GET /assortments
+	            $scope.getAssortments = function() {
+	                $http.get('/api/v1/assortments')
+	                    .then(function(response) {
+	                        $scope.assortments = response.data;
+	                        $scope.errorMessage = '';
+	                    }, function(error) {
+	                        $scope.errorMessage = 'Error fetching assortments.';
+	                    });
+	            };
+	            
+	            
+	            
+	            // POST /assortments
+                $scope.createAssortment = function() {
+                	console.log('im in');
+                	if ($scope.newAssortmentTitle) {
+                		$http.post('/api/v1/assortments', { title: $scope.newAssortmentTitle })
+                		.then(function(response) {
+                			var newAssortment = response.data;
+                			$scope.assortments.push(newAssortment);
+                			$scope.newAssortmentTitle = '';
+                			$('#createAssortmentModal').modal('hide');
+                			window.location.href = '/assortments/' + newAssortment.id;
+               			}, function(error) {
+               				$scope.errorMessage = 'Error creating assortment.';
+             			});
+               		}
+               	};
+               	
+               	
+               	
+               	// DELETE /assortments
+               	// Shows the pop up
+               	$scope.openConfirmDeleteModal = function(assortmentId) {
+               		console.log('id:', assortmentId);
+               	    $scope.deleteAssortmentId = assortmentId;
+               	    $('#confirmDeleteModal').modal('show');
+               	};
+
+               	// Deletes
+               	$scope.deleteAssortmentConfirmed = function() {
+               		console.log('to delete');
+               		
+               	    if ($scope.deleteAssortmentId) {
+               	        $http.delete('/api/v1/assortments/' + $scope.deleteAssortmentId)
+               	            .then(function(response) {
+               	            	               	            	
+               	                var index = $scope.assortments.findIndex(function(assortment) {
+               	                    return assortment.id === $scope.deleteAssortmentId;
+               	                });
+               	                if (index !== -1) {
+               	                    $scope.assortments.splice(index, 1);
+               	                }
+               	                $('#confirmDeleteModal').modal('hide');
+               	            })
+               	            .catch(function(error) {
+               	                console.error('Error deleting assortment:', error);
+               	            });
+               	    }
+               	};
+               	
+               	
+                
+               	// PUT /assortments/id
+               	$scope.editAssortment = {};
+               	$scope.editAssortmentId = null;
+
+               	// Shows the pop up
+               	$scope.openEditAssortmentModal = function(assortmentId) {
+               		console.log('outside')
+               	    var assortment = $scope.assortments.find(function(assortment) {
+               	        return assortment.id === assortmentId;
+               	    });
+
+               		console.log('outside 2')
+               		console.log(assortment)
+               	    if (assortment) {
+               	        $scope.editAssortment = angular.copy(assortment);
+               	        $scope.editAssortmentId = assortmentId;
+               	        $('#editAssortmentModal').modal('show');
+               	    }
+               	};
+
+               	// Edit 
+               	$scope.saveAssortmentChanges = function() {
+               		if ($scope.editAssortmentId) {
+               	        $http.put('/api/v1/assortments/' + $scope.editAssortmentId, $scope.editAssortment)
+               	            .then(function(response) {
+               	                var updatedAssortment = response.data;
+               	                var index = $scope.assortments.findIndex(function(assortment) {
+               	                    return assortment.id === $scope.editAssortmentId;
+               	                });
+               	                if (index !== -1) {
+               	                    $scope.assortments[index] = updatedAssortment;
+               	                }
+               	                $('#editAssortmentModal').modal('hide');
+               	             	$scope.getAssortments();
+               	            })
+               	            .catch(function(error) {
+               	                console.error('Error updating assortment:', error);
+               	            });
+               	    }
+               	};
+               	
+	            
+				$scope.getAssortments();
+	            
+	        });
+	    </script>
     </div>
 
 </body>

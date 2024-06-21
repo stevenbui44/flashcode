@@ -10,8 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.Card;
+import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.repositories.AssortmentRepository;
 import com.stevenbui.flashcode.repositories.CardRepository;
+import com.stevenbui.flashcode.repositories.MyUserRepository;
 
 @SpringBootApplication
 public class FlashcodeApplication implements CommandLineRunner {
@@ -26,10 +28,13 @@ public class FlashcodeApplication implements CommandLineRunner {
     @Autowired
     private AssortmentRepository assortmentRepository;
 
+    @Autowired
+    private MyUserRepository     myUserRepository;
+
     @Override
     public void run ( final String... args ) throws Exception {
 
-        if ( assortmentRepository.count() == 0 && cardRepository.count() == 0 ) {
+        if ( assortmentRepository.count() == 0 && cardRepository.count() == 0 && myUserRepository.count() == 0 ) {
 
             // Create 3 cards
             final Card card1 = new Card();
@@ -101,11 +106,42 @@ public class FlashcodeApplication implements CommandLineRunner {
             assortment3.setCards( list3 );
 
             // Save the assortments in the repository
-            assortmentRepository.save( assortment1 );
-            assortmentRepository.save( assortment2 );
-            assortmentRepository.save( assortment3 );
+            // assortmentRepository.save( assortment1 );
+            // assortmentRepository.save( assortment2 );
+            // assortmentRepository.save( assortment3 );
+
+            final List<Assortment> list4 = Arrays.asList( assortment1 );
+            final List<Assortment> list5 = Arrays.asList( assortment2, assortment3 );
+
+            final MyUser user1 = new MyUser();
+            user1.setUsername( "user1" );
+            user1.setPassword(
+                    "$2a$12$6CxdJ9tz12oh/7F5BBXAZuYlWdc8xgoEoOcrNiROQzuSAaQChWxIK" );
+            user1.setRole( "USER" );
+            user1.setAssortments( list4 );
+
+            final MyUser user2 = new MyUser();
+            user2.setUsername( "user2" );
+            user2.setPassword(
+                    "$2a$12$rrHy48bkw32yaPP1eT26tulmYVWs9fX/MkISAu0389Wb92zNFfH3a" );
+            user2.setRole( "USER" );
+            user2.setAssortments( list5 );
+
+            final MyUser user3 = new MyUser();
+            user3.setUsername( "user3" );
+            user3.setPassword(
+                    "$2a$12$yjluYBUMoLRSw0QPuK7iw.LcNeSLJhHd1F47rONBFYspjN8yQ9P9K" );
+            user3.setRole( "USER" );
+
+            myUserRepository.save( user1 );
+            myUserRepository.save( user2 );
+            myUserRepository.save( user3 );
 
         }
+        else {
+            System.out.println( "Restart :(" );
+        }
+
     }
 
 }

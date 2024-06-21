@@ -8,33 +8,90 @@
 </head>
 <body ng-app="myApp">
 
+	<!-- PART ONE: Header -->
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
-    </nav>
+	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav ml-auto">
+	      <li class="nav-item d-flex align-items-center">
+	      	<!-- Username -->
+	      	<span class="nav-link" th:text="${username}">Username</span>
+	      	<!-- Logout -->
+	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	       		<input class="btn btn-danger" type="submit" value="Logout" />
+	       	</form>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
 
+	<!-- PART TWO: HTML code -->
     <div class="container mt-5" ng-controller="studyCtrl">
         <h1>Study Assortment: <span th:text="${assortment.title}"></span></h1>
         
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary" ng-click="previousCard()">Previous</button>
-            <button class="btn btn-secondary" ng-click="nextCard()">Next</button>
+        <!-- 2.1: previous and next buttons -->
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn"
+                ng-class="{'btn-secondary': currentCardIndex === 0, 'btn-primary': currentCardIndex > 0}"
+                ng-click="previousCard()"
+                ng-disabled="currentCardIndex === 0">
+                Previous
+            </button>
+            <button class="btn"
+                ng-class="{'btn-secondary': currentCardIndex === assortment.cards.length - 1, 'btn-primary': currentCardIndex < assortment.cards.length - 1}"
+                ng-click="nextCard()"
+                ng-disabled="currentCardIndex === assortment.cards.length - 1">
+                Next
+            </button>
         </div>
         
+        <!-- 2.2: card sections -->
         <div class="mt-4">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>{{ currentCard.question }}</h2>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2 class="card-title">Question</h2>
+                            <p class="card-text">{{ currentCard.question }}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Approach:</strong> {{ currentCard.approach }}</p>
-                    <p><strong>Code:</strong> {{ currentCard.code }}</p>
-                    <p><strong>Time Complexity:</strong> {{ currentCard.timeComplexity }}</p>
-                    <p><strong>Space Complexity:</strong> {{ currentCard.spaceComplexity }}</p>
+                    <div class="card mb-3" >
+                        <div class="card-body" ng-click="toggleVisibility('approach')">
+                            <h2 class="card-title">Approach</h2>
+                            <p class="card-text" ng-if="visible.approach">{{ currentCard.approach }}</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body" ng-click="toggleVisibility('code')">
+                            <h2 class="card-title">Code</h2>
+                            <pre class="card-text" ng-if="visible.code">{{ currentCard.code }}</pre>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body" ng-click="toggleVisibility('timeComplexity')">
+                            <h2 class="card-title">Time Complexity</h2>
+                            <p class="card-text" ng-if="visible.timeComplexity">{{ currentCard.timeComplexity }}</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
+                            <h2 class="card-title">Space Complexity</h2>
+                            <p class="card-text" ng-if="visible.spaceComplexity">{{ currentCard.spaceComplexity }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- 2.3: text box area -->
+        <div class="mt-4">
+            <textarea class="form-control" rows="5" placeholder="Type here..." ng-keydown="handleTab($event)"></textarea>
+        </div>
     </div>
 
+	<!-- PART THREE: Angular JS code -->
     <script>
         var app = angular.module('myApp', []);
         app.controller('studyCtrl', function($scope, $http) {
@@ -43,6 +100,13 @@
                 cards: [] 
             };
             $scope.currentCardIndex = 0;
+            $scope.visible = {
+                    question: false,
+                    approach: false,
+                    code: false,
+                    timeComplexity: false,
+                    spaceComplexity: false
+                };
 
             $scope.getCards = function() {
                 $http.get('/api/v1/assortments/' + $scope.assortment.id)
@@ -60,6 +124,7 @@
                 if ($scope.currentCardIndex > 0) {
                     $scope.currentCardIndex--;
                     $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+                    $scope.resetVisibility();
                 }
             };
 
@@ -67,6 +132,51 @@
                 if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
                     $scope.currentCardIndex++;
                     $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+                    $scope.resetVisibility();
+                }
+            };
+            
+            $scope.resetVisibility = function() {
+                $scope.visible = {
+                    question: false,
+                    approach: false,
+                    code: false,
+                    timeComplexity: false,
+                    spaceComplexity: false
+                };
+            };
+            
+            $scope.toggleVisibility = function(section) {
+                $scope.visible[section] = !$scope.visible[section];
+            };
+            
+            $scope.handleTab = function(event) {
+                var textarea = event.target;
+                var start = textarea.selectionStart;
+                var end = textarea.selectionEnd;
+
+				// tab
+                if (event.key === "Tab") {
+                    event.preventDefault();
+                    if (event.shiftKey) {
+                        // shift tab = go back one tab
+                        var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+                        if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
+                            textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
+                            textarea.selectionStart = textarea.selectionEnd = start - 1;
+                        }
+                    } else {
+                        // tab: tab forward
+                        textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+                        textarea.selectionStart = textarea.selectionEnd = start + 1;
+                    }
+                // enter
+                } else if (event.keyCode === 13) {
+                    event.preventDefault();
+                    var currentLine = textarea.value.substring(0, start).split("\n").pop();
+                    var indentation = currentLine.match(/^\s*/)[0];
+                    textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
+                    textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
                 }
             };
         });

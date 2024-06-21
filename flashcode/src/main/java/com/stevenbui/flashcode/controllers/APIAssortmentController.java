@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.Card;
+import com.stevenbui.flashcode.models.MyUser;
 import com.stevenbui.flashcode.services.AssortmentService;
+import com.stevenbui.flashcode.services.MyUserService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -33,15 +35,19 @@ public class APIAssortmentController extends APIController {
     @Autowired
     private final AssortmentService assortmentService;
 
+    @Autowired
+    private final MyUserService     myUserService;
+
     /**
      * Constructor that uses a given AssortmentService
      *
      * @param assortmentService
      *            the AssortmentService
      */
-    public APIAssortmentController ( final AssortmentService assortmentService ) {
+    public APIAssortmentController ( final AssortmentService assortmentService, final MyUserService myUserService ) {
         super();
         this.assortmentService = assortmentService;
+        this.myUserService = myUserService;
     }
 
     /**
@@ -51,7 +57,11 @@ public class APIAssortmentController extends APIController {
      */
     @GetMapping ( BASE_PATH + "/assortments" )
     public List<Assortment> getAssortments () {
-        return assortmentService.findAll();
+
+        // return assortmentService.findAll();
+
+        final MyUser currentUser = myUserService.getCurrentUser();
+        return currentUser.getAssortments();
     }
 
     /**
@@ -79,8 +89,14 @@ public class APIAssortmentController extends APIController {
      */
     @PostMapping ( BASE_PATH + "/assortments" )
     public Assortment createAssortment ( @RequestBody final Assortment assortment ) {
+        final MyUser currentUser = myUserService.getCurrentUser();
+        if ( currentUser == null ) {
+            return null;
+        }
+
         assortment.setDescription( "" );
         assortment.setCards( new ArrayList<>() );
+        currentUser.getAssortments().add( assortment );
         assortmentService.save( assortment );
         return assortment;
     }
@@ -95,15 +111,27 @@ public class APIAssortmentController extends APIController {
      */
     @DeleteMapping ( BASE_PATH + "/assortments/{id}" )
     public ResponseEntity deleteAssortment ( @PathVariable ( "id" ) final Long id ) {
+        System.out.println( "inside" );
+
         try {
             final Assortment assortment = assortmentService.findById( id );
             if ( assortment == null ) {
                 return new ResponseEntity( HttpStatus.NOT_FOUND );
             }
+
+            final MyUser currentUser = myUserService.getCurrentUser();
+            if ( currentUser == null || !currentUser.getAssortments().contains( assortment ) ) {
+                return new ResponseEntity( HttpStatus.UNAUTHORIZED );
+            }
+
+            currentUser.getAssortments().remove( assortment );
+            myUserService.save( currentUser );
             assortmentService.delete( assortment );
+
             return new ResponseEntity( HttpStatus.OK );
         }
         catch ( final Exception e ) {
+            System.out.println( e.getMessage() );
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
     }
@@ -122,9 +150,11 @@ public class APIAssortmentController extends APIController {
     public ResponseEntity updateAssortment ( @PathVariable ( "id" ) final Long id,
             @RequestBody final Assortment updatedAssortment ) {
 
+        System.out.println( "inside" );
         try {
             final Assortment assortment = assortmentService.findById( id );
             if ( assortment == null ) {
+                System.out.println( "null" );
                 return new ResponseEntity( HttpStatus.NOT_FOUND );
             }
             assortment.setTitle( updatedAssortment.getTitle() );
@@ -133,6 +163,7 @@ public class APIAssortmentController extends APIController {
             return new ResponseEntity( HttpStatus.OK );
         }
         catch ( final Exception e ) {
+            System.out.println( "bad" );
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
     }
