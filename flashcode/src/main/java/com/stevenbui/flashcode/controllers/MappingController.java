@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stevenbui.flashcode.models.Assortment;
 import com.stevenbui.flashcode.models.MyUser;
@@ -138,7 +139,11 @@ public class MappingController {
     }
 
     @GetMapping ( "/login" )
-    public String login ( final Model model ) {
+    public String login ( @RequestParam ( value = "success", required = false ) final String success,
+            final Model model ) {
+        if ( success != null ) {
+            model.addAttribute( "message", "Account successfully created. Please log in." );
+        }
         return "login";
     }
 
@@ -163,7 +168,7 @@ public class MappingController {
         SecurityContextHolder.getContext().setAuthentication(
                 authenticationToken );
 
-        return "redirect:/assortments";
+        return "redirect:/login?success";
 
     }
 

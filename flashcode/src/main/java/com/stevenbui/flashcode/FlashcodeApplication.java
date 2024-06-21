@@ -113,13 +113,6 @@ public class FlashcodeApplication implements CommandLineRunner {
             final List<Assortment> list4 = Arrays.asList( assortment1 );
             final List<Assortment> list5 = Arrays.asList( assortment2, assortment3 );
 
-            final MyUser admin = new MyUser();
-            admin.setUsername( "admin" );
-            admin.setPassword(
-                    "$2a$12$OG2VWWPrqVsjp0LL/b1ni.nfVPNIBOQ8HNUWwV.oytSYrwbNaUnFm" );
-            admin.setRole( "ADMIN,USER" );
-            // TODO: let admin see assortments too somehow
-
             final MyUser user1 = new MyUser();
             user1.setUsername( "user1" );
             user1.setPassword(
@@ -134,9 +127,15 @@ public class FlashcodeApplication implements CommandLineRunner {
             user2.setRole( "USER" );
             user2.setAssortments( list5 );
 
-            myUserRepository.save( admin );
+            final MyUser user3 = new MyUser();
+            user3.setUsername( "user3" );
+            user3.setPassword(
+                    "$2a$12$yjluYBUMoLRSw0QPuK7iw.LcNeSLJhHd1F47rONBFYspjN8yQ9P9K" );
+            user3.setRole( "USER" );
+
             myUserRepository.save( user1 );
             myUserRepository.save( user2 );
+            myUserRepository.save( user3 );
 
         }
         else {
