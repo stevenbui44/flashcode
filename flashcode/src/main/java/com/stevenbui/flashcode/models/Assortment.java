@@ -32,6 +32,10 @@ public class Assortment extends DomainObject {
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private List<Card> cards;
 
+    // @ManyToOne ( fetch = FetchType.LAZY )
+    // @JoinColumn ( name = "user_id", nullable = false )
+    // private MyUser owner;
+
     public Assortment () {
 
     }
@@ -85,5 +89,13 @@ public class Assortment extends DomainObject {
         cards.remove( card );
         // card.setAssortment( null );
     }
+
+    // public MyUser getOwner () {
+    // return owner;
+    // }
+    //
+    // public void setOwner ( final MyUser owner ) {
+    // this.owner = owner;
+    // }
 
 }

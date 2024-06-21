@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Register</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+</head>
+<body ng-app="myApp">
+
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav ml-auto">
+	      <li class="nav-item d-flex align-items-center">
+	      	<!-- Username -->
+	      	<span class="nav-link" th:text="${username}">Username</span>
+	      	<!-- Logout -->
+	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	       		<input class="btn btn-danger" type="submit" value="Logout" />
+	       	</form>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+	
+	<div class="content">
+		<div class="container mt-5" ng-controller="registrationCtrl">
+				
+		    <h1>Register</h1>
+		    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+		        <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()" />
+                    <span ng-if="usernameExists" class="text-danger">This username already exists!</span>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" th:field="*{password}" ng-model="password" ng-change="checkFormValidity()" />
+                </div>
+                <div>
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" ng-model="confirmPassword" ng-change="checkFormValidity()" />
+                    <span ng-if="passwordsDoNotMatch" class="text-danger">Passwords do not match!</span>
+                </div>
+		        
+		        <!-- <button type="submit" ng-disabled="usernameExists">Register</button> -->
+		        <button type="submit" ng-disabled="isFormInvalid()">Register</button>
+		    </form>
+		    
+	    </div>
+	    
+	    <script>
+		    var app = angular.module('myApp', []);
+		    app.controller('registrationCtrl', function($scope, $http) {
+		    	
+		        $scope.username = '';
+		        $scope.password = '';
+		        $scope.confirmPassword = '';
+		        $scope.usernameExists = false;
+		        $scope.passwordsDoNotMatch = false;
+
+		        
+		        // Checks for valid username
+		        $scope.checkUsername = function() {
+		        	$scope.usernameExists = false;
+		        	if ($scope.username.trim() === '') {
+                        return;
+                    }
+	                $http.get('/api/v1/users/' + $scope.username)
+	                    .then(function(response) {
+	                    			                    	
+	                        $scope.usernameExists = response.data;
+	                        
+	                        console.log("usernameExists");
+	                        console.log($scope.usernameExists);
+	                        
+	                        $scope.checkFormValidity();
+	                        
+	                    }, function(error) {
+	                        console.error('Error checking username:', error);
+	                    });
+		        }
+		        
+		        $scope.checkPasswordsMatch = function() {
+                    $scope.passwordsDoNotMatch = $scope.password !== $scope.confirmPassword;
+                }
+		        
+		        // Checks if ready to submit (username not empty, username not taken, password not empty)
+		        $scope.checkFormValidity = function() {
+                    $scope.checkPasswordsMatch();
+                    return $scope.username.trim() !== '' && !$scope.usernameExists && $scope.password.trim() !== '' && $scope.confirmPassword.trim() !== '' && !$scope.passwordsDoNotMatch;
+                }
+		        
+		        $scope.isFormInvalid = function() {
+                    return !$scope.checkFormValidity();
+                }
+		        
+		        
+		    });
+		</script>
+    </div>
+</body>
+</html>

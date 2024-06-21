@@ -10,8 +10,20 @@
 
 	<!-- PART ONE: Header -->
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
-    </nav>
+	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav ml-auto">
+	      <li class="nav-item d-flex align-items-center">
+	      	<!-- Username -->
+	      	<span class="nav-link" th:text="${username}">Username</span>
+	      	<!-- Logout -->
+	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	       		<input class="btn btn-danger" type="submit" value="Logout" />
+	       	</form>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
 
 	<!-- PART TWO: HTML code -->
     <div class="container mt-5" ng-controller="studyCtrl">
