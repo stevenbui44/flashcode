@@ -152,21 +152,6 @@
 			</button>
 	         	         
 	        <!-- 2.3 Listing all user assortments -->
-			<!-- <div class="assortment-grid">
-			    <div class="assortment-box" ng-repeat="assortment in assortments">
-			        <div class="assortment-content">
-			            <h3>{{ assortment.title }}</h3>
-			            <div class="button-group">
-			                <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
-			                <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
-			                <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
-			            </div>
-			        </div>
-			        <div class="card-count">
-			            {{ assortment.cardCount }} cards
-			        </div>
-			    </div>
-			</div> -->
 			<div class="assortment-grid">
 			    <div class="assortment-box" ng-repeat="assortment in assortments">
 			        <div class="assortment-content">
@@ -182,6 +167,9 @@
 			                    </div>
 			                </div>
 			            </div>
+			            <p class="assortment-description" ng-if="assortment.description">{{ assortment.description }}</p>
+           				<p class="assortment-description no-description" ng-if="!assortment.description"><i>No description</i></p>
+			            
 			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm mt-auto">View Cards</a>
 			        </div>
 			        <div class="card-count">
