@@ -274,34 +274,6 @@
 	</style>
 </head>
 <body ng-app="myApp">
-
-	<!-- <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
-	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	        <ul class="navbar-nav ml-auto">
-	        
-	            <li class="nav-item dropdown">
-	                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                    <span th:text="${username}" class="mr-2">Username</span>
-	                    <div class="profile-pic" th:text="${#strings.substring(username,0,1).toUpperCase()}">U</div>
-	                </a>
-	                
-	                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-	                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#themeModal">Themes</a>
-	                    <div class="dropdown-divider"></div>
-	                    <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</a>
-	                    
-	                </div>
-	                
-	                <form th:action="@{/logout}" method="post" class="form-inline ml-2">
-	                    <input class="btn btn-danger" type="submit" value="Logout" />
-	                </form>
-	                
-	            </li>
-	            
-	        </ul>
-	    </div>
-	</nav> -->
 	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
@@ -485,16 +457,17 @@
 					    <div class="modal-dialog" role="document">
 					        <div class="modal-content">
 					            <div class="modal-header">
-					                <h5 class="modal-title" id="themeModalLabel">Themes</h5>
+					                <h5 class="modal-title" id="themeModalLabel">Choose Theme</h5>
 					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					                    <span aria-hidden="true">&times;</span>
 					                </button>
 					            </div>
 					            <div class="modal-body">
-					                Theme options will be available here in the future.
-					            </div>
-					            <div class="modal-footer">
-					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					                <div class="list-group">
+					                    <button type="button" class="list-group-item list-group-item-action" ng-click="setTheme('default')">Default</button>
+					                    <button type="button" class="list-group-item list-group-item-action" ng-click="setTheme('dark')">Dark Mode</button>
+					                    <button type="button" class="list-group-item list-group-item-action" ng-click="setTheme('light')">Light Mode</button>
+					                </div>
 					            </div>
 					        </div>
 					    </div>
@@ -679,6 +652,13 @@
 			                $scope.errorMessage = 'Error retrieving current user.';
 			            });
 			    };
+			    
+			    
+			    // Set the theme
+			    $scope.setTheme = function(themeName) {
+			        setTheme(themeName);
+			        $('#themeModal').modal('hide');
+			    };
                	
 	            
 				$scope.getAssortments();
@@ -687,6 +667,6 @@
 	        });
 	    </script>
     </div>
-
+    <script src="/js/theme.js"></script>
 </body>
 </html> 
