@@ -10,7 +10,53 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	
+	<style>
+		.assortment-grid {
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 20px;
+		    justify-content: flex-start;
+		}
+		
+		.assortment-box {
+		    width: calc(33.33% - 20px);
+		    padding: 20px;
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: space-between;
+		}
+		
+		.assortment-box h3 {
+		    margin-top: 0;
+		    margin-bottom: 15px;
+		}
+		
+		.button-group {
+		    display: flex;
+		    justify-content: space-between;
+		    margin-top: 15px;
+		}
+		
+		.button-group .btn {
+		    flex: 1;
+		    margin: 0 5px;
+		}
+		
+		@media (max-width: 992px) {
+		    .assortment-box {
+		        width: calc(50% - 20px);
+		    }
+		}
+		
+		@media (max-width: 768px) {
+		    .assortment-box {
+		        width: 100%;
+		    }
+		}
+	</style>
 </head>
 <body ng-app="myApp">
 
@@ -48,7 +94,7 @@
 			</button>
 	         	         
 	        <!-- 2.3 Listing all user assortments -->
-			<ul id="assortmentList" class="list-group">
+			<!-- <ul id="assortmentList" class="list-group">
 	            <li class="list-group-item" ng-repeat="assortment in assortments">
 	            	<span>{{ assortment.title }}</span>
 	            	
@@ -57,7 +103,17 @@
 	            	<button class="btn btn-primary btn-sm ml-2" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
 	            	
 	            </li>
-	        </ul>
+	        </ul> -->
+	        <div class="assortment-grid">
+			    <div class="assortment-box" ng-repeat="assortment in assortments">
+			        <h3>{{ assortment.title }}</h3>
+			        <div class="button-group">
+			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
+			            <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
+			            <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
+			        </div>
+			    </div>
+			</div>
 	        
 	        
 	        <!-- Modal 1: Creating new assortment -->
