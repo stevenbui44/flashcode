@@ -5,11 +5,11 @@
 	<title>All Assortments</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style>
 		body {
 		    background-color: #f9f7f1; /* Very light tan */
@@ -18,25 +18,21 @@
 		.navbar {
 		    background-color: #1a2a57 !important; /* Dark navy */
 		}
-	
-		.assortment-grid {
-		    display: flex;
-		    flex-wrap: wrap;
-		    gap: 20px;
-		    justify-content: flex-start;
-		}
 		
 		.assortment-box {
 		    width: calc(33.33% - 20px);
-		/*     padding: 20px; */
 		    border: 1px solid #ddd;
 		    border-radius: 5px;
 		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 		    display: flex;
 		    flex-direction: column;
-		/*     justify-content: space-between; */
 		    background-color: white;
 		    overflow: hidden;
+		}
+		
+		.assortment-box h3 {
+		    margin-top: 0;
+		    margin-bottom: 15px;
 		}
 		
 		.assortment-content {
@@ -51,16 +47,28 @@
 		    margin-bottom: 15px;
 		}
 		
+		.assortment-grid {
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 20px;
+		    justify-content: flex-start;
+		}
 		
-		.assortment-box h3 {
-		    margin-top: 0;
+		.assortment-header {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: flex-start;
 		    margin-bottom: 15px;
+		}
+		
+		.assortment-header h3 {
+		    margin: 0;
+		    flex-grow: 1;
 		}
 		
 		.button-group {
 		    display: flex;
 		    justify-content: space-between;
-		  /*   margin-top: 15px; */
 			margin-top: auto;
 		}
 		
@@ -76,12 +84,23 @@
 		    font-size: 0.9em;
 		    color: #666;
 		    border-top: 1px solid #ddd;
-		   /*  font-size: 0.9em;
-		    color: #666;
-		    border-top: 1px solid #eee;
-		    padding-top: 10px;
-		    margin-top: auto;
-		    margin-bottom: 15px; */
+		}
+		
+		.dropdown-toggle::after {
+		    display: none;
+		}
+		
+		.dropdown-toggle i {
+		    font-size: 1.2em;
+		    color: #333;
+		}
+		
+		.dropdown-menu {
+		    min-width: 100px;
+		}
+		
+		.dropdown-item {
+		    padding: 0.25rem 1rem;
 		}
 		
 		@media (max-width: 992px) {
@@ -135,17 +154,6 @@
 	        <!-- 2.3 Listing all user assortments -->
 			<!-- <div class="assortment-grid">
 			    <div class="assortment-box" ng-repeat="assortment in assortments">
-			        <h3>{{ assortment.title }}</h3>
-			        <div class="card-count">{{ assortment.cardCount }} cards</div>
-			        <div class="button-group">
-			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
-			            <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
-			            <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
-			        </div>
-			    </div>
-			</div> -->
-			<div class="assortment-grid">
-			    <div class="assortment-box" ng-repeat="assortment in assortments">
 			        <div class="assortment-content">
 			            <h3>{{ assortment.title }}</h3>
 			            <div class="button-group">
@@ -153,6 +161,28 @@
 			                <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
 			                <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
 			            </div>
+			        </div>
+			        <div class="card-count">
+			            {{ assortment.cardCount }} cards
+			        </div>
+			    </div>
+			</div> -->
+			<div class="assortment-grid">
+			    <div class="assortment-box" ng-repeat="assortment in assortments">
+			        <div class="assortment-content">
+			            <div class="assortment-header">
+			                <h3>{{ assortment.title }}</h3>
+			                <div class="dropdown">
+			                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-{{assortment.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                        <i class="fas fa-ellipsis-v"></i>
+			                    </button>
+			                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-{{assortment.id}}">
+			                        <a class="dropdown-item" href="#" ng-click="openEditAssortmentModal(assortment.id)">Edit</a>
+			                        <a class="dropdown-item" href="#" ng-click="openConfirmDeleteModal(assortment.id)">Delete</a>
+			                    </div>
+			                </div>
+			            </div>
+			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm mt-auto">View Cards</a>
 			        </div>
 			        <div class="card-count">
 			            {{ assortment.cardCount }} cards
