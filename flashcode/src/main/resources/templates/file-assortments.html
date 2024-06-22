@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>All Assortments</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -23,13 +23,34 @@
 	
 		body {
 		    background-color: var(--background-color);
-		    font-family: 'Manrope', times;
+		    /* font-family: 'Manrope', sans-serif; */
 		}
 		
 		.navbar {
 		    background-color: var(--header-color) !important;
 		}
 		
+		.nav-item {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.nav-item form {
+		    margin-left: 15px;
+		}
+		
+		.nav-link {
+		    text-decoration: none;
+		}
+		
+		.nav-link:hover .profile-pic {
+		    background-color: #666666; /* Darker grey on hover */
+		}
+		
+		.navbar-nav {
+		    align-items: center;
+		}
+				
 		.assortment-box {
 		    width: calc(33.33% - 20px);
 		    border: 1px solid var(--assortment-border);
@@ -164,6 +185,23 @@
 		    padding-left: 15px;
 		    padding-top: 10px;
 		}
+		
+		.dropdown-item {
+		    padding: 0.25rem 1rem;
+		}
+		
+		.dropdown-item:hover {
+		    background-color: #f8f9fa;
+		}
+		
+		.dropdown-item.text-danger:hover {
+		    background-color: #dc3545;
+		    color: white !important;
+		}
+		
+		.dropdown-menu {
+		    min-width: 200px;
+		}
 	
 		.dropdown-toggle::after {
 		    display: none;
@@ -172,14 +210,6 @@
 		.dropdown-toggle i {
 		    font-size: 1.2em;
 		    color: #333;
-		}
-		
-		.dropdown-menu {
-		    min-width: 100px;
-		}
-		
-		.dropdown-item {
-		    padding: 0.25rem 1rem;
 		}
 		
 		.ellipsis-container {
@@ -206,14 +236,6 @@
 		    justify-content: center;
 		    font-weight: bold;
 		    font-size: 12px;
-		}
-		
-		.nav-link {
-		    text-decoration: none;
-		}
-		
-		.nav-link:hover .profile-pic {
-		    background-color: #666666; /* Darker grey on hover */
 		}
 		
 		.search-box {
@@ -253,18 +275,51 @@
 </head>
 <body ng-app="myApp">
 
+	<!-- <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	        <ul class="navbar-nav ml-auto">
+	        
+	            <li class="nav-item dropdown">
+	                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                    <span th:text="${username}" class="mr-2">Username</span>
+	                    <div class="profile-pic" th:text="${#strings.substring(username,0,1).toUpperCase()}">U</div>
+	                </a>
+	                
+	                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#themeModal">Themes</a>
+	                    <div class="dropdown-divider"></div>
+	                    <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</a>
+	                    
+	                </div>
+	                
+	                <form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	                    <input class="btn btn-danger" type="submit" value="Logout" />
+	                </form>
+	                
+	            </li>
+	            
+	        </ul>
+	    </div>
+	</nav> -->
+	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
 	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
 	        <ul class="navbar-nav ml-auto">
 	            <li class="nav-item dropdown d-flex align-items-center">
-	                <a class="nav-link d-flex align-items-center" href="/settings" role="button" aria-haspopup="true" aria-expanded="false">
+	                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                    <span th:text="${username}" class="mr-2">Username</span>
 	                    <div class="profile-pic" th:text="${#strings.substring(username,0,1).toUpperCase()}">U</div>
 	                </a>
-	                
-	                <!-- Logout -->
-	                <form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#themeModal">Themes</a>
+	                    <div class="dropdown-divider"></div>
+	                    <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</a>
+	                </div>
+	            </li>
+	            <li class="nav-item">
+	                <form th:action="@{/logout}" method="post" class="form-inline">
 	                    <input class="btn btn-danger" type="submit" value="Logout" />
 	                </form>
 	            </li>
@@ -300,35 +355,6 @@
 				    </div>
 			         	         
 			        <!-- 2.2 Listing all user assortments (including filtered by title) -->
-					<!-- <div class="assortment-grid">
-					    <div class="assortment-box" ng-repeat="assortment in filteredAssortments" ng-click="viewAssortment(assortment.id)">
-					        <div class="assortment-content">
-					            <div class="assortment-header">
-					                <h3>{{ assortment.title }}</h3>
-					                <div class="dropdown">
-					                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-{{assortment.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="$event.stopPropagation()">
-					                        <i class="fas fa-ellipsis-v"></i>
-					                    </button>
-					                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-{{assortment.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-mousedown="$event.stopPropagation()">
-										    <i class="fas fa-ellipsis-v"></i>
-										</button>
-					                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-{{assortment.id}}">
-					                        <a class="dropdown-item" href="#" ng-click="openEditAssortmentModal(assortment.id); $event.stopPropagation()">Edit</a>
-					                        <a class="dropdown-item" href="#" ng-click="openConfirmDeleteModal(assortment.id); $event.stopPropagation()">Delete</a>
-					                        <a class="dropdown-item" href="#" ng-mousedown="openEditAssortmentModal(assortment.id); $event.stopPropagation()">Edit</a>
-					                        <a class="dropdown-item" href="#" ng-mousedown="openConfirmDeleteModal(assortment.id); $event.stopPropagation()">Delete</a>
-					                    </div>
-					                </div>
-					            </div>
-					            <p class="assortment-description" ng-if="assortment.description">{{ assortment.description }}</p>
-					            <p class="assortment-description no-description" ng-if="!assortment.description"><i>No description</i></p>
-					        </div>
-					        <div class="card-count">
-					            {{ assortment.cardCount }} cards
-					        </div>
-					    </div>
-					</div> -->
-					
 					<div class="assortment-grid">
 					    <div class="assortment-box" ng-repeat="assortment in filteredAssortments">
 					        <div class="assortment-content" ng-click="viewAssortment(assortment.id)">
@@ -357,31 +383,7 @@
 					    </div>
 					</div>
 					
-					<!-- <div class="assortment-box" ng-repeat="assortment in filteredAssortments">
-					    <div class="assortment-content" ng-click="viewAssortment(assortment.id)">
-					        <div class="assortment-header">
-					            <h3>{{ assortment.title }}</h3>
-					        </div>
-					        <p class="assortment-description" ng-if="assortment.description">{{ assortment.description }}</p>
-					        <p class="assortment-description no-description" ng-if="!assortment.description"><i>No description</i></p>
-					    </div>
-					    <div class="card-count">
-					        {{ assortment.cardCount }} cards
-					    </div>
-					    <div class="ellipsis-container">
-					        <div class="dropdown">
-					            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-{{assortment.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					                <i class="fas fa-ellipsis-v"></i>
-					            </button>
-					            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-{{assortment.id}}">
-					                <a class="dropdown-item" href="#" ng-click="openEditAssortmentModal(assortment.id)">Edit</a>
-					                <a class="dropdown-item" href="#" ng-click="openConfirmDeleteModal(assortment.id)">Delete</a>
-					            </div>
-					        </div>
-					    </div>
-					</div> -->
-			        
-			        
+				
 			        <!-- Modal 1: Creating new assortment -->
 			        <div class="modal fade" id="createAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="createAssortmentModalLabel" aria-hidden="true">
 				        <div class="modal-dialog" role="document">
@@ -452,6 +454,47 @@
 					            <div class="modal-footer">
 					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 					                <button type="button" class="btn btn-primary" ng-click="saveAssortmentChanges()">Save</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					<!-- Modal 4: Delete your account -->
+					<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                Are you sure you want to delete your account? This action cannot be undone.
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					                <button type="button" class="btn btn-danger" ng-click="deleteAccount()">Delete Account</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					<!-- Modal 5: Temporary Theme Modal (placeholder) -->
+					<div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title" id="themeModalLabel">Themes</h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                Theme options will be available here in the future.
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					            </div>
 					        </div>
 					    </div>
@@ -617,6 +660,25 @@
                	            });
                	    }
                	};
+               	
+               	
+               	
+               	// Delete account
+               	$scope.deleteAccount = function() {
+			        $http.get('/api/v1/users/current')
+			            .then(function(response) {
+			                var currentUser = response.data;
+			                $http.delete('/api/v1/users/' + currentUser.id)
+			                    .then(function(response) {
+			                        // Account deleted successfully, redirect to login page
+			                        window.location.href = '/login';
+			                    }, function(error) {
+			                        $scope.errorMessage = 'Error deleting account.';
+			                    });
+			            }, function(error) {
+			                $scope.errorMessage = 'Error retrieving current user.';
+			            });
+			    };
                	
 	            
 				$scope.getAssortments();
