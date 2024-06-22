@@ -28,39 +28,60 @@
 		
 		.assortment-box {
 		    width: calc(33.33% - 20px);
-		    padding: 20px;
+		/*     padding: 20px; */
 		    border: 1px solid #ddd;
 		    border-radius: 5px;
 		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 		    display: flex;
 		    flex-direction: column;
-		    justify-content: space-between;
+		/*     justify-content: space-between; */
 		    background-color: white;
+		    overflow: hidden;
 		}
+		
+		.assortment-content {
+		    padding: 20px;
+		    flex-grow: 1;
+		    display: flex;
+		    flex-direction: column;
+		}
+		
+		.assortment-content h3 {
+		    margin-top: 0;
+		    margin-bottom: 15px;
+		}
+		
 		
 		.assortment-box h3 {
 		    margin-top: 0;
 		    margin-bottom: 15px;
 		}
 		
-		.card-count {
-		    font-size: 0.9em;
-		    color: #666;
-		    border-top: 1px solid #eee;
-		    padding-top: 10px;
-		    margin-top: auto;
-		    margin-bottom: 15px;
-		}
-		
 		.button-group {
 		    display: flex;
 		    justify-content: space-between;
-		    margin-top: 15px;
+		  /*   margin-top: 15px; */
+			margin-top: auto;
 		}
 		
 		.button-group .btn {
 		    flex: 1;
 		    margin: 0 5px;
+		}
+		
+		.card-count {
+			background-color: #f0f0f0;
+			padding: 10px;
+		    text-align: center;
+		    font-size: 0.9em;
+		    color: #666;
+		    border-top: 1px solid #ddd;
+		   /*  font-size: 0.9em;
+		    color: #666;
+		    border-top: 1px solid #eee;
+		    padding-top: 10px;
+		    margin-top: auto;
+		    margin-bottom: 15px; */
 		}
 		
 		@media (max-width: 992px) {
@@ -112,9 +133,10 @@
 			</button>
 	         	         
 	        <!-- 2.3 Listing all user assortments -->
-	        <!-- <div class="assortment-grid">
+			<!-- <div class="assortment-grid">
 			    <div class="assortment-box" ng-repeat="assortment in assortments">
 			        <h3>{{ assortment.title }}</h3>
+			        <div class="card-count">{{ assortment.cardCount }} cards</div>
 			        <div class="button-group">
 			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
 			            <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
@@ -124,12 +146,16 @@
 			</div> -->
 			<div class="assortment-grid">
 			    <div class="assortment-box" ng-repeat="assortment in assortments">
-			        <h3>{{ assortment.title }}</h3>
-			        <div class="card-count">{{ assortment.cardCount }} cards</div>
-			        <div class="button-group">
-			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
-			            <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
-			            <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
+			        <div class="assortment-content">
+			            <h3>{{ assortment.title }}</h3>
+			            <div class="button-group">
+			                <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
+			                <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
+			                <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
+			            </div>
+			        </div>
+			        <div class="card-count">
+			            {{ assortment.cardCount }} cards
 			        </div>
 			    </div>
 			</div>
@@ -226,17 +252,6 @@
 	            $scope.deleteAssortmentId = null;
 	            	
 	            // GET /assortments
-	            /* $scope.getAssortments = function() {
-	                $http.get('/api/v1/assortments')
-	                    .then(function(response) {
-	                        $scope.assortments = response.data;
-	                        $scope.errorMessage = '';
-	                    }, function(error) {
-	                        $scope.errorMessage = 'Error fetching assortments.';
-	                    });
-	            }; */
-	            
-	            
 	            $scope.getAssortments = function() {
 	                $http.get('/api/v1/assortments')
 	                    .then(function(response) {
