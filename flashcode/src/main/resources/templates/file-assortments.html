@@ -11,6 +11,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<style>
+		body {
+		    background-color: #f9f7f1; /* Very light tan */
+		}
+		
+		.navbar {
+		    background-color: #1a2a57 !important; /* Dark navy */
+		}
+	
 		.assortment-grid {
 		    display: flex;
 		    flex-wrap: wrap;
@@ -27,10 +35,20 @@
 		    display: flex;
 		    flex-direction: column;
 		    justify-content: space-between;
+		    background-color: white;
 		}
 		
 		.assortment-box h3 {
 		    margin-top: 0;
+		    margin-bottom: 15px;
+		}
+		
+		.card-count {
+		    font-size: 0.9em;
+		    color: #666;
+		    border-top: 1px solid #eee;
+		    padding-top: 10px;
+		    margin-top: auto;
 		    margin-bottom: 15px;
 		}
 		
@@ -94,19 +112,20 @@
 			</button>
 	         	         
 	        <!-- 2.3 Listing all user assortments -->
-			<!-- <ul id="assortmentList" class="list-group">
-	            <li class="list-group-item" ng-repeat="assortment in assortments">
-	            	<span>{{ assortment.title }}</span>
-	            	
-	            	<a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
-	            	<button class="btn btn-danger btn-sm ml-2" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
-	            	<button class="btn btn-primary btn-sm ml-2" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
-	            	
-	            </li>
-	        </ul> -->
-	        <div class="assortment-grid">
+	        <!-- <div class="assortment-grid">
 			    <div class="assortment-box" ng-repeat="assortment in assortments">
 			        <h3>{{ assortment.title }}</h3>
+			        <div class="button-group">
+			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
+			            <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
+			            <button class="btn btn-primary btn-sm" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
+			        </div>
+			    </div>
+			</div> -->
+			<div class="assortment-grid">
+			    <div class="assortment-box" ng-repeat="assortment in assortments">
+			        <h3>{{ assortment.title }}</h3>
+			        <div class="card-count">{{ assortment.cardCount }} cards</div>
 			        <div class="button-group">
 			            <a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm">View Cards</a>
 			            <button class="btn btn-danger btn-sm" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
@@ -207,13 +226,43 @@
 	            $scope.deleteAssortmentId = null;
 	            	
 	            // GET /assortments
-	            $scope.getAssortments = function() {
+	            /* $scope.getAssortments = function() {
 	                $http.get('/api/v1/assortments')
 	                    .then(function(response) {
 	                        $scope.assortments = response.data;
 	                        $scope.errorMessage = '';
 	                    }, function(error) {
 	                        $scope.errorMessage = 'Error fetching assortments.';
+	                    });
+	            }; */
+	            
+	            
+	            $scope.getAssortments = function() {
+	                $http.get('/api/v1/assortments')
+	                    .then(function(response) {
+	                        $scope.assortments = response.data;
+	                        
+	                        // Create an array of promises for fetching card counts
+	                        var cardCountPromises = $scope.assortments.map(function(assortment) {
+	                            return $http.get('/api/v1/assortments/' + assortment.id)
+	                                .then(function(cardResponse) {
+	                                    // Set the cardCount property on the assortment
+	                                    assortment.cardCount = cardResponse.data.length;
+	                                    return assortment;
+	                                });
+	                        });
+	                        
+	                        // Wait for all card count requests to complete
+	                        return $q.all(cardCountPromises);
+	                    })
+	                    .then(function(assortmentsWithCardCounts) {
+	                        // All assortments now have their card counts
+	                        $scope.assortments = assortmentsWithCardCounts;
+	                        $scope.errorMessage = '';
+	                    })
+	                    .catch(function(error) {
+	                        $scope.errorMessage = 'Error fetching assortments or card counts.';
+	                        console.error('Error:', error);
 	                    });
 	            };
 	            
