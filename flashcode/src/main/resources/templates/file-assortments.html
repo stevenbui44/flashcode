@@ -109,6 +109,22 @@
 		    border-top: 1px solid #ddd;
 		}
 		
+		.create-btn {
+		    background-color: #1a2a57; /* Same color as navbar */
+		    border: none;
+		    padding: 8px 16px;
+		    border-radius: 5px;
+		    font-weight: 500;
+		    font-size: 0.9em;
+		    color: white;
+		    transition: all 0.3s ease;
+		}
+		
+		.create-btn:hover {
+		    background-color: #2a3a67;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		}
+		
 		.dropdown-toggle::after {
 		    display: none;
 		}
@@ -126,6 +142,27 @@
 		    padding: 0.25rem 1rem;
 		}
 		
+		.profile-pic {
+		    width: 28px;
+		    height: 28px;
+		    border-radius: 50%;
+		    background-color: #808080; /* Grey color */
+		    color: white;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: bold;
+		    font-size: 12px;
+		}
+		
+		.nav-link {
+		    text-decoration: none;
+		}
+		
+		.nav-link:hover .profile-pic {
+		    background-color: #666666; /* Darker grey on hover */
+		}
+		
 		@media (max-width: 992px) {
 		    .assortment-box {
 		        width: calc(50% - 20px);
@@ -141,14 +178,32 @@
 </head>
 <body ng-app="myApp">
 
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	<!-- <nav class="navbar navbar-expand-md bg-dark navbar-dark">
 	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
 	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
 	        <ul class="navbar-nav ml-auto">
 	            <li class="nav-item dropdown d-flex align-items-center">
 	                <a class="nav-link" href="/settings" role="button" aria-haspopup="true" aria-expanded="false">
-	                    <!-- Username -->
+	                    Username
 	                    <span th:text="${username}">Username</span>
+	                </a>
+	                
+	                Logout
+	                <form th:action="@{/logout}" method="post" class="form-inline ml-2">
+	                    <input class="btn btn-danger" type="submit" value="Logout" />
+	                </form>
+	            </li>
+	        </ul>
+	    </div>
+	</nav> -->
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item dropdown d-flex align-items-center">
+	                <a class="nav-link d-flex align-items-center" href="/settings" role="button" aria-haspopup="true" aria-expanded="false">
+	                    <span th:text="${username}" class="mr-2">Username</span>
+	                    <div class="profile-pic" th:text="${#strings.substring(username,0,1).toUpperCase()}">U</div>
 	                </a>
 	                
 	                <!-- Logout -->
@@ -165,16 +220,16 @@
 	
 		<!-- PART TWO: html -->
 	    <div class="container mt-5" ng-controller="assortmentsCtrl">
-	    
-	    	<!-- 2.1 Header -->
-	        <h1 class="mb-4">Assortment List</h1>
-	        
-	        <!-- 2.2 Button for making a new assortment -->
-	        <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#createAssortmentModal">
-				Create New Assortment
-			</button>
+			
+			<!-- 2.1 Header + Create new assortment button -->
+		    <div class="d-flex justify-content-between align-items-center mb-4">
+		        <h1>Assortment List</h1>
+		        <button type="button" class="btn create-btn" data-toggle="modal" data-target="#createAssortmentModal">
+		            Create New Assortment
+		        </button>
+		    </div>
 	         	         
-	        <!-- 2.3 Listing all user assortments -->
+	        <!-- 2.2 Listing all user assortments -->
 			<!-- <div class="assortment-grid">
 			    <div class="assortment-box" ng-repeat="assortment in assortments">
 			        <div class="assortment-content">
