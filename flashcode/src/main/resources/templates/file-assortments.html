@@ -170,7 +170,7 @@
 		
 		.custom-container {
 		    width: 100%;
-		    max-width: 1500px;
+		    max-width: 1200px;
 		    margin-right: auto;
 		    margin-left: auto;
 		    padding-right: 15px;
@@ -335,13 +335,12 @@
 	<div class="content">
 	
 		<!-- PART TWO: html -->
-	    <!-- <div class="container mt-5" ng-controller="assortmentsCtrl"> -->
 	    <div class="custom-container mt-5" ng-controller="assortmentsCtrl">
 	    
 	    	<div class="row">
 		        <!-- Left side - Search -->
-		        <div class="col-md-3">
-		            <div class="search-box">
+		        <div class="col-md-3" ng-if="filteredAssortments.length > 0">
+		            <div class="search-box" >
 		                <h3>Search</h3>
 		               	<input type="text" class="form-control" ng-model="searchQuery" ng-change="filterAssortments()" placeholder="Search by title...">
 		            </div>
@@ -349,7 +348,7 @@
 			
 			
 				<!-- Right side - Assortments -->
-				<div class="col-md-9">
+				<div ng-class="{'col-md-9': filteredAssortments.length > 0, 'col-md-12': filteredAssortments.length === 0}">
 					<!-- 2.1 Header + Create new assortment button -->
 				    <div class="d-flex justify-content-between align-items-center mb-4">
 				        <h1>Your Assortments</h1>
@@ -359,7 +358,7 @@
 				    </div>
 			         	         
 			        <!-- 2.2 Listing all user assortments (including filtered by title) -->
-					<div class="assortment-grid">
+					<div class="assortment-grid" ng-if="filteredAssortments.length > 0">
 					    <div class="assortment-box" ng-repeat="assortment in filteredAssortments">
 					        <div class="assortment-content" ng-click="viewAssortment(assortment.id)">
 					            <div class="assortment-header">
@@ -386,6 +385,8 @@
 				            </div>
 					    </div>
 					</div>
+					
+					<p ng-if="filteredAssortments.length === 0">No assortments available. Create a new assortment to get started!</p>
 					
 				
 			        <!-- Modal 1: Creating new assortment -->
