@@ -18,7 +18,7 @@ const themes = {
         
         '--assortment-background': '#EFEFEF',
         '--card-count-background': '#B8BEC4',
-        '--assortment-border': '#F7F7F7',
+        '--assortment-border': '#E1E1E1',
         
         '--title-color': '#443E46',
         '--text-primary': '#443E46',
