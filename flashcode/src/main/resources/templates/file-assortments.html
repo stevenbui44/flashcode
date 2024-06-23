@@ -14,41 +14,26 @@
 		:root {
 		    --background-color: #f9f7f1;
 		    --header-color: #1a2a57;
+		    
 		    --assortment-background: #ffffff;
+		    --card-count-background: #f0f0f0;
 		    --assortment-border: #ddd;
+		    
+		    --title-color: #000000;
 		    --text-primary: #333333;
 		    --text-secondary: #666666;
-		    --card-count-background: #f0f0f0;
-		}
-	
-		body {
-		    background-color: var(--background-color);
-		    /* font-family: 'Manrope', sans-serif; */
-		}
-		
-		.navbar {
-		    background-color: var(--header-color) !important;
-		}
-		
-		.nav-item {
-		    display: flex;
-		    align-items: center;
-		}
-		
-		.nav-item form {
-		    margin-left: 15px;
-		}
-		
-		.nav-link {
-		    text-decoration: none;
-		}
-		
-		.nav-link:hover .profile-pic {
-		    background-color: #666666; /* Darker grey on hover */
-		}
-		
-		.navbar-nav {
-		    align-items: center;
+		    --no-description-color: #999999;
+		    --search-text-color: #ecf0f1;
+		    
+		    --search-input-background: #ffffff;
+	        --search-input-text: #333333;
+	        --search-input-placeholder: #999999;
+	        
+	        --button-text: #ffffff;
+	        
+	        --username-text: #ffffff;
+	        --profile-pic-background: #808080;
+	        --profile-pic-text: #ffffff;
 		}
 				
 		.assortment-box {
@@ -103,7 +88,7 @@
 		
 		.assortment-description.no-description {
 		    font-style: italic;
-		    color: #999;
+		    color: var(--no-description-color);
 		}
 		
 		.assortment-grid {
@@ -123,6 +108,11 @@
 		.assortment-header h3 {
 		    margin: 0;
 		    flex-grow: 1;
+		}
+		
+		body {
+		    background-color: var(--background-color);
+		    /* font-family: 'Manrope', sans-serif; */
 		}
 		
 		.button-group {
@@ -163,7 +153,7 @@
 		    border-radius: 5px;
 		    font-weight: 500;
 		    font-size: 0.9em;
-		    color: white;
+		    color: var(--button-text);
 		    transition: all 0.3s ease;
 		    position: relative;
     		top: -15px;
@@ -224,13 +214,43 @@
 		    z-index: 1;
 		}
 		
+		h1 {
+		    color: var(--title-color);
+		}
+		
+		.navbar {
+		    background-color: var(--header-color) !important;
+		}
+		
+		.nav-item {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.nav-item form {
+		    margin-left: 15px;
+		}
+		
+		.nav-link {
+			color: var(--username-text) !important;
+		    text-decoration: none;
+		}
+		
+		.nav-link:hover .profile-pic {
+		    background-color: #666666; /* Darker grey on hover */
+		}
+		
+		.navbar-nav {
+		    align-items: center;
+		}
+		
 		
 		.profile-pic {
 		    width: 28px;
 		    height: 28px;
 		    border-radius: 50%;
-		    background-color: #808080; /* Grey color */
-		    color: white;
+		    background-color: var(--profile-pic-background);
+		    color: var(--profile-pic-text);
 		    display: flex;
 		    align-items: center;
 		    justify-content: center;
@@ -247,11 +267,18 @@
 		
 		.search-box input {
 		    height: 35px;
+		    background-color: var(--search-input-background);
+		    color: var(--search-input-text);
 		    /* width: 260px; */
+		}
+		
+		.search-box input::placeholder {
+		    color: var(--search-input-placeholder);
 		}
 		
 		.search-box h3 {
 		    margin-bottom: 15px;
+		    color: var(--search-text-color);
 		}
 		
 		@media (max-width: 1200px) {
@@ -320,7 +347,7 @@
 				<div class="col-md-9">
 					<!-- 2.1 Header + Create new assortment button -->
 				    <div class="d-flex justify-content-between align-items-center mb-4">
-				        <h1>Assortment List</h1>
+				        <h1>Your Assortments</h1>
 				        <button type="button" class="btn create-btn" data-toggle="modal" data-target="#createAssortmentModal">
 				            Create New Assortment
 				        </button>

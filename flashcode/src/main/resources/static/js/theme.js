@@ -1,30 +1,86 @@
 const themes = {
     default: {
-        '--background-color': '#f9f7f1',
-        '--header-color': '#1a2a57',
-        '--assortment-background': '#ffffff',
-        '--assortment-border': '#ddd',
-        '--text-primary': '#333333',
-        '--text-secondary': '#666666',
-        '--card-count-background': '#f0f0f0'
+        '--background-color': '#f9f7f1',		// tan			(background)
+        '--header-color': '#1a2a57',			// dark blue 	(header)
+        '--assortment-background': '#ffffff',	// white 		(assortment main box)
+        '--assortment-border': '#ddd',			// light grey 	(border)
+        '--text-primary': '#333333',			// dark grey 	(main text)
+        '--text-secondary': '#666666',			// medium grey 	(description)
+        '--card-count-background': '#f0f0f0',	// light grey	(assortment cards box)
+        '--title-color': '#000000',
+        '--no-description-color': '#999999',
+        '--search-text-color': '#333333'
     },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     dark: {
-        '--background-color': '#2c2c2c',
-        '--header-color': '#1a1a1a',
-        '--assortment-background': '#3c3c3c',
-        '--assortment-border': '#555',
-        '--text-primary': '#ffffff',
-        '--text-secondary': '#cccccc',
-        '--card-count-background': '#4c4c4c'
+        '--background-color': '#232124',			// good
+        '--header-color': '#302D32',				// good (?)
+        
+        '--assortment-background': '#38353A',
+        '--card-count-background': '#6c6472',
+        '--assortment-border': '#0f1122',
+        
+        '--title-color': '#E1E1E1',					// good
+        '--text-primary': '#E1E1E1',
+        '--text-secondary': '#E1E1E1',
+        '--no-description-color': '#E1E1E1',
+        '--search-text-color': '#E1E1E1',			// good
+        
+        '--search-input-background': '#E1E1E1',
+        '--search-input-text': '#333333',
+        '--search-input-placeholder': '#999999',
+        
+        '--button-text': '#E1E1E1',
+        
+        '--username-text': '#ffffff',
+        '--profile-pic-background': '#808080',
+        '--profile-pic-text': '#ffffff'
     },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     light: {
         '--background-color': '#ffffff',
-        '--header-color': '#4a90e2',
+        '--header-color': '#111951',
         '--assortment-background': '#f9f9f9',
         '--assortment-border': '#e0e0e0',
         '--text-primary': '#333333',
         '--text-secondary': '#666666',
-        '--card-count-background': '#f0f0f0'
+        '--card-count-background': '#f0f0f0',
+        '--title-color': '#000000',
+        '--no-description-color': '#999999',
+        '--search-text-color': '#ffffff',
     }
 };
 
