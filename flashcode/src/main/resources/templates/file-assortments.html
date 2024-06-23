@@ -375,7 +375,7 @@
 					            <p class="assortment-description no-description" ng-if="!assortment.description"><i>No description</i></p>
 				            </div>
 				            <div class="card-count">
-					            {{ assortment.cardCount }} cards
+					            {{ assortment.cardCount }} {{ assortment.cardCount === 1 ? 'card' : 'cards' }}
 					        </div>
 					        <div class="ellipsis-container">
 				                <div class="dropdown">
@@ -493,7 +493,7 @@
 					    </div>
 					</div>
 					
-					<!-- Modal 5: Temporary Theme Modal (placeholder) -->
+					<!-- Modal 5: Choose a theme -->
 					<div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
 					    <div class="modal-dialog" role="document">
 					        <div class="modal-content">
