@@ -25,6 +25,7 @@ const themes = {
         '--text-secondary': '#443E46',
         '--no-description-color': '#443E46',
         '--search-text-color': '#443E46',
+        '--no-assortments-text': '#333333',
         
         '--search-input-background': '#EFEFEF',
         '--search-input-text': '#333333',
@@ -65,6 +66,7 @@ const themes = {
         '--text-secondary': '#E1E1E1',
         '--no-description-color': '#E1E1E1',
         '--search-text-color': '#E1E1E1',
+        '--no-assortments-text': '#E1E1E1',
         
         '--search-input-background': '#E1E1E1',
         '--search-input-text': '#333333',

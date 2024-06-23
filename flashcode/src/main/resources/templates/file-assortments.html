@@ -25,6 +25,7 @@
 		    --text-secondary: #666666;
 		    --no-description-color: #999999;
 		    --search-text-color: #ecf0f1;
+		    --no-assortments-text: #333333;
 		    
 		    --search-input-background: #ffffff;
 	        --search-input-text: #333333;
@@ -263,6 +264,17 @@
 		    align-items: center;
 		}
 		
+		.no-assortments-message {
+		    font-size: 120%;
+		    color: var(--no-assortments-text);
+		    text-align: center;
+		    margin-top: 2rem;
+		}
+		
+		.no-assortments-message b {
+		    color: var(--no-assortments-bold);
+		}
+		
 		.profile-pic {
 		    width: 28px;
 		    height: 28px;
@@ -401,9 +413,14 @@
 					    </div>
 					</div>
 					
-					<p style="font-size: 120%;" ng-if="filteredAssortments.length === 0 && assortments.length !== 0">No assortments found!</p>
-					<p style="font-size: 120%;" ng-if="assortments.length === 0">No assortments made yet :( <br><br> Press the <b>Create New Assortment</b> button in the top right corner to get started!</p>
+					<!-- <p style="font-size: 120%;" ng-if="filteredAssortments.length === 0 && assortments.length !== 0">No assortments found!</p>
+					<p style="font-size: 120%;" ng-if="assortments.length === 0">No assortments made yet :( <br><br> Press the <b>Create New Assortment</b> button in the top right corner to get started!</p> -->
 					
+					<p class="no-assortments-message" ng-if="filteredAssortments.length === 0 && assortments.length !== 0">No assortments found!</p>
+					<p class="no-assortments-message" ng-if="assortments.length === 0">
+					    No assortments made yet :( <br><br> 
+					    Press the <b>Create New Assortment</b> button in the top right corner to get started!
+					</p>
 				
 			        <!-- Modal 1: Creating new assortment -->
 			        <div class="modal fade" id="createAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="createAssortmentModalLabel" aria-hidden="true">
