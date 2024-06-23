@@ -323,11 +323,6 @@
 	                    <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</a>
 	                </div>
 	            </li>
-	            <!-- <li class="nav-item">
-	                <form th:action="@{/logout}" method="post" class="form-inline">
-	                    <input class="btn btn-danger" type="submit" value="Logout" />
-	                </form>
-	            </li> -->
 	            
 	            <li class="nav-item">
 				    <form th:action="@{/logout}" method="post" class="form-inline">
@@ -506,9 +501,18 @@
 					            </div>
 					            <div class="modal-body">
 					                <div class="list-group">
-					                    <button type="button" class="list-group-item list-group-item-action" ng-click="setTheme('default')">Default</button>
-					                    <button type="button" class="list-group-item list-group-item-action" ng-click="setTheme('dark')">Dark Mode</button>
-					                    <button type="button" class="list-group-item list-group-item-action" ng-click="setTheme('light')">Light Mode</button>
+					                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('default')">
+					                        Default
+					                        <i class="fas fa-check" ng-show="currentTheme === 'default'"></i>
+					                    </button>
+					                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('dark')">
+					                        Dark Mode
+					                        <i class="fas fa-check" ng-show="currentTheme === 'dark'"></i>
+					                    </button>
+					                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('light')">
+					                        Light Mode
+					                        <i class="fas fa-check" ng-show="currentTheme === 'light'"></i>
+					                    </button>
 					                </div>
 					            </div>
 					        </div>
@@ -697,9 +701,12 @@
 			    
 			    
 			    // Set the theme
+			    $scope.currentTheme = localStorage.getItem('theme') || 'default';
+
 			    $scope.setTheme = function(themeName) {
 			        setTheme(themeName);
-			        $('#themeModal').modal('hide');
+			        $scope.currentTheme = themeName;
+			        localStorage.setItem('theme', themeName);
 			    };
                	
 	            

@@ -116,8 +116,12 @@ function setTheme(themeName) {
     Object.keys(theme).forEach(key => {
         document.documentElement.style.setProperty(key, theme[key]);
     });
-    localStorage.setItem('theme', themeName);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'default';
+    setTheme(savedTheme);
+});
 
 function applyTheme() {
     const savedTheme = localStorage.getItem('theme') || 'default';
