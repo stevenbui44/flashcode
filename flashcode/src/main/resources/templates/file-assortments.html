@@ -339,7 +339,7 @@
 	    
 	    	<div class="row">
 		        <!-- Left side - Search -->
-		        <div class="col-md-3" ng-if="filteredAssortments.length > 0">
+		        <div class="col-md-3" ng-show="assortments.length > 0">
 		            <div class="search-box" >
 		                <h3>Search</h3>
 		               	<input type="text" class="form-control" ng-model="searchQuery" ng-change="filterAssortments()" placeholder="Search by title...">
@@ -348,7 +348,7 @@
 			
 			
 				<!-- Right side - Assortments -->
-				<div ng-class="{'col-md-9': filteredAssortments.length > 0, 'col-md-12': filteredAssortments.length === 0}">
+				<div ng-class="{'col-md-9': assortments.length > 0, 'col-md-12': assortments.length === 0}">
 					<!-- 2.1 Header + Create new assortment button -->
 				    <div class="d-flex justify-content-between align-items-center mb-4">
 				        <h1>Your Assortments</h1>
@@ -358,7 +358,7 @@
 				    </div>
 			         	         
 			        <!-- 2.2 Listing all user assortments (including filtered by title) -->
-					<div class="assortment-grid" ng-if="filteredAssortments.length > 0">
+					<div class="assortment-grid" ng-if="assortments.length > 0">
 					    <div class="assortment-box" ng-repeat="assortment in filteredAssortments">
 					        <div class="assortment-content" ng-click="viewAssortment(assortment.id)">
 					            <div class="assortment-header">
@@ -386,7 +386,8 @@
 					    </div>
 					</div>
 					
-					<p ng-if="filteredAssortments.length === 0">No assortments available. Create a new assortment to get started!</p>
+					<p style="font-size: 120%;" ng-if="filteredAssortments.length === 0 && assortments.length !== 0">No assortments found!</p>
+					<p style="font-size: 120%;" ng-if="assortments.length === 0">No assortments made yet :( <br><br> Press the <b>Create New Assortment</b> button in the top right corner to get started!</p>
 					
 				
 			        <!-- Modal 1: Creating new assortment -->
