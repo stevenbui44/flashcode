@@ -40,7 +40,7 @@
 		}
 		
 		.auto-expand {
-		    min-height: 60px;
+		    min-height: 120px;
 		    overflow-y: hidden;
 		    resize: none;
 		}
@@ -95,7 +95,7 @@
 		}
 		
 		.mb-4 {
-		    margin-bottom: 1.5rem !important;
+		    margin-bottom: 0rem !important;
 		}
 		
 		.navbar {
@@ -185,47 +185,6 @@
 		    
 		    <!-- PART 1: Form at the top to create a new card -->
 			<!-- <form ng-submit="addCard()" class="mb-5">
-			    <div class="row">
-			        <div class="col-md-4">
-			            <div class="form-group h-100">
-			                <label for="question">Question:</label>
-			                <textarea class="form-control h-100" id="question" ng-model="newCard.question" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group h-100">
-			                <label for="code">Code:</label>
-			                <textarea class="form-control h-100" id="code" ng-model="newCard.code" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group h-100">
-			                <label for="approach">Approach:</label>
-			                <textarea class="form-control h-100" id="approach" ng-model="newCard.approach" required></textarea>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row mt-3">
-			        <div class="col-md-4 offset-md-4">
-			            <div class="form-group">
-			                <label for="timeComplexity">Time Complexity:</label>
-			                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="spaceComplexity">Space Complexity:</label>
-			                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row mt-3">
-			        <div class="col-md-12 text-center">
-			            <button type="submit" class="btn btn-primary">Add Card</button>
-			        </div>
-			    </div>
-			</form> -->
-			<form ng-submit="addCard()" class="mb-5">
 			    <div class="row mb-4">
 			        <div class="col-md-4">
 			            <div class="form-group">
@@ -257,6 +216,47 @@
 			            <div class="form-group">
 			                <label for="spaceComplexity">Space Complexity:</label>
 			                <textarea class="form-control auto-expand-small" id="spaceComplexity" ng-model="newCard.spaceComplexity" required></textarea>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="row mt-3">
+			        <div class="col-md-12 text-center">
+			            <button type="submit" class="btn btn-primary">Add Card</button>
+			        </div>
+			    </div>
+			</form> -->
+			<form ng-submit="addCard()" class="mb-5">
+			    <div class="row mb-4">
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="question">Question:</label>
+			                <textarea class="form-control auto-expand main-textarea" id="question" ng-model="newCard.question" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="code">Code:</label>
+			                <textarea class="form-control auto-expand main-textarea" id="code" ng-model="newCard.code" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="approach">Approach:</label>
+			                <textarea class="form-control auto-expand main-textarea" id="approach" ng-model="newCard.approach" required></textarea>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="row">
+			        <div class="col-md-4 offset-md-4">
+			            <div class="form-group">
+			                <label for="timeComplexity">Time Complexity:</label>
+			                <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity" ng-model="newCard.timeComplexity" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="spaceComplexity">Space Complexity:</label>
+			                <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity" ng-model="newCard.spaceComplexity" required></textarea>
 			            </div>
 			        </div>
 			    </div>
@@ -394,20 +394,46 @@
 				
 				
 				
-				// expand the text area
 				$scope.initAutoExpand = function() {
 				    function autoExpand(element) {
+				        // Reset height to allow shrinking
 				        element.style.height = 'auto';
+				        // Set to scroll height
 				        element.style.height = (element.scrollHeight) + 'px';
 				    }
-				
+
+				    function equalizeHeights(elements) {
+				        // Reset all heights to auto first
+				        elements.forEach(el => el.style.height = 'auto');
+				        // Find the maximum scroll height
+				        let maxHeight = Math.max(...Array.from(elements).map(el => el.scrollHeight));
+				        // Set all elements to the maximum height
+				        elements.forEach(el => el.style.height = maxHeight + 'px');
+				    }
+
+				    function adjustHeights() {
+				        const mainTextareas = document.querySelectorAll('.main-textarea');
+				        const complexityTextareas = document.querySelectorAll('.complexity-textarea');
+				        
+				        equalizeHeights(mainTextareas);
+				        equalizeHeights(complexityTextareas);
+				    }
+
 				    document.querySelectorAll('.auto-expand, .auto-expand-small').forEach(function(element) {
 				        element.addEventListener('input', function() {
 				            autoExpand(this);
+				            adjustHeights();
 				        });
 				        
+				        // Initial expansion
 				        autoExpand(element);
 				    });
+
+				    // Initial height adjustment
+				    adjustHeights();
+
+				    // Adjust heights on window resize
+				    window.addEventListener('resize', adjustHeights);
 				};
 				
 				
