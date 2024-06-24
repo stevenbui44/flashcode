@@ -184,47 +184,6 @@
 		    <p><span th:text="${assortment.description}"></span></p>
 		    
 		    <!-- PART 1: Form at the top to create a new card -->
-			<!-- <form ng-submit="addCard()" class="mb-5">
-			    <div class="row mb-4">
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="question">Question:</label>
-			                <textarea class="form-control auto-expand" id="question" ng-model="newCard.question" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="code">Code:</label>
-			                <textarea class="form-control auto-expand" id="code" ng-model="newCard.code" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="approach">Approach:</label>
-			                <textarea class="form-control auto-expand" id="approach" ng-model="newCard.approach" required></textarea>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row">
-			        <div class="col-md-4 offset-md-4">
-			            <div class="form-group">
-			                <label for="timeComplexity">Time Complexity:</label>
-			                <textarea class="form-control auto-expand-small" id="timeComplexity" ng-model="newCard.timeComplexity" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="spaceComplexity">Space Complexity:</label>
-			                <textarea class="form-control auto-expand-small" id="spaceComplexity" ng-model="newCard.spaceComplexity" required></textarea>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row mt-3">
-			        <div class="col-md-12 text-center">
-			            <button type="submit" class="btn btn-primary">Add Card</button>
-			        </div>
-			    </div>
-			</form> -->
 			<form ng-submit="addCard()" class="mb-5">
 			    <div class="row mb-4">
 			        <div class="col-md-4">
@@ -234,11 +193,11 @@
 			            </div>
 			        </div>
 			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="code">Code:</label>
-			                <textarea class="form-control auto-expand main-textarea" id="code" ng-model="newCard.code" required></textarea>
-			            </div>
-			        </div>
+					    <div class="form-group">
+					        <label for="code">Code:</label>
+					        <textarea class="form-control auto-expand main-textarea" id="code" ng-model="newCard.code" required ng-keydown="handleCodeTab($event)"></textarea>
+					    </div>
+					</div>
 			        <div class="col-md-4">
 			            <div class="form-group">
 			                <label for="approach">Approach:</label>
@@ -393,7 +352,7 @@
 				
 				
 				
-				
+				// Expanding the text box height
 				$scope.initAutoExpand = function() {
 				    function autoExpand(element) {
 				        // Reset height to allow shrinking
@@ -437,6 +396,51 @@
 				};
 				
 				
+				
+				
+				// Tabbing and indentation
+				$scope.handleCodeTab = function(event) {
+			        if (event.target.id !== 'code') return; // Only apply to the code textarea
+			
+			        var textarea = event.target;
+			        var start = textarea.selectionStart;
+			        var end = textarea.selectionEnd;
+			
+			        // Tab key
+			        if (event.key === "Tab") {
+			            event.preventDefault();
+			            if (event.shiftKey) {
+			                // Shift+Tab: Remove indentation
+			                var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+			                if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
+			                    textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
+			                    textarea.selectionStart = textarea.selectionEnd = start - 1;
+			                }
+			            } else {
+			                // Tab: Add indentation
+			                textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+			                textarea.selectionStart = textarea.selectionEnd = start + 1;
+			            }
+			        } 
+			        // Enter key
+			        else if (event.key === "Enter") {
+			            event.preventDefault();
+			            var currentLine = textarea.value.substring(0, start).split("\n").pop();
+			            var indentation = currentLine.match(/^\s*/)[0];
+			            textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
+			            textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
+			        }
+			
+			        // Trigger Angular's digest cycle to update the model
+			        $scope.$apply(function() {
+			            $scope.newCard.code = textarea.value;
+			        });
+			
+			        // Adjust heights after content change
+			        $timeout(function() {
+			            $scope.initAutoExpand();
+			        });
+			    };
 				
 				
 				
