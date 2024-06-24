@@ -39,9 +39,31 @@
         	--flashcode-title-color: #ffffff;
 		}
 		
+		.auto-expand {
+		    min-height: 60px;
+		    overflow-y: hidden;
+		    resize: none;
+		}
+		
+		.auto-expand-small {
+		    min-height: 30px;
+		    overflow-y: hidden;
+		    resize: none;
+		}
+		
 		.content {
 		    flex: 1 0 auto;
 		    padding-bottom: 120px; /* Adjust this value to increase/decrease the gap */
+		}
+		
+		.custom-container {
+		    width: 100%;
+		    max-width: 1200px;
+		    margin-right: auto;
+		    margin-left: auto;
+		    padding-right: 15px;
+		    padding-left: 15px;
+		    padding-top: 10px;
 		}
 	
 		body {
@@ -70,6 +92,10 @@
 		
 		h1 {
 		    color: var(--title-color);
+		}
+		
+		.mb-4 {
+		    margin-bottom: 1.5rem !important;
 		}
 		
 		.navbar {
@@ -149,7 +175,7 @@
 	<div class="content">
 	    
 	    <!-- PART TWO: html -->
-		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
+		<div class="custom-container mt-5" ng-controller="assortmentCardsCtrl">
 				
 		    <div class="d-flex justify-content-between align-items-center">
                 <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
@@ -158,69 +184,91 @@
 		    <p><span th:text="${assortment.description}"></span></p>
 		    
 		    <!-- PART 1: Form at the top to create a new card -->
-	        <!-- <form ng-submit="addCard()">
-	            <div class="form-group">
-	                <label for="question">Question:</label>
-	                <input type="text" class="form-control" id="question" ng-model="newCard.question" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="approach">Approach:</label>
-	                <textarea class="form-control" id="approach" ng-model="newCard.approach" required></textarea>
-	            </div>
-	            <div class="form-group">
-	                <label for="code">Code:</label>
-	                <textarea class="form-control" id="code" ng-model="newCard.code" required></textarea>
-	            </div>
-	            <div class="form-group">
-	                <label for="timeComplexity">Time Complexity:</label>
-	                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="spaceComplexity">Space Complexity:</label>
-	                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
-	            </div>
-	            <button type="submit" class="btn btn-primary">Add Card</button>
-	        </form> -->
-	        <form ng-submit="addCard()">
-			    <div class="form-group">
-			        <label for="question">Question:</label>
-			        <input type="text" class="form-control" id="question" ng-model="newCard.question" required>
+			<!-- <form ng-submit="addCard()" class="mb-5">
+			    <div class="row">
+			        <div class="col-md-4">
+			            <div class="form-group h-100">
+			                <label for="question">Question:</label>
+			                <textarea class="form-control h-100" id="question" ng-model="newCard.question" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group h-100">
+			                <label for="code">Code:</label>
+			                <textarea class="form-control h-100" id="code" ng-model="newCard.code" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group h-100">
+			                <label for="approach">Approach:</label>
+			                <textarea class="form-control h-100" id="approach" ng-model="newCard.approach" required></textarea>
+			            </div>
+			        </div>
 			    </div>
-			    <div class="form-group">
-			        <label for="approach">Approach:</label>
-			        <textarea class="form-control" id="approach" ng-model="newCard.approach" required></textarea>
+			    <div class="row mt-3">
+			        <div class="col-md-4 offset-md-4">
+			            <div class="form-group">
+			                <label for="timeComplexity">Time Complexity:</label>
+			                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="spaceComplexity">Space Complexity:</label>
+			                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
+			            </div>
+			        </div>
 			    </div>
-			    <div class="form-group">
-			        <label for="code">Code:</label>
-			        <textarea class="form-control" id="code" ng-model="newCard.code" required></textarea>
+			    <div class="row mt-3">
+			        <div class="col-md-12 text-center">
+			            <button type="submit" class="btn btn-primary">Add Card</button>
+			        </div>
 			    </div>
-			    <div class="form-group">
-			        <label for="timeComplexity">Time Complexity:</label>
-			        <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
+			</form> -->
+			<form ng-submit="addCard()" class="mb-5">
+			    <div class="row mb-4">
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="question">Question:</label>
+			                <textarea class="form-control auto-expand" id="question" ng-model="newCard.question" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="code">Code:</label>
+			                <textarea class="form-control auto-expand" id="code" ng-model="newCard.code" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="approach">Approach:</label>
+			                <textarea class="form-control auto-expand" id="approach" ng-model="newCard.approach" required></textarea>
+			            </div>
+			        </div>
 			    </div>
-			    <div class="form-group">
-			        <label for="spaceComplexity">Space Complexity:</label>
-			        <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
+			    <div class="row">
+			        <div class="col-md-4 offset-md-4">
+			            <div class="form-group">
+			                <label for="timeComplexity">Time Complexity:</label>
+			                <textarea class="form-control auto-expand-small" id="timeComplexity" ng-model="newCard.timeComplexity" required></textarea>
+			            </div>
+			        </div>
+			        <div class="col-md-4">
+			            <div class="form-group">
+			                <label for="spaceComplexity">Space Complexity:</label>
+			                <textarea class="form-control auto-expand-small" id="spaceComplexity" ng-model="newCard.spaceComplexity" required></textarea>
+			            </div>
+			        </div>
 			    </div>
-			    <button type="submit" class="btn btn-primary">Add Card</button>
+			    <div class="row mt-3">
+			        <div class="col-md-12 text-center">
+			            <button type="submit" class="btn btn-primary">Add Card</button>
+			        </div>
+			    </div>
 			</form>
 	        
 	        
 	        <!-- PART 2: Using ng-repeat to show each card -->
-		    <!-- <ul>
-		        <li ng-repeat="card in assortment.cards">
-		            <h2>{{ card.question }}</h2>
-		            <p>Approach:</p>
-		            <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
-		            <p>Code:</p>
-		            <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
-		            <p>Time Complexity:</p>
-		            <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
-		            <p>Space Complexity:</p>
-		            <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
-		            <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
-		        </li>
-		    </ul> -->
 		    <ul>
 			    <li ng-repeat="card in assortment.cards">
 			        <h2>{{ card.question }}</h2>
@@ -341,6 +389,32 @@
 				};
 				
 				
+				
+				
+				
+				
+				
+				// expand the text area
+				$scope.initAutoExpand = function() {
+				    function autoExpand(element) {
+				        element.style.height = 'auto';
+				        element.style.height = (element.scrollHeight) + 'px';
+				    }
+				
+				    document.querySelectorAll('.auto-expand, .auto-expand-small').forEach(function(element) {
+				        element.addEventListener('input', function() {
+				            autoExpand(this);
+				        });
+				        
+				        autoExpand(element);
+				    });
+				};
+				
+				
+				
+				
+				
+				
 				// Set the theme
 				$scope.currentTheme = localStorage.getItem('theme') || 'default';
 
@@ -349,6 +423,10 @@
 			        $scope.currentTheme = themeName;
 			        localStorage.setItem('theme', themeName);
 			    };
+			    
+			    
+			    
+			    $timeout($scope.initAutoExpand);
             	
 	        });
 	    </script>
