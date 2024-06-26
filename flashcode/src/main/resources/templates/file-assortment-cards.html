@@ -64,14 +64,23 @@
 		    margin-bottom: 40px !important; /* Adjust the pixel value as needed */
 		}
 		
-		#code {
+		/* #code {
 	        font-family: 'Source Code Pro', sans-serif;
 	        font-size: 0.8em;
 	        tab-size: 2;
 		    -moz-tab-size: 2;
 		    -o-tab-size: 2;
 		    white-space: pre-wrap;
-	    }
+	    } */
+	    
+	    .code-textarea {
+		    font-family: 'Source Code Pro', sans-serif;
+		    font-size: 0.8em;
+		    tab-size: 2;
+		    -moz-tab-size: 2;
+		    -o-tab-size: 2;
+		    white-space: pre-wrap;
+		}
 		
 		.content {
 		    flex: 1 0 auto;
@@ -213,7 +222,8 @@
 		                    <div class="form-group">
 		                        <label for="code-{{$index}}">Code:</label>
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
-		                        <textarea class="form-control auto-expand main-textarea" id="code code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
+		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea> -->
+		                        <textarea class="form-control auto-expand main-textarea code-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
 		                    </div>
 		                </div>
 		                <div class="col-md-4">
@@ -441,7 +451,7 @@
 				
 				// Tabbing and indentation
 				$scope.handleCodeTab = function(event) {
-				    if (event.target.id !== 'code') return;
+				    if (!event.target.id.startsWith('code-')) return;
 				
 				    var textarea = event.target;
 				    var start = textarea.selectionStart;
@@ -474,7 +484,8 @@
 				
 				    // Trigger Angular's digest cycle to update the model
 				    $scope.$apply(function() {
-				        $scope.newCard.code = textarea.value;
+				        var index = textarea.id.split('-')[1];
+				        $scope.assortment.cards[index].code = textarea.value;
 				    });
 				
 				    // Adjust heights after content change
