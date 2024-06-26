@@ -349,6 +349,7 @@
             	            $timeout(function() {
             	                $scope.assortment.cards.push(angular.copy(response.data));
             	            });
+            	           	$scope.getCards();
             	        }, function(error) {
             	            console.error('Error creating new card:', error);
             	        });
