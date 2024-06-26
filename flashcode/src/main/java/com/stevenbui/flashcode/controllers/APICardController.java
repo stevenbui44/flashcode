@@ -109,6 +109,7 @@ public class APICardController extends APIController {
         }
         assortment.removeCard( card );
         assortmentService.save( assortment );
+        cardService.delete( card );
         return new ResponseEntity( HttpStatus.OK );
     }
 
