@@ -195,25 +195,29 @@
 		    <p><span th:text="${assortment.description}"></span></p>
     
 		    <!-- PART 1: Form at the top to create a new card -->
-			<div class="card mb-4" ng-repeat="card in assortment.cards">
+			<!-- <div class="card mb-4" ng-repeat="card in assortment.cards"> -->
+			<div class="card mb-4" ng-repeat="card in assortment.cards track by $index">
 		        <div class="card-body">
 		            <div class="row mb-4">
 		                <div class="col-md-4">
 		                    <div class="form-group">
 		                        <label for="question-{{$index}}">Question:</label>
-		                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea>
+		                        <!-- <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea> -->
+		                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="assortment.cards[$index].question" ng-change="updateCard(assortment.cards[$index])"></textarea>
 		                    </div>
 		                </div>
 		                <div class="col-md-4">
 		                    <div class="form-group">
 		                        <label for="code-{{$index}}">Code:</label>
-		                        <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea>
+		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
+		                        <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
 		                    </div>
 		                </div>
 		                <div class="col-md-4">
 		                    <div class="form-group">
 		                        <label for="approach-{{$index}}">Approach:</label>
-		                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea>
+		                        <!-- <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea> -->
+		                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="assortment.cards[$index].approach" ng-change="updateCard(assortment.cards[$index])"></textarea>
 		                    </div>
 		                </div>
 		            </div>
@@ -221,13 +225,15 @@
 		                <div class="col-md-4 offset-md-4">
 		                    <div class="form-group">
 		                        <label for="timeComplexity-{{$index}}">Time Complexity:</label>
-		                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea>
+		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea> -->
+		                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="assortment.cards[$index].timeComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
 		                    </div>
 		                </div>
 		                <div class="col-md-4">
 		                    <div class="form-group">
 		                        <label for="spaceComplexity-{{$index}}">Space Complexity:</label>
-		                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea>
+		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea> -->
+		                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="assortment.cards[$index].spaceComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
 		                    </div>
 		                </div>
 		            </div>
@@ -308,35 +314,45 @@
 	        	
 	        	
 	        	$scope.getCards = function() {
-	                $http.get('/api/v1/assortments/' + $scope.assortment.id)
-	                    .then(function(response) {
-	                        $scope.assortment.cards = response.data;
-	                        if ($scope.assortment.cards.length === 0) {
-	                            $scope.createNewCard();
-	                        }
-	                    }, function(error) {
-	                        console.error('Error fetching cards:', error);
-	                    });
-	            };
-            	
+	        	    $http.get('/api/v1/assortments/' + $scope.assortment.id)
+	        	        .then(function(response) {
+	        	            $scope.assortment.cards = response.data.map(function(card) {
+	        	                return angular.isObject(card) ? card : {
+	        	                    question: '',
+	        	                    approach: '',
+	        	                    code: '',
+	        	                    timeComplexity: '',
+	        	                    spaceComplexity: ''
+	        	                };
+	        	            });
+	        	            if ($scope.assortment.cards.length === 0) {
+	        	                $scope.createNewCard();
+	        	            }
+	        	        }, function(error) {
+	        	            console.error('Error fetching cards:', error);
+	        	        });
+	        	};
+	        	
             	$scope.getCards();
             	
             	$scope.createNewCard = function() {
-                    var newCard = {
-                        question: '',
-                        approach: '',
-                        code: '',
-                        timeComplexity: '',
-                        spaceComplexity: ''
-                    };
-                    
-                    $http.post('/api/v1/assortments/' + $scope.assortment.id, newCard)
-                        .then(function(response) {
-                            $scope.assortment.cards.push(response.data);
-                        }, function(error) {
-                            console.error('Error creating new card:', error);
-                        });
-                };
+            	    var newCard = {
+            	        question: '',
+            	        approach: '',
+            	        code: '',
+            	        timeComplexity: '',
+            	        spaceComplexity: ''
+            	    };
+            	    
+            	    $http.post('/api/v1/assortments/' + $scope.assortment.id, newCard)
+            	        .then(function(response) {
+            	            $timeout(function() {
+            	                $scope.assortment.cards.push(angular.copy(response.data));
+            	            });
+            	        }, function(error) {
+            	            console.error('Error creating new card:', error);
+            	        });
+            	};
             	
                 $scope.deleteCard = function(cardId) {  
                     $http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
@@ -355,7 +371,11 @@
                         });
                 };
             	
-            	$scope.updateCard = function(card) {
+                $scope.updateCard = function(card) {
+                    if (!angular.isObject(card)) {
+                        console.error('Invalid card object:', card);
+                        return;
+                    }
                     $http.put('/api/v1/assortments/' + $scope.assortment.id + '/' + card.id, card)
                         .then(function(response) {
                             console.log('Card updated successfully');
