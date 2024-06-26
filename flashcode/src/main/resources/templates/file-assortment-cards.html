@@ -189,57 +189,59 @@
 		<div class="custom-container mt-5" ng-controller="assortmentCardsCtrl">
 				
 		    <div class="d-flex justify-content-between align-items-center">
-                <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
-                <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
-            </div>
+		        <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
+		        <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
+		    </div>
 		    <p><span th:text="${assortment.description}"></span></p>
-		    
+    
 		    <!-- PART 1: Form at the top to create a new card -->
-			<form ng-submit="addCard()" class="mb-5">
-			    <div class="row mb-4">
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="question">Question:</label>
-			                <textarea class="form-control auto-expand main-textarea" id="question" ng-model="newCard.question" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-					    <div class="form-group">
-					        <label for="code">Code:</label>
-					        <textarea class="form-control auto-expand main-textarea" id="code" ng-model="newCard.code" required ng-keydown="handleCodeTab($event)"></textarea>
-					    </div>
-					</div>
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="approach">Approach:</label>
-			                <textarea class="form-control auto-expand main-textarea" id="approach" ng-model="newCard.approach" required></textarea>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row">
-			        <div class="col-md-4 offset-md-4">
-			            <div class="form-group">
-			                <label for="timeComplexity">Time Complexity:</label>
-			                <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity" ng-model="newCard.timeComplexity" required></textarea>
-			            </div>
-			        </div>
-			        <div class="col-md-4">
-			            <div class="form-group">
-			                <label for="spaceComplexity">Space Complexity:</label>
-			                <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity" ng-model="newCard.spaceComplexity" required></textarea>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row mt-3">
-			        <div class="col-md-12 text-center">
-			            <button type="submit" class="btn btn-primary">Add Card</button>
-			        </div>
-			    </div>
-			</form>
+			<div class="card mb-4" ng-repeat="card in assortment.cards">
+		        <div class="card-body">
+		            <div class="row mb-4">
+		                <div class="col-md-4">
+		                    <div class="form-group">
+		                        <label for="question-{{$index}}">Question:</label>
+		                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea>
+		                    </div>
+		                </div>
+		                <div class="col-md-4">
+		                    <div class="form-group">
+		                        <label for="code-{{$index}}">Code:</label>
+		                        <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea>
+		                    </div>
+		                </div>
+		                <div class="col-md-4">
+		                    <div class="form-group">
+		                        <label for="approach-{{$index}}">Approach:</label>
+		                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-md-4 offset-md-4">
+		                    <div class="form-group">
+		                        <label for="timeComplexity-{{$index}}">Time Complexity:</label>
+		                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea>
+		                    </div>
+		                </div>
+		                <div class="col-md-4">
+		                    <div class="form-group">
+		                        <label for="spaceComplexity-{{$index}}">Space Complexity:</label>
+		                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea>
+		                    </div>
+		                </div>
+		            </div>
+		            <button class="btn btn-danger mt-2" ng-click="deleteCard(card.id)">Delete Card</button>
+		        </div>
+		    </div>
+		    
+		    <div class="text-center mt-4">
+		        <button class="btn btn-primary" ng-click="createNewCard()">Create New Card</button>
+		    </div>
 	        
 	        
 	        <!-- PART 2: Using ng-repeat to show each card -->
-		    <ul>
+		    <!-- <ul>
 			    <li ng-repeat="card in assortment.cards">
 			        <h2>{{ card.question }}</h2>
 			        <p>Approach:</p>
@@ -252,7 +254,7 @@
 			        <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
 			        <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
 			    </li>
-			</ul>
+			</ul> -->
 		    
 		    <!-- Modal 1: Choose a theme -->
 		    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
@@ -306,57 +308,61 @@
 	        	
 	        	
 	        	$scope.getCards = function() {
-            	    $http.get('/api/v1/assortments/' + $scope.assortment.id)
-            	        .then(function(response) {
-            	            $scope.assortment.cards = response.data;
-            	        }, function(error) {
-            	            console.error('Error fetching cards:', error);
-            	        });
-            	};
+	                $http.get('/api/v1/assortments/' + $scope.assortment.id)
+	                    .then(function(response) {
+	                        $scope.assortment.cards = response.data;
+	                        if ($scope.assortment.cards.length === 0) {
+	                            $scope.createNewCard();
+	                        }
+	                    }, function(error) {
+	                        console.error('Error fetching cards:', error);
+	                    });
+	            };
             	
             	$scope.getCards();
             	
-            	$scope.addCard = function() {
-            	    $scope.success = false;
-            	    $scope.failure = false;
-            	    $http.post('/api/v1/assortments/' + $scope.assortment.id, $scope.newCard)
-            	        .then(function(response) {
-            	            console.log('Card added successfully');
-            	            $scope.reset();
-            	            return $scope.getCards();  // Chain the getCards call here
-            	        })
-            	        .then(function() {
-            	            $scope.success = true;
-            	        })
-            	        .catch(function(rejection) {
-            	            console.error('Error adding card:', rejection);
-            	            $scope.failure = true;
-            	        });
-            	};
+            	$scope.createNewCard = function() {
+                    var newCard = {
+                        question: '',
+                        approach: '',
+                        code: '',
+                        timeComplexity: '',
+                        spaceComplexity: ''
+                    };
+                    
+                    $http.post('/api/v1/assortments/' + $scope.assortment.id, newCard)
+                        .then(function(response) {
+                            $scope.assortment.cards.push(response.data);
+                        }, function(error) {
+                            console.error('Error creating new card:', error);
+                        });
+                };
             	
-            	$scope.deleteCard = function(cardId) {  
-            		$http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
-	                    .then(function(response) {
-	                        // Remove the deleted card from the UI
-	                        var index = $scope.assortment.cards.findIndex(function(card) {
-	                            return card.id === parseInt(cardId);
-	                        });
-	                        if (index !== -1) {
-	                            $scope.assortment.cards.splice(index, 1);
-	                        }
-	                    }, function(error) {
-	                        console.error('Error deleting card:', error);
-	                    });
-            	};
+                $scope.deleteCard = function(cardId) {  
+                    $http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
+                        .then(function(response) {
+                            var index = $scope.assortment.cards.findIndex(function(card) {
+                                return card.id === cardId;
+                            });
+                            if (index !== -1) {
+                                $scope.assortment.cards.splice(index, 1);
+                            }
+                            if ($scope.assortment.cards.length === 0) {
+                                $scope.createNewCard();
+                            }
+                        }, function(error) {
+                            console.error('Error deleting card:', error);
+                        });
+                };
             	
             	$scope.updateCard = function(card) {
-					$http.put('/api/v1/assortments/' + $scope.assortment.id + '/' + card.id, card)
-						.then(function(response) {
-							console.log('Card updated successfully');
-						}, function(error) {
-							console.error('Error updating card:', error);
-						});
-				};
+                    $http.put('/api/v1/assortments/' + $scope.assortment.id + '/' + card.id, card)
+                        .then(function(response) {
+                            console.log('Card updated successfully');
+                        }, function(error) {
+                            console.error('Error updating card:', error);
+                        });
+                };
 				
 				
 				
@@ -468,7 +474,7 @@
 			    
 			    
 			    $timeout($scope.initAutoExpand);
-            	
+			    $scope.getCards();
 	        });
 	    </script>
     </div>
