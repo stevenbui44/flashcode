@@ -71,14 +71,14 @@
 		    background-color: var(--header-color);
 		    color: white;
 		    border: none;
-		    padding: 12px 30px;  /* Increased padding to make it larger */
+		    padding: 12px 24px;  /* Increased padding to make it larger */
 		    border-radius: 5px;
 		    font-weight: bold;
-		    font-size: 20px;  /* Increased font size */
+		    font-size: 18px;  /* Increased font size */
 		    text-decoration: none;
 		    transition: background-color 0.3s ease;
-		    margin-right: 10px;
-		    margin-bottom: 0px;
+		    margin-right: 5px;
+		    margin-bottom: 10px;
 		}
 		
 		.btn-study:hover {
@@ -92,8 +92,9 @@
 		    color: #666;
 		}
 		
+		/* Distance between each card */
 		.card.mb-4:not(:last-child) {
-		    margin-bottom: 40px !important; /* Adjust the pixel value as needed */
+		    margin-bottom: 20px !important;
 		}
 		
 	    .code-textarea {
@@ -118,6 +119,26 @@
 		    padding-right: 15px;
 		    padding-left: 15px;
 		    padding-top: 10px;
+		}
+		
+		.description-container {
+		    margin-top: 10px;
+		    margin-bottom: 10px;
+		    cursor: pointer;
+		}
+		
+		.description-container:hover::after {
+		    content: ' ✎';
+		    color: #999;
+		}
+		
+		.description-input {
+		    width: 100%;
+		    border: none;
+		    border-bottom: 1px solid #ccc;
+		    font-size: 16px;
+		    padding: 5px 0;
+		    outline: none;
 		}
 		
 		.form-group label, h2, p {
@@ -191,6 +212,11 @@
 		
 		.navbar-nav {
 		    align-items: center;
+		}
+		
+		.no-description {
+		    font-style: italic;
+		    color: #999;
 		}
 		
 		.profile-pic {
@@ -271,6 +297,16 @@
 		        </div>
 		        <a class="btn btn-study" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
 		    </div>
+		    <!-- <hr class="header-divider"> -->
+		    
+		    <div class="description-container" ng-click="editDescription()">
+		        <span ng-if="!editingDescription" ng-class="{'no-description': !assortment.description}">
+		            {{assortment.description || 'Add description...'}}
+		        </span>
+		        <input ng-if="editingDescription" type="text" ng-model="assortment.description" 
+		               ng-blur="saveDescription()" ng-keyup="$event.keyCode == 13 && saveDescription()"
+		               class="description-input" placeholder="Add description...">
+		    </div>
 		    <hr class="header-divider">
     
 		    <!-- PART 1: Form at the top to create a new card -->
@@ -324,23 +360,6 @@
 		    <div class="text-center mt-4">
 		        <button class="btn btn-primary" ng-click="createNewCard()">Create New Card</button>
 		    </div>
-	        
-	        
-	        <!-- PART 2: Using ng-repeat to show each card -->
-		    <!-- <ul>
-			    <li ng-repeat="card in assortment.cards">
-			        <h2>{{ card.question }}</h2>
-			        <p>Approach:</p>
-			        <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
-			        <p>Code:</p>
-			        <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
-			        <p>Time Complexity:</p>
-			        <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
-			        <p>Space Complexity:</p>
-			        <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
-			        <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
-			    </li>
-			</ul> -->
 		    
 		    <!-- Modal 1: Choose a theme -->
 		    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
@@ -388,6 +407,7 @@
 	        	}
 	        	
 	        	$scope.assortment = { 
+	        		title: '[[${assortment.title}]]',
         			id: [[${assortment.id}]], 
         			cards: [] 
 	        	};
@@ -571,6 +591,40 @@
 			        setTheme(themeName);
 			        $scope.currentTheme = themeName;
 			        localStorage.setItem('theme', themeName);
+			    };
+			    
+			    
+			    
+			    $scope.editingDescription = false;
+
+			    $scope.editDescription = function() {
+			        $scope.editingDescription = true;
+			        $timeout(function() {
+			            document.querySelector('.description-input').focus();
+			        });
+			    };
+
+			    $scope.saveDescription = function() {
+			        $scope.editingDescription = false;
+			        
+			        // Create an Assortment object with the current data
+			        var updatedAssortment = {
+			            id: $scope.assortment.id,
+			            title: $scope.assortment.title,
+			            description: $scope.assortment.description,
+			            cards: $scope.assortment.cards
+			        };
+
+			        console.log('id:', $scope.assortment.id);
+			        console.log('title:', $scope.assortment.title);
+			        console.log('description:', $scope.assortment.description);
+			        
+			        $http.put('/api/v1/assortments/' + $scope.assortment.id, updatedAssortment)
+			            .then(function(response) {
+			                console.log('Description updated successfully');
+			            }, function(error) {
+			                console.error('Error updating description:', error);
+			            });
 			    };
 			    
 			    
