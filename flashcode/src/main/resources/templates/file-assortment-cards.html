@@ -299,7 +299,7 @@
 		    </div>
 		    <!-- <hr class="header-divider"> -->
 		    
-		    <div class="description-container" ng-click="editDescription()">
+		    <!-- <div class="description-container" ng-click="editDescription()">
 		        <span ng-if="!editingDescription" ng-class="{'no-description': !assortment.description}">
 		            {{assortment.description || 'Add description...'}}
 		        </span>
@@ -307,7 +307,18 @@
 		               ng-blur="saveDescription()" ng-keyup="$event.keyCode == 13 && saveDescription()"
 		               class="description-input" placeholder="Add description...">
 		    </div>
-		    <hr class="header-divider">
+		    <hr class="header-divider"> -->
+		    
+		    <div class="description-container" ng-click="editDescription()">
+			    <span ng-if="!editingDescription" ng-class="{'no-description': !assortment.description}">
+			        <span ng-if="assortment.description">{{assortment.description}}</span>
+			        <span ng-if="!assortment.description">Add description...</span>
+			    </span>
+			    <input ng-if="editingDescription" type="text" ng-model="assortment.description"
+			           ng-blur="saveDescription()" ng-keyup="$event.keyCode == 13 && saveDescription()"
+			           class="description-input" placeholder="Add description...">
+			</div>
+			<hr class="header-divider">
     
 		    <!-- PART 1: Form at the top to create a new card -->
 			<!-- <div class="card mb-4" ng-repeat="card in assortment.cards"> -->
@@ -408,9 +419,11 @@
 	        	
 	        	$scope.assortment = { 
 	        		title: '[[${assortment.title}]]',
+	        		description: '[[${assortment.description}]]',
         			id: [[${assortment.id}]], 
         			cards: [] 
 	        	};
+	        	
 	        	
 	        	
 	        	$scope.getCards = function() {
@@ -615,10 +628,6 @@
 			            cards: $scope.assortment.cards
 			        };
 
-			        console.log('id:', $scope.assortment.id);
-			        console.log('title:', $scope.assortment.title);
-			        console.log('description:', $scope.assortment.description);
-			        
 			        $http.put('/api/v1/assortments/' + $scope.assortment.id, updatedAssortment)
 			            .then(function(response) {
 			                console.log('Description updated successfully');
@@ -626,7 +635,6 @@
 			                console.error('Error updating description:', error);
 			            });
 			    };
-			    
 			    
 			    
 			    $timeout($scope.initAutoExpand);
