@@ -87,15 +87,46 @@
 		    text-decoration: none;
 		}
 		
+		.card {
+		    position: relative;
+		    display: flex;
+		}
+		
+		/* Space between card order number and the card body */
+		.card-body {
+		    flex-grow: 1;
+		    padding-left: 30px; 
+		}
+		
 		.card-count {
 		    font-size: 14px;
 		    color: #666;
+		}
+		
+		.card .form-group {
+		    margin-left: 10px;
 		}
 		
 		/* Distance between each card */
 		.card.mb-4:not(:last-child) {
 		    margin-bottom: 20px !important;
 		}
+		
+		.card-order {
+		    position: absolute;
+		    left: 0;
+		    top: 0;
+		    bottom: 0;
+		    width: 20px;
+		    background-color: #f0f0f0;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: bold;
+		    color: #666;
+		    border-right: 1px solid #ddd;
+		}
+		
 		
 	    .code-textarea {
 		    font-family: 'Source Code Pro', sans-serif;
@@ -316,6 +347,11 @@
 		    <!-- PART 1: Form at the top to create a new card -->
 			<!-- <div class="card mb-4" ng-repeat="card in assortment.cards"> -->
 			<div class="card mb-4" ng-repeat="card in assortment.cards track by $index">
+			
+				<div class="card-order">
+			        <span>{{$index + 1}}</span>
+			    </div>
+			
 		        <div class="card-body">
 		            <div class="row mb-4">
 		                <div class="col-md-4">
