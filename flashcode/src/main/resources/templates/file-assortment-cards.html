@@ -40,6 +40,13 @@
         	--flashcode-title-color: #ffffff;
 		}
 		
+		.assortment-title {
+		    font-size: 40px;  /* Increased size */
+		    font-weight: bold;
+		    margin: 0;
+		    margin-right: 20px;  /* Add some space to the right of the title */
+		}
+		
 		.auto-expand {
 		    min-height: 120px;
 		    overflow-y: hidden;
@@ -60,19 +67,35 @@
 		    font-family: 'Work Sans', sans-serif;
 		}
 		
+		.btn-study {
+		    background-color: var(--header-color);
+		    color: white;
+		    border: none;
+		    padding: 12px 30px;  /* Increased padding to make it larger */
+		    border-radius: 5px;
+		    font-weight: bold;
+		    font-size: 20px;  /* Increased font size */
+		    text-decoration: none;
+		    transition: background-color 0.3s ease;
+		    margin-right: 10px;
+		    margin-bottom: 0px;
+		}
+		
+		.btn-study:hover {
+		    background-color: color-mix(in srgb, var(--header-color) 80%, white);  /* Makes it 20% brighter */
+		    color: white;
+		    text-decoration: none;
+		}
+		
+		.card-count {
+		    font-size: 14px;
+		    color: #666;
+		}
+		
 		.card.mb-4:not(:last-child) {
 		    margin-bottom: 40px !important; /* Adjust the pixel value as needed */
 		}
 		
-		/* #code {
-	        font-family: 'Source Code Pro', sans-serif;
-	        font-size: 0.8em;
-	        tab-size: 2;
-		    -moz-tab-size: 2;
-		    -o-tab-size: 2;
-		    white-space: pre-wrap;
-	    } */
-	    
 	    .code-textarea {
 		    font-family: 'Source Code Pro', sans-serif;
 		    font-size: 0.8em;
@@ -115,6 +138,25 @@
 		
 		h1 {
 		    color: var(--title-color);
+		}
+		
+		.header-container {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 10px;
+		}
+		
+		/* TODO: remove this if we don't want a header */
+		.header-divider {
+		    border: 0;
+		    border-top: 1px solid #ccc;
+		    margin-top: 10px;
+		}
+		
+		.left-header {
+		    display: flex;
+		    align-items: center;
 		}
 		
 		.mb-4 {
@@ -164,6 +206,24 @@
 		    font-size: 12px;
 		}
 		
+		.right-header {
+		    display: flex;
+		    flex-direction: column;
+		}
+				
+		.username {
+		    font-size: 16px;
+		    font-weight: bold;
+		    margin-bottom: 5px;
+		}
+		
+		.vertical-divider {
+		    width: 1px;
+		    height: 40px;
+		    background-color: #ccc;
+		    margin: 20px;
+		}
+		
 	</style>
 </head>
 <body ng-app="myApp">
@@ -200,11 +260,18 @@
 	    <!-- PART TWO: html -->
 		<div class="custom-container mt-5" ng-controller="assortmentCardsCtrl">
 				
-		    <div class="d-flex justify-content-between align-items-center">
-		        <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
-		        <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
+		    <div class="header-container">
+		        <div class="left-header">
+		            <h1 class="assortment-title" th:text="${assortment.title}"></h1>
+		            <div class="vertical-divider"></div>
+		            <div class="right-header">
+		                <div class="username" th:text="${username}"></div>
+		                <div class="card-count">{{ assortment.cards.length }} card{{ assortment.cards.length !== 1 ? 's' : '' }}</div>
+		            </div>
+		        </div>
+		        <a class="btn btn-study" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
 		    </div>
-		    <p><span th:text="${assortment.description}"></span></p>
+		    <hr class="header-divider">
     
 		    <!-- PART 1: Form at the top to create a new card -->
 			<!-- <div class="card mb-4" ng-repeat="card in assortment.cards"> -->
