@@ -127,7 +127,12 @@
 		    cursor: pointer;
 		}
 		
-		.description-container:hover::after {
+		/* .description-container:hover::after {
+		    content: ' ✎';
+		    color: #999;
+		} */
+		
+		.description-container:not(.editing):hover::after {
 		    content: ' ✎';
 		    color: #999;
 		}
@@ -297,22 +302,10 @@
 		        </div>
 		        <a class="btn btn-study" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
 		    </div>
-		    <!-- <hr class="header-divider"> -->
 		    
-		    <!-- <div class="description-container" ng-click="editDescription()">
-		        <span ng-if="!editingDescription" ng-class="{'no-description': !assortment.description}">
-		            {{assortment.description || 'Add description...'}}
-		        </span>
-		        <input ng-if="editingDescription" type="text" ng-model="assortment.description" 
-		               ng-blur="saveDescription()" ng-keyup="$event.keyCode == 13 && saveDescription()"
-		               class="description-input" placeholder="Add description...">
-		    </div>
-		    <hr class="header-divider"> -->
-		    
-		    <div class="description-container" ng-click="editDescription()">
-			    <span ng-if="!editingDescription" ng-class="{'no-description': !assortment.description}">
-			        <span ng-if="assortment.description">{{assortment.description}}</span>
-			        <span ng-if="!assortment.description">Add description...</span>
+		    <div class="description-container" ng-class="{'editing': editingDescription}" ng-click="editDescription()">
+			    <span ng-if="!editingDescription">
+			        {{assortment.description || 'Add description...'}}
 			    </span>
 			    <input ng-if="editingDescription" type="text" ng-model="assortment.description"
 			           ng-blur="saveDescription()" ng-keyup="$event.keyCode == 13 && saveDescription()"
