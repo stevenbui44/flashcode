@@ -158,11 +158,6 @@
 		    cursor: pointer;
 		}
 		
-		/* .description-container:hover::after {
-		    content: ' ✎';
-		    color: #999;
-		} */
-		
 		.description-container:not(.editing):hover::after {
 		    content: ' ✎';
 		    color: #999;
@@ -211,6 +206,10 @@
 		    margin-top: 10px;
 		}
 		
+		.justify-content-end {
+		    justify-content: flex-end !important;
+		}
+				
 		.left-header {
 		    display: flex;
 		    align-items: center;
@@ -354,14 +353,14 @@
 			
 		        <div class="card-body">
 		            <div class="row mb-4">
-		                <div class="col-md-4">
+		                <div class="col-md-3">
 		                    <div class="form-group">
 		                        <label for="question-{{$index}}">Question:</label>
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea> -->
 		                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="assortment.cards[$index].question" ng-change="updateCard(assortment.cards[$index])"></textarea>
 		                    </div>
 		                </div>
-		                <div class="col-md-4">
+		                <div class="col-md-6">
 		                    <div class="form-group">
 		                        <label for="code-{{$index}}">Code:</label>
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
@@ -369,7 +368,7 @@
 		                        <textarea class="form-control auto-expand main-textarea code-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
 		                    </div>
 		                </div>
-		                <div class="col-md-4">
+		                <div class="col-md-3">
 		                    <div class="form-group">
 		                        <label for="approach-{{$index}}">Approach:</label>
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea> -->
@@ -377,15 +376,15 @@
 		                    </div>
 		                </div>
 		            </div>
-		            <div class="row">
-		                <div class="col-md-4 offset-md-4">
+		            <div class="row justify-content-end">
+		                <div class="col-md-3 offset-md-4">
 		                    <div class="form-group">
 		                        <label for="timeComplexity-{{$index}}">Time Complexity:</label>
 		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea> -->
 		                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="assortment.cards[$index].timeComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
 		                    </div>
 		                </div>
-		                <div class="col-md-4">
+		                <div class="col-md-3">
 		                    <div class="form-group">
 		                        <label for="spaceComplexity-{{$index}}">Space Complexity:</label>
 		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea> -->
@@ -470,6 +469,7 @@
 	        	            if ($scope.assortment.cards.length === 0) {
 	        	                $scope.createNewCard();
 	        	            }
+	        	            $timeout($scope.initAutoExpand);
 	        	        }, function(error) {
 	        	            console.error('Error fetching cards:', error);
 	        	        });
@@ -605,6 +605,9 @@
 				    // Enter key
 				    else if (event.key === "Enter") {
 				        event.preventDefault();
+				        $timeout(function() {
+					        $scope.initAutoExpand();
+					    });
 				        var currentLine = textarea.value.substring(0, start).split("\n").pop();
 				        var indentation = currentLine.match(/^\t*/)[0]; // Match tabs at the beginning of the line
 				        textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
