@@ -159,6 +159,38 @@
 		    padding-top: 10px;
 		}
 		
+		.delete-button {
+		    position: absolute;
+		    top: 10px;
+		    right: -30px; /* Moves the button slightly outside the card */
+		    cursor: pointer;
+		    transition: all 0.3s ease;
+		}
+		
+		.delete-button i {
+		    font-size: 18px;
+		    color: #888;
+		}
+		
+		.delete-button:hover i {
+		    color: #ff4444;
+		    transform: scale(1.2);
+		}
+		
+		.delete-button:hover i::before {
+		    content: "\f2ed"; /* Unicode for 'fa-trash-alt' (open trash can) */
+		}
+
+		/* To make the trash can appear only when hovering over the card */
+		.card .delete-button {
+		    opacity: 0;
+		    transition: opacity 0.3s ease;
+		}
+		
+		.card:hover .delete-button {
+		    opacity: 1;
+		}
+		
 		.description-container {
 		    margin-top: 10px;
 		    margin-bottom: 10px;
@@ -353,6 +385,7 @@
 	    <!-- PART TWO: html -->
 		<div class="custom-container mt-5" ng-controller="assortmentCardsCtrl">
 				
+			<!-- 2.1: Title + Description -->
 		    <div class="header-container">
 		        <div class="left-header">
 		            <h1 class="assortment-title" th:text="${assortment.title}"></h1>
@@ -375,14 +408,21 @@
 			</div>
 			<hr class="header-divider">
     
-		    <!-- PART 1: Form at the top to create a new card -->
-			<!-- <div class="card mb-4" ng-repeat="card in assortment.cards"> -->
+    
+		    <!-- 2.2: All Cards -->
 			<div class="card mb-4" ng-repeat="card in assortment.cards track by $index">
 			
+				<!-- 2.2.1: Card Number box -->
 				<div class="card-order">
 			        <span>{{$index + 1}}</span>
 			    </div>
 			
+				<!-- 2.2.2: Delete Card button -->
+				<div class="delete-button" ng-click="deleteCard(card.id)">
+			        <i class="fas fa-trash"></i>
+			    </div>
+				
+				<!-- 2.2.3: Card box -->
 		        <div class="card-body">
 		            <div class="row mb-4">
 		                <div class="col-md-3">
@@ -424,7 +464,7 @@
 		                    </div>
 		                </div>
 		            </div>
-		            <button class="btn btn-danger mt-2" ng-click="deleteCard(card.id)">Delete Card</button>
+		            <!-- <button class="btn btn-danger mt-2" ng-click="deleteCard(card.id)">Delete Card</button> -->
 		        </div>
 		    </div>
 		    
