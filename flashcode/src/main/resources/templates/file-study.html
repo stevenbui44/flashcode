@@ -80,6 +80,11 @@
 	        border-color: color-mix(in srgb, var(--header-color) 80%, white);
 	    }
 	    
+	    .btn-warning, .btn-success {
+		    padding: 8px 16px;
+		    font-size: 14px;
+		}
+	    
 	    .card-count {
 		    font-size: 14px;
 		    color: #666;
@@ -125,6 +130,7 @@
 		.left-header {
 		    display: flex;
 		    align-items: center;
+		    flex-grow: 1;
 		}
 		
 		.mb-4 {
@@ -178,6 +184,11 @@
 		    display: flex;
 		    flex-direction: column;
 		}
+		
+		.study-buttons {
+		    display: flex;
+		    align-items: center;
+		}
 	    
 	    .username {
 		    font-size: 16px;
@@ -228,9 +239,9 @@
 	    <div class="custom-container mt-5" ng-controller="studyCtrl">
 	    
 	        <!-- 2.1: Title + Description -->
-		    <div class="header-container">
+			<div class="header-container">
 			    <div class="left-header">
-				    <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="back-arrow mr-3">
+			        <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="back-arrow mr-3">
 			            <i class="fas fa-arrow-left"></i>
 			        </a>
 			        <h1 class="assortment-title" th:text="${assortment.title}"></h1>
@@ -245,21 +256,19 @@
 			            </div>
 			        </div>
 			    </div>
+			    <div class="study-buttons" ng-if="!studyComplete">
+			        <button class="btn btn-warning mr-2" ng-click="stillLearning()">
+			            Still Learning
+			        </button>
+			        <button class="btn btn-success" ng-click="know()">
+			            Know
+			        </button>
+			    </div>
 			</div>
 		    
 	        
 	        <!-- 2.1: previous and next buttons -->
 	        <div ng-if="!studyComplete">
-		        <div class="d-flex justify-content-between mb-3">
-				    <button class="btn btn-warning"
-				        ng-click="stillLearning()">
-				        Still Learning
-				    </button>
-				    <button class="btn btn-success"
-				        ng-click="know()">
-				        Know
-				    </button>
-				</div>
 		        
 		        <!-- 2.2: All Cards -->
 		        <div class="mt-4">
