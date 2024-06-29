@@ -323,10 +323,7 @@
 		        </div>
 		    </div>
 	        
-	        
-	        
-	        
-	        <!-- 2.4: Show only if at the end -->
+	        <!-- 2.4: Show only if at the end of the deck -->
 	        <div ng-if="studyComplete" class="text-center mt-5">
 		        <h2>Congratulations! You finished reviewing this assortment!</h2>
 		        <div class="mt-4">
@@ -335,6 +332,7 @@
 		            <a class="btn btn-info" th:href="@{/assortments/{id}(id=${assortment.id})}">Return to Assortment</a>
 		        </div>
 		    </div>
+	        
 	        
 	        <!-- Modal 1: Choose a theme -->
 		    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
@@ -368,8 +366,9 @@
 	    <script>
 	        var app = angular.module('myApp', []);
 	        app.controller('studyCtrl', function($scope, $http) {
+	        
 	        	
-	        	
+	        	// 3.1: Setting up variables
 	        	$scope.assortment = { 
         	        id: [[${assortment.id}]], 
         	        cards: [] 
@@ -382,15 +381,16 @@
 	            $scope.isReviewingStillLearning = false;
 	            
 	            $scope.visible = {
-	                    question: false,
-	                    approach: false,
-	                    code: false,
-	                    timeComplexity: false,
-	                    spaceComplexity: false
-	                };
+                    question: false,
+                    approach: false,
+                    code: false,
+                    timeComplexity: false,
+                    spaceComplexity: false
+                };
 	
 	            
 	            
+	            // 3.2: Get cards
 	            $scope.getCards = function() {
 	                $http.get('/api/v1/assortments/' + $scope.assortment.id)
 	                    .then(function(response) {
@@ -406,15 +406,8 @@
 	
 	            
 	            
-	            
-	            
-	            
-	            
-	            
-	            
-	            
+	            // 3.3: Still Learning and Know buttons 
 	            $scope.stillLearning = function() {
-	                // Check if the card is already in reviewCards before adding
 	                if (!$scope.reviewCards.some(card => card.id === $scope.currentCard.id)) {
 	                    $scope.reviewCards.push($scope.currentCard);
 	                }
@@ -440,14 +433,7 @@
 
 	            
 	            
-	            
-	            
-	            
-	            
-	            
-	            
-	            
-	            
+	            // 3.4: Resetting the screen when on a new card
 	            $scope.resetVisibility = function() {
 	                $scope.visible = {
 	                    question: false,
@@ -464,15 +450,12 @@
 	            
 	            
 	            
-	            
-	            
-	            
-	            
+	            // 3.5: Cards when you get to the end of the deck
 	            $scope.reviewStillLearning = function() {
 	                $scope.assortment.cards = [...$scope.reviewCards];
 	                $scope.totalCards = $scope.reviewCards.length;
 	                $scope.isReviewingStillLearning = true;
-	                $scope.reviewCards = []; // Clear the reviewCards array
+	                $scope.reviewCards = [];
 	                $scope.currentCardIndex = 0;
 	                $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
 	                $scope.studyComplete = false;
@@ -499,9 +482,7 @@
 	            
 	            
 	            
-	            
-	            
-	            
+	            // 3.6: Handling tab + indentation in the notes section
 	            $scope.handleTab = function(event) {
 	                var textarea = event.target;
 	                var start = textarea.selectionStart;
@@ -534,7 +515,7 @@
 	            
 	            
 	            
-	            
+	            // 3.7: Themes 
 	            $scope.currentTheme = localStorage.getItem('theme') || 'default';
 	
 			    $scope.setTheme = function(themeName) {
@@ -545,10 +526,7 @@
 			    
 			    
 			    
-			    
-			    
-			    
-			    
+			    // 3.8: Shuffling cards functionality
 			    $scope.shuffleCards = function() {
 			        function shuffle(array) {
 			            for (let i = array.length - 1; i > 0; i--) {
@@ -563,7 +541,6 @@
 			        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
 			        $scope.resetVisibility();
 			    };
-			    
 			    
 			    
 	            
