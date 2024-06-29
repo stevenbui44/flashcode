@@ -112,6 +112,7 @@
 		}
 		
 		.card {
+			flex-grow: 1;
 		    position: relative;
 		    display: flex;
 		}
@@ -127,8 +128,9 @@
 		    color: #666;
 		}
 		
+		/* Distance between card text field and the left side of box */
 		.card .form-group {
-		    margin-left: 10px;
+		    margin-left: -10px;
 		}
 		
 		/* Distance between each card */
@@ -137,18 +139,27 @@
 		}
 		
 		.card-order {
-		    position: absolute;
-		    left: 0;
-		    top: 0;
-		    bottom: 0;
-		    width: 20px;
+		    width: 30px; /* Adjust width as needed */
+		    /* height: 30px; */
 		    background-color: #f0f0f0;
+		    /* background-color: var(--background-color); */
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
 		    display: flex;
 		    align-items: center;
 		    justify-content: center;
 		    font-weight: bold;
-		    color: #666;
-		    border-right: 1px solid #ddd;
+		    margin-right: 10px; /* Distance between order box and card box */
+		    position: relative;
+		    /* top: 3px; */
+		}
+		
+		.card-wrapper {
+		    display: flex;
+		    /* align-items: flex-start; */
+		    align-items: stretch;
+		    margin-bottom: 20px; /* Distance between cards */
+		    position: relative; /* For proper positioning of absolute elements */
 		}
 		
 		
@@ -432,63 +443,68 @@
     
     
 		    <!-- 2.2: All Cards -->
-			<div class="card mb-4" ng-repeat="card in assortment.cards track by $index">
-			
-				<!-- 2.2.1: Card Number box -->
-				<div class="card-order">
+		   	<div class="card-wrapper" ng-repeat="card in assortment.cards track by $index">
+		   		<div class="card-order">
 			        <span>{{$index + 1}}</span>
 			    </div>
-			
-				<!-- 2.2.2: Delete Card button -->
-				<div class="delete-button" ng-click="deleteCard(card.id)">
-			        <i class="fas fa-trash"></i>
-			    </div>
+				<div class="card mb-4">
 				
-				<!-- 2.2.3: Card box -->
-		        <div class="card-body">
-		            <div class="row mb-4">
-		                <div class="col-md-3">
-		                    <div class="form-group input-container">
-		                        <!-- <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea> -->
-		                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="assortment.cards[$index].question" ng-change="updateCard(assortment.cards[$index])"></textarea>
-		                        <label for="question-{{$index}}">QUESTION</label>
-		                    </div>
-		                </div>
-		                <div class="col-md-6">
-		                    <div class="form-group input-container">
-		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
-		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea> -->
-		                        <textarea class="form-control auto-expand main-textarea code-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
-		                        <label for="code-{{$index}}">CODE</label>
-		                    </div>
-		                </div>
-		                <div class="col-md-3">
-		                    <div class="form-group input-container">
-		                        <!-- <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea> -->
-		                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="assortment.cards[$index].approach" ng-change="updateCard(assortment.cards[$index])"></textarea>
-		                        <label for="approach-{{$index}}">APPROACH</label>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="row justify-content-end">
-		                <div class="col-md-3 offset-md-4">
-		                    <div class="form-group input-container">
-		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea> -->
-		                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="assortment.cards[$index].timeComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
-		                        <label for="timeComplexity-{{$index}}">TIME COMPLEXITY</label>
-		                    </div>
-		                </div>
-		                <div class="col-md-3">
-		                    <div class="form-group input-container">
-		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea> -->
-		                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="assortment.cards[$index].spaceComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
-		                        <label for="spaceComplexity-{{$index}}">SPACE COMPLEXITY</label>
-		                    </div>
-		                </div>
-		            </div>
-		            <!-- <button class="btn btn-danger mt-2" ng-click="deleteCard(card.id)">Delete Card</button> -->
-		        </div>
-		    </div>
+					<!-- 2.2.1: Card Number box -->
+					<!-- <div class="card-order">
+				        <span>{{$index + 1}}</span>
+				    </div> -->
+				
+					<!-- 2.2.2: Delete Card button -->
+					<div class="delete-button" ng-click="deleteCard(card.id)">
+				        <i class="fas fa-trash"></i>
+				    </div>
+					
+					<!-- 2.2.3: Card box -->
+			        <div class="card-body">
+			            <div class="row mb-4">
+			                <div class="col-md-3">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="assortment.cards[$index].question" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="question-{{$index}}">QUESTION</label>
+			                    </div>
+			                </div>
+			                <div class="col-md-6">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="code code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea> -->
+			                        <textarea class="form-control auto-expand main-textarea code-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
+			                        <label for="code-{{$index}}">CODE</label>
+			                    </div>
+			                </div>
+			                <div class="col-md-3">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="assortment.cards[$index].approach" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="approach-{{$index}}">APPROACH</label>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="row justify-content-end">
+			                <div class="col-md-3 offset-md-4">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="assortment.cards[$index].timeComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="timeComplexity-{{$index}}">TIME COMPLEXITY</label>
+			                    </div>
+			                </div>
+			                <div class="col-md-3">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="assortment.cards[$index].spaceComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="spaceComplexity-{{$index}}">SPACE COMPLEXITY</label>
+			                    </div>
+			                </div>
+			            </div>
+			            <!-- <button class="btn btn-danger mt-2" ng-click="deleteCard(card.id)">Delete Card</button> -->
+			        </div>
+			    </div>
+			</div>
 		    
 		    <!-- <div class="text-center mt-4">
 		        <button class="btn btn-primary" ng-click="createNewCard()">Create New Card</button>
