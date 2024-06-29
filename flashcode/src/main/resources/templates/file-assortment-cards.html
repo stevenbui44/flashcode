@@ -69,6 +69,28 @@
 		    font-family: 'Work Sans', sans-serif;
 		}
 		
+		.btn-create-card {
+		    background-color: var(--header-color);
+		    color: white;
+		    border: none;
+		    padding: 12px 24px;
+		    border-radius: 5px;
+		    font-weight: bold;
+		    font-size: 18px;
+		    transition: all 0.3s ease;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		}
+		
+		.btn-create-card:hover {
+		    background-color: color-mix(in srgb, var(--header-color) 80%, white);
+		    transform: translateY(-2px);
+		    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		}
+		
+		.btn-create-card i {
+		    margin-right: 8px;
+		}
+		
 		.btn-study {
 		    background-color: var(--header-color);
 		    color: white;
@@ -468,9 +490,14 @@
 		        </div>
 		    </div>
 		    
-		    <div class="text-center mt-4">
+		    <!-- <div class="text-center mt-4">
 		        <button class="btn btn-primary" ng-click="createNewCard()">Create New Card</button>
-		    </div>
+		    </div> -->
+		    <div class="text-center mt-4">
+			    <button class="btn btn-create-card" ng-click="createNewCard()">
+			        <i class="fas fa-plus-circle mr-2"></i>Create New Card
+			    </button>
+			</div>
 		    
 		    <!-- Modal 1: Choose a theme -->
 		    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
