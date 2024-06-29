@@ -15,43 +15,48 @@
 	
 		:root {
 	        --background-color: #f9f7f1;
-	        --header-color: #1a2a57;
-	        --title-color: #000000;
-	        --flashcode-title-color: #ffffff;
+		    --header-color: #1a2a57;
+		    
+		    --assortment-background: #ffffff;
+		    --card-count-background: #f0f0f0;
+		    --assortment-border: #ddd;
+		    --ellipsis-color: #333333;
+		    
+		    --title-color: #000000;
+		    --text-primary: #333333;
+		    --text-secondary: #666666;
+		    --no-description-color: #999999;
+		    --search-text-color: #ecf0f1;
+		    --no-assortments-text: #333333;
+		    
+		    --search-input-background: #ffffff;
+	        --search-input-text: #333333;
+	        --search-input-placeholder: #999999;
+	        
+	        --button-text: #ffffff;
+	        
 	        --username-text: #ffffff;
+	        --profile-pic-background: #808080;
+	        --profile-pic-text: #ffffff;
+        	--flashcode-title-color: #ffffff;
 	    }
-	
-	    body {
-	        font-family: 'Work Sans', sans-serif;
-	        background-color: var(--background-color);
-	    }
-	
-	    .navbar {
-	        background-color: var(--header-color) !important;
-	    }
-	
-	    .navbar-brand {
-	        color: var(--flashcode-title-color) !important;
-	        font-weight: bold;
-	    }
-	
-	    .nav-link {
-	        color: var(--username-text);
-	        text-decoration: none;
-	    }
-	
-	    h1 {
-	        color: var(--title-color);
-	        font-size: 40px;
-	        font-weight: bold;
-	        margin-bottom: 20px;
-	    }
-	
-	    pre {
-	        font-family: 'Source Code Pro', monospace;
-	    }
-	
-	    .btn-primary {
+	    
+	    .assortment-title {
+		    font-size: 40px; 
+		    font-weight: bold;
+		    margin: 0;
+		    margin-right: 20px;
+		}
+		
+		body {
+		    background-color: var(--background-color);
+		    height: 100%;
+		    display: flex;
+    		flex-direction: column;
+		    font-family: 'Work Sans', sans-serif;
+		}
+		
+		.btn-primary {
 	        background-color: var(--header-color);
 	        border-color: var(--header-color);
 	    }
@@ -60,6 +65,118 @@
 	        background-color: color-mix(in srgb, var(--header-color) 80%, white);
 	        border-color: color-mix(in srgb, var(--header-color) 80%, white);
 	    }
+	    
+	    .card-count {
+		    font-size: 14px;
+		    color: #666;
+		}
+	    
+	    .content {
+		    flex: 1 0 auto;
+		    padding-bottom: 120px; /* Adjust this value to increase/decrease the gap */
+		}
+		
+		.custom-container {
+		    width: 100%;
+		    max-width: 1200px;
+		    margin-right: auto;
+		    margin-left: auto;
+		    padding-right: 15px;
+		    padding-left: 15px;
+		    padding-top: 10px;
+		}
+		
+		.form-group label, h2, p {
+		    color: var(--assortment-title-color);
+		}
+	
+	    h1 {
+		    color: var(--title-color);
+		}
+	    
+	    .header-container {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 10px;
+		}
+		
+		/* TODO: remove this if we don't want a header */
+		.header-divider {
+		    border: 0;
+		    border-top: 1px solid #ccc;
+		    margin-top: 10px;
+		}
+		
+		.left-header {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.mb-4 {
+		    margin-bottom: 0rem !important;
+		}
+		
+		.navbar {
+		    background-color: var(--header-color) !important;
+		}
+		
+		.navbar-brand {
+		    color: var(--flashcode-title-color) !important;
+		}
+		
+		.nav-item {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.nav-item form {
+		    margin-left: 15px;
+		}
+		
+		.nav-link {
+			color: var(--username-text);
+		    text-decoration: none; 
+		}
+		
+		.nav-link:hover .profile-pic {
+		    background-color: #666666; /* Darker grey on hover */
+		}
+		
+		.navbar-nav {
+		    align-items: center;
+		}	    
+	    
+	    .profile-pic {
+		    width: 28px;
+		    height: 28px;
+		    border-radius: 50%;
+		    background-color: var(--profile-pic-background);
+		    color: var(--profile-pic-text);
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: bold;
+		    font-size: 12px;
+		}
+
+		.right-header {
+		    display: flex;
+		    flex-direction: column;
+		}
+	    
+	    .username {
+		    font-size: 16px;
+		    font-weight: bold;
+		    margin-bottom: 5px;
+		}
+	    
+	    .vertical-divider {
+		    width: 1px;
+		    height: 40px;
+		    background-color: #ccc;
+		    margin: 20px;
+		}
 	
 	</style>
 </head>
@@ -90,199 +207,215 @@
 	    </div>
 	</nav>
 
-	<!-- PART TWO: HTML code -->
-    <div class="container mt-5" ng-controller="studyCtrl">
-        <h1>Study Assortment: <span th:text="${assortment.title}"></span></h1>
-        
-        <!-- 2.1: previous and next buttons -->
-        <div class="d-flex justify-content-between mb-3">
-            <button class="btn"
-                ng-class="{'btn-secondary': currentCardIndex === 0, 'btn-primary': currentCardIndex > 0}"
-                ng-click="previousCard()"
-                ng-disabled="currentCardIndex === 0">
-                Previous
-            </button>
-            <button class="btn"
-                ng-class="{'btn-secondary': currentCardIndex === assortment.cards.length - 1, 'btn-primary': currentCardIndex < assortment.cards.length - 1}"
-                ng-click="nextCard()"
-                ng-disabled="currentCardIndex === assortment.cards.length - 1">
-                Next
-            </button>
-        </div>
-        
-        <!-- 2.2: All Cards -->
-        <div class="mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h2 class="card-title">Question</h2>
-                            <p class="card-text">{{ currentCard.question }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3" >
-                        <div class="card-body" ng-click="toggleVisibility('approach')">
-                            <h2 class="card-title">Approach</h2>
-                            <p class="card-text" ng-if="visible.approach">{{ currentCard.approach }}</p>
-                        </div>
-                    </div>
-                    <div class="card mb-3">
-                        <div class="card-body" ng-click="toggleVisibility('code')">
-                            <h2 class="card-title">Code</h2>
-                            <pre class="card-text" ng-if="visible.code">{{ currentCard.code }}</pre>
-                        </div>
-                    </div>
-                    <div class="card mb-3">
-                        <div class="card-body" ng-click="toggleVisibility('timeComplexity')">
-                            <h2 class="card-title">Time Complexity</h2>
-                            <p class="card-text" ng-if="visible.timeComplexity">{{ currentCard.timeComplexity }}</p>
-                        </div>
-                    </div>
-                    <div class="card mb-3">
-                        <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
-                            <h2 class="card-title">Space Complexity</h2>
-                            <p class="card-text" ng-if="visible.spaceComplexity">{{ currentCard.spaceComplexity }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 2.3: text box area -->
-        <div class="mt-4">
-            <textarea class="form-control" rows="5" placeholder="Type here..." ng-keydown="handleTab($event)"></textarea>
-        </div>
-        
-        <!-- Modal 1: Choose a theme -->
-	    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
-		    <div class="modal-dialog" role="document">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <h5 class="modal-title" id="themeModalLabel">Choose Theme</h5>
-		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                    <span aria-hidden="true">&times;</span>
-		                </button>
-		            </div>
-		            <div class="modal-body">
-		                <div class="list-group">
-		                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('default')">
-		                        Default
-		                        <i class="fas fa-check" ng-show="currentTheme === 'default'"></i>
-		                    </button>
-		                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('light')">
-		                        Light Mode
-		                        <i class="fas fa-check" ng-show="currentTheme === 'light'"></i>
-		                    </button>
-		                </div>
+
+	<div class="content">
+	
+		<!-- PART TWO: HTML code -->
+	    <div class="custom-container mt-5" ng-controller="studyCtrl">
+	    
+	        <!-- 2.1: Title + Description -->
+		    <div class="header-container">
+		        <div class="left-header">
+		            <h1 class="assortment-title" th:text="${assortment.title}"></h1>
+		            <div class="vertical-divider"></div>
+		            <div class="right-header">
+		                <div class="username" th:text="${username}"></div>
+		                <div class="card-count">{{ assortment.cards.length }} card{{ assortment.cards.length !== 1 ? 's' : '' }}</div>
 		            </div>
 		        </div>
 		    </div>
-		</div>
-		
-    </div>
-
-	<!-- PART THREE: Angular JS code -->
-    <script>
-        var app = angular.module('myApp', []);
-        app.controller('studyCtrl', function($scope, $http) {
-            $scope.assortment = { 
-                id: [[${assortment.id}]], 
-                cards: [] 
-            };
-            $scope.currentCardIndex = 0;
-            $scope.visible = {
-                    question: false,
-                    approach: false,
-                    code: false,
-                    timeComplexity: false,
-                    spaceComplexity: false
-                };
-
-            $scope.getCards = function() {
-                $http.get('/api/v1/assortments/' + $scope.assortment.id)
-                    .then(function(response) {
-                        $scope.assortment.cards = response.data;
-                        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
-                    }, function(error) {
-                        console.error('Error fetching cards:', error);
-                    });
-            };
-
-            $scope.getCards();
-
-            $scope.previousCard = function() {
-                if ($scope.currentCardIndex > 0) {
-                    $scope.currentCardIndex--;
-                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
-                    $scope.resetVisibility();
-                }
-            };
-
-            $scope.nextCard = function() {
-                if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
-                    $scope.currentCardIndex++;
-                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
-                    $scope.resetVisibility();
-                }
-            };
-            
-            $scope.resetVisibility = function() {
-                $scope.visible = {
-                    question: false,
-                    approach: false,
-                    code: false,
-                    timeComplexity: false,
-                    spaceComplexity: false
-                };
-            };
-            
-            $scope.toggleVisibility = function(section) {
-                $scope.visible[section] = !$scope.visible[section];
-            };
-            
-            $scope.handleTab = function(event) {
-                var textarea = event.target;
-                var start = textarea.selectionStart;
-                var end = textarea.selectionEnd;
-
-				// tab
-                if (event.key === "Tab") {
-                    event.preventDefault();
-                    if (event.shiftKey) {
-                        // shift tab = go back one tab
-                        var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
-                        if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
-                            textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
-                            textarea.selectionStart = textarea.selectionEnd = start - 1;
-                        }
-                    } else {
-                        // tab: tab forward
-                        textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
-                        textarea.selectionStart = textarea.selectionEnd = start + 1;
-                    }
-                // enter
-                } else if (event.keyCode === 13) {
-                    event.preventDefault();
-                    var currentLine = textarea.value.substring(0, start).split("\n").pop();
-                    var indentation = currentLine.match(/^\s*/)[0];
-                    textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
-                    textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
-                }
-            };
-            
-            $scope.currentTheme = localStorage.getItem('theme') || 'default';
-
-		    $scope.setTheme = function(themeName) {
-		        setTheme(themeName);
-		        $scope.currentTheme = themeName;
-		        localStorage.setItem('theme', themeName);
-		    };
-            
-            $scope.getCards();
-        });
-    </script>
+		    
+	        
+	        <!-- 2.1: previous and next buttons -->
+	        <div class="d-flex justify-content-between mb-3">
+	            <button class="btn"
+	                ng-class="{'btn-secondary': currentCardIndex === 0, 'btn-primary': currentCardIndex > 0}"
+	                ng-click="previousCard()"
+	                ng-disabled="currentCardIndex === 0">
+	                Previous
+	            </button>
+	            <button class="btn"
+	                ng-class="{'btn-secondary': currentCardIndex === assortment.cards.length - 1, 'btn-primary': currentCardIndex < assortment.cards.length - 1}"
+	                ng-click="nextCard()"
+	                ng-disabled="currentCardIndex === assortment.cards.length - 1">
+	                Next
+	            </button>
+	        </div>
+	        
+	        <!-- 2.2: All Cards -->
+	        <div class="mt-4">
+	            <div class="row">
+	                <div class="col-md-6">
+	                    <div class="card mb-3">
+	                        <div class="card-body">
+	                            <h2 class="card-title">Question</h2>
+	                            <p class="card-text">{{ currentCard.question }}</p>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="col-md-6">
+	                    <div class="card mb-3" >
+	                        <div class="card-body" ng-click="toggleVisibility('approach')">
+	                            <h2 class="card-title">Approach</h2>
+	                            <p class="card-text" ng-if="visible.approach">{{ currentCard.approach }}</p>
+	                        </div>
+	                    </div>
+	                    <div class="card mb-3">
+	                        <div class="card-body" ng-click="toggleVisibility('code')">
+	                            <h2 class="card-title">Code</h2>
+	                            <pre class="card-text" ng-if="visible.code">{{ currentCard.code }}</pre>
+	                        </div>
+	                    </div>
+	                    <div class="card mb-3">
+	                        <div class="card-body" ng-click="toggleVisibility('timeComplexity')">
+	                            <h2 class="card-title">Time Complexity</h2>
+	                            <p class="card-text" ng-if="visible.timeComplexity">{{ currentCard.timeComplexity }}</p>
+	                        </div>
+	                    </div>
+	                    <div class="card mb-3">
+	                        <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
+	                            <h2 class="card-title">Space Complexity</h2>
+	                            <p class="card-text" ng-if="visible.spaceComplexity">{{ currentCard.spaceComplexity }}</p>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        
+	        <!-- 2.3: text box area -->
+	        <div class="mt-4">
+	            <textarea class="form-control" rows="5" placeholder="Type here..." ng-keydown="handleTab($event)"></textarea>
+	        </div>
+	        
+	        <!-- Modal 1: Choose a theme -->
+		    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
+			    <div class="modal-dialog" role="document">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h5 class="modal-title" id="themeModalLabel">Choose Theme</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+			            </div>
+			            <div class="modal-body">
+			                <div class="list-group">
+			                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('default')">
+			                        Default
+			                        <i class="fas fa-check" ng-show="currentTheme === 'default'"></i>
+			                    </button>
+			                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('light')">
+			                        Light Mode
+			                        <i class="fas fa-check" ng-show="currentTheme === 'light'"></i>
+			                    </button>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			
+	    </div>
+	
+		<!-- PART THREE: Angular JS code -->
+	    <script>
+	        var app = angular.module('myApp', []);
+	        app.controller('studyCtrl', function($scope, $http) {
+	            $scope.assortment = { 
+	                id: [[${assortment.id}]], 
+	                cards: [] 
+	            };
+	            $scope.currentCardIndex = 0;
+	            $scope.visible = {
+	                    question: false,
+	                    approach: false,
+	                    code: false,
+	                    timeComplexity: false,
+	                    spaceComplexity: false
+	                };
+	
+	            $scope.getCards = function() {
+	                $http.get('/api/v1/assortments/' + $scope.assortment.id)
+	                    .then(function(response) {
+	                        $scope.assortment.cards = response.data;
+	                        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+	                    }, function(error) {
+	                        console.error('Error fetching cards:', error);
+	                    });
+	            };
+	
+	            $scope.getCards();
+	
+	            $scope.previousCard = function() {
+	                if ($scope.currentCardIndex > 0) {
+	                    $scope.currentCardIndex--;
+	                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+	                    $scope.resetVisibility();
+	                }
+	            };
+	
+	            $scope.nextCard = function() {
+	                if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
+	                    $scope.currentCardIndex++;
+	                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+	                    $scope.resetVisibility();
+	                }
+	            };
+	            
+	            $scope.resetVisibility = function() {
+	                $scope.visible = {
+	                    question: false,
+	                    approach: false,
+	                    code: false,
+	                    timeComplexity: false,
+	                    spaceComplexity: false
+	                };
+	            };
+	            
+	            $scope.toggleVisibility = function(section) {
+	                $scope.visible[section] = !$scope.visible[section];
+	            };
+	            
+	            $scope.handleTab = function(event) {
+	                var textarea = event.target;
+	                var start = textarea.selectionStart;
+	                var end = textarea.selectionEnd;
+	
+					// tab
+	                if (event.key === "Tab") {
+	                    event.preventDefault();
+	                    if (event.shiftKey) {
+	                        // shift tab = go back one tab
+	                        var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+	                        if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
+	                            textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
+	                            textarea.selectionStart = textarea.selectionEnd = start - 1;
+	                        }
+	                    } else {
+	                        // tab: tab forward
+	                        textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+	                        textarea.selectionStart = textarea.selectionEnd = start + 1;
+	                    }
+	                // enter
+	                } else if (event.keyCode === 13) {
+	                    event.preventDefault();
+	                    var currentLine = textarea.value.substring(0, start).split("\n").pop();
+	                    var indentation = currentLine.match(/^\s*/)[0];
+	                    textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
+	                    textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
+	                }
+	            };
+	            
+	            $scope.currentTheme = localStorage.getItem('theme') || 'default';
+	
+			    $scope.setTheme = function(themeName) {
+			        setTheme(themeName);
+			        $scope.currentTheme = themeName;
+			        localStorage.setItem('theme', themeName);
+			    };
+	            
+	            $scope.getCards();
+	        });
+	    </script>
+	</div>
     <footer class="footer mt-auto py-3">
 	    <div class="container text-center">
 	        <span class="text-muted">&copy; FlashCode 2024</span>

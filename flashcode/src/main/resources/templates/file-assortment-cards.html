@@ -128,6 +128,16 @@
 		    color: #666;
 		}
 		
+		/* To make the trash can appear only when hovering over the card */
+		.card .delete-button {
+		    opacity: 0;
+		    transition: opacity 0.3s ease;
+		}
+		
+		.card:hover .delete-button {
+		    opacity: 1;
+		}
+		
 		/* Distance between card text field and the left side of box */
 		.card .form-group {
 		    margin-left: -10px;
@@ -212,16 +222,6 @@
 		
 		.delete-button:hover i::before {
 		    content: "\f2ed"; /* Unicode for 'fa-trash-alt' (open trash can) */
-		}
-
-		/* To make the trash can appear only when hovering over the card */
-		.card .delete-button {
-		    opacity: 0;
-		    transition: opacity 0.3s ease;
-		}
-		
-		.card:hover .delete-button {
-		    opacity: 1;
 		}
 		
 		.description-container {
