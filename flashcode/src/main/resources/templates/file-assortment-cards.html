@@ -41,20 +41,22 @@
 		}
 		
 		.assortment-title {
-		    font-size: 40px;  /* Increased size */
+		    font-size: 40px; 
 		    font-weight: bold;
 		    margin: 0;
-		    margin-right: 20px;  /* Add some space to the right of the title */
+		    margin-right: 20px;
 		}
 		
+		/* Removes the adjustable text field with click and drag */
 		.auto-expand {
-		    min-height: 120px;
+		    min-height: 33px !important;
 		    overflow-y: hidden;
 		    resize: none;
 		}
 		
+		/* Removes the adjustable text field with click and drag */
 		.auto-expand-small {
-		    min-height: 30px;
+		    min-height: 33px !important;
 		    overflow-y: hidden;
 		    resize: none;
 		}
@@ -137,6 +139,11 @@
 		    white-space: pre-wrap;
 		}
 		
+		.complexity-textarea {
+		    min-height: 33px !important ;
+		    /* height: auto; */
+		}
+		
 		.content {
 		    flex: 1 0 auto;
 		    padding-bottom: 120px; /* Adjust this value to increase/decrease the gap */
@@ -180,7 +187,17 @@
 		.form-control {
 		    background-color: var(--assortment-box-background);
 		    color: var(--assortment-description-color);
+		    min-height: 33px !important;
+		    /* margin-bottom: 15px; */
 		}
+		
+		/* .form-control.auto-expand {
+		    min-height: 10px;
+		}
+		
+		.form-control.auto-expand-small {
+			min-height: 5px;
+		} */
 		
 		/* To ensure the placeholder text color matches */
 		.form-control::placeholder {
@@ -204,6 +221,21 @@
 		    border: 0;
 		    border-top: 1px solid #ccc;
 		    margin-top: 10px;
+		}
+		
+		.input-container {
+		    position: relative;
+		    margin-bottom: 40px;
+		}
+		
+		.input-container label {
+		    position: absolute;
+		    left: 0;
+		    bottom: -30px; /* How far the label is underneat the text field */
+		    font-size: 12px;
+		    text-transform: uppercase;
+		    color: #666;
+		    /* font-weight: bold; */
 		}
 		
 		.justify-content-end {
@@ -354,41 +386,41 @@
 		        <div class="card-body">
 		            <div class="row mb-4">
 		                <div class="col-md-3">
-		                    <div class="form-group">
-		                        <label for="question-{{$index}}">Question:</label>
+		                    <div class="form-group input-container">
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea> -->
 		                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="assortment.cards[$index].question" ng-change="updateCard(assortment.cards[$index])"></textarea>
+		                        <label for="question-{{$index}}">QUESTION</label>
 		                    </div>
 		                </div>
 		                <div class="col-md-6">
-		                    <div class="form-group">
-		                        <label for="code-{{$index}}">Code:</label>
+		                    <div class="form-group input-container">
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="code code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea> -->
 		                        <textarea class="form-control auto-expand main-textarea code-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
+		                        <label for="code-{{$index}}">CODE</label>
 		                    </div>
 		                </div>
 		                <div class="col-md-3">
-		                    <div class="form-group">
-		                        <label for="approach-{{$index}}">Approach:</label>
+		                    <div class="form-group input-container">
 		                        <!-- <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea> -->
 		                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="assortment.cards[$index].approach" ng-change="updateCard(assortment.cards[$index])"></textarea>
+		                        <label for="approach-{{$index}}">APPROACH</label>
 		                    </div>
 		                </div>
 		            </div>
 		            <div class="row justify-content-end">
 		                <div class="col-md-3 offset-md-4">
-		                    <div class="form-group">
-		                        <label for="timeComplexity-{{$index}}">Time Complexity:</label>
+		                    <div class="form-group input-container">
 		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea> -->
 		                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="assortment.cards[$index].timeComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
+		                        <label for="timeComplexity-{{$index}}">TIME COMPLEXITY</label>
 		                    </div>
 		                </div>
 		                <div class="col-md-3">
-		                    <div class="form-group">
-		                        <label for="spaceComplexity-{{$index}}">Space Complexity:</label>
+		                    <div class="form-group input-container">
 		                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea> -->
 		                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="assortment.cards[$index].spaceComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
+		                        <label for="spaceComplexity-{{$index}}">SPACE COMPLEXITY</label>
 		                    </div>
 		                </div>
 		            </div>
@@ -529,21 +561,31 @@
 				
 				
 				
+                
+                
+                
 				
 				
 				
 				// Expanding the text box height
 				$scope.initAutoExpand = function() {
+					
+					
 				    function autoExpand(element) {
 				        // Reset height to allow shrinking
-				        element.style.height = 'auto';
+				        element.style.height = '33px';
 				        // Set to scroll height
 				        element.style.height = (element.scrollHeight) + 'px';
 				    }
 
+				    // Function 2: Makes all text fields in a row the same height
 				    function equalizeHeights(elements) {
-				        // Reset all heights to auto first
-				        elements.forEach(el => el.style.height = 'auto');
+				        // TODO: Sets the first row to 66 px only
+				        // elements.forEach(el => el.style.height = '66px');
+				    	elements.forEach(el => {
+				            el.style.height = el.classList.contains('auto-expand-small') ? '33px' : '66px';
+				        });
+				        
 				        // Find the maximum scroll height
 				        let maxHeight = Math.max(...Array.from(elements).map(el => el.scrollHeight));
 				        // Set all elements to the maximum height
