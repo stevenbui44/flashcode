@@ -238,8 +238,10 @@
 		<!-- PART TWO: HTML code -->
 	    <div class="custom-container mt-5" ng-controller="studyCtrl">
 	    
-	        <!-- 2.1: Title + Description -->
+	        <!-- 2.1: Title Header section -->
 			<div class="header-container">
+			
+				<!-- 2.1.1: Title + Username + Number of cards -->
 			    <div class="left-header">
 			        <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="back-arrow mr-3">
 			            <i class="fas fa-arrow-left"></i>
@@ -256,7 +258,12 @@
 			            </div>
 			        </div>
 			    </div>
+			    
+			    <!-- Still Learning + Know buttons -->
 			    <div class="study-buttons" ng-if="!studyComplete">
+			    	<button class="btn btn-info mr-2" ng-click="shuffleCards()">
+			            <i class="fas fa-random mr-1"></i> Shuffle
+			        </button>
 			        <button class="btn btn-warning mr-2" ng-click="stillLearning()">
 			            Still Learning
 			        </button>
@@ -462,12 +469,14 @@
 	            
 	            
 	            $scope.reviewStillLearning = function() {
-	                // Create a copy of reviewCards to avoid modifying the original array
 	                $scope.assortment.cards = [...$scope.reviewCards];
 	                $scope.totalCards = $scope.reviewCards.length;
 	                $scope.isReviewingStillLearning = true;
 	                $scope.reviewCards = []; // Clear the reviewCards array
-	                $scope.restartStudy();
+	                $scope.currentCardIndex = 0;
+	                $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+	                $scope.studyComplete = false;
+	                $scope.resetVisibility();
 	            };
 
 	            $scope.reviewAllCards = function() {
@@ -523,6 +532,9 @@
 	                }
 	            };
 	            
+	            
+	            
+	            
 	            $scope.currentTheme = localStorage.getItem('theme') || 'default';
 	
 			    $scope.setTheme = function(themeName) {
@@ -530,6 +542,30 @@
 			        $scope.currentTheme = themeName;
 			        localStorage.setItem('theme', themeName);
 			    };
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    $scope.shuffleCards = function() {
+			        function shuffle(array) {
+			            for (let i = array.length - 1; i > 0; i--) {
+			                const j = Math.floor(Math.random() * (i + 1));
+			                [array[i], array[j]] = [array[j], array[i]];
+			            }
+			            return array;
+			        }
+
+			        $scope.assortment.cards = shuffle($scope.assortment.cards);
+			        $scope.currentCardIndex = 0;
+			        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+			        $scope.resetVisibility();
+			    };
+			    
+			    
+			    
 	            
 	            $scope.getCards();
 	        });
