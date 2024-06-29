@@ -647,17 +647,14 @@
 				    // Enter key
 				    else if (event.key === "Enter") {
 				        event.preventDefault();
-				        $timeout(function() {
-					        $scope.initAutoExpand();
-					    });
 				        var currentLine = textarea.value.substring(0, start).split("\n").pop();
 				        var indentation = currentLine.match(/^\t*/)[0]; // Match tabs at the beginning of the line
 				        textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
 				        textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
 				    }
 				
-				    // Trigger Angular's digest cycle to update the model
-				    $scope.$apply(function() {
+				    // Update the model safely
+				    $scope.$evalAsync(function() {
 				        var index = textarea.id.split('-')[1];
 				        $scope.assortment.cards[index].code = textarea.value;
 				    });
