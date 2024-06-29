@@ -214,7 +214,7 @@
 	    <div class="custom-container mt-5" ng-controller="studyCtrl">
 	    
 	        <!-- 2.1: Title + Description -->
-		    <div class="header-container">
+		    <!-- <div class="header-container">
 		        <div class="left-header">
 		            <h1 class="assortment-title" th:text="${assortment.title}"></h1>
 		            <div class="vertical-divider"></div>
@@ -223,7 +223,23 @@
 		                <div class="card-count">{{ assortment.cards.length }} card{{ assortment.cards.length !== 1 ? 's' : '' }}</div>
 		            </div>
 		        </div>
-		    </div>
+		    </div> -->
+		    
+		    <div class="header-container">
+			    <div class="left-header">
+			        <h1 class="assortment-title" th:text="${assortment.title}"></h1>
+			        <div class="vertical-divider"></div>
+			        <div class="right-header">
+			            <div class="username" th:text="${username}"></div>
+			            <div class="card-count" ng-if="!studyComplete">
+			                Card {{ currentCardIndex + 1 }} of {{ totalCards }}
+			            </div>
+			            <div class="card-count" ng-if="studyComplete">
+			                Study Complete
+			            </div>
+			        </div>
+			    </div>
+			</div>
 		    
 	        
 	        <!-- 2.1: previous and next buttons -->
@@ -332,14 +348,16 @@
 	        app.controller('studyCtrl', function($scope, $http) {
 	        	
 	        	
-	            $scope.assortment = { 
-	                id: [[${assortment.id}]], 
-	                cards: [] 
-	            };
+	        	$scope.assortment = { 
+        	        id: [[${assortment.id}]], 
+        	        cards: [] 
+        	    };
 	            
-	            $scope.currentCardIndex = 0;
+	        	$scope.currentCardIndex = 0;
 	            $scope.reviewCards = [];
 	            $scope.studyComplete = false;
+	            $scope.totalCards = 0;
+	            $scope.isReviewingStillLearning = false;
 	            
 	            $scope.visible = {
 	                    question: false,
@@ -356,6 +374,7 @@
 	                    .then(function(response) {
 	                        $scope.assortment.cards = response.data;
 	                        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
+	                        $scope.totalCards = $scope.assortment.cards.length;
 	                    }, function(error) {
 	                        console.error('Error fetching cards:', error);
 	                    });
@@ -369,26 +388,14 @@
 	            
 	            
 	            
-	            /* $scope.previousCard = function() {
-	                if ($scope.currentCardIndex > 0) {
-	                    $scope.currentCardIndex--;
-	                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
-	                    $scope.resetVisibility();
-	                }
-	            };
-	
-	            $scope.nextCard = function() {
-	                if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
-	                    $scope.currentCardIndex++;
-	                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
-	                    $scope.resetVisibility();
-	                }
-	            }; */
+	            
 	            
 	            
 	            $scope.stillLearning = function() {
-	            	console.log("still learning!!");
-	                $scope.reviewCards.push($scope.currentCard);
+	                // Check if the card is already in reviewCards before adding
+	                if (!$scope.reviewCards.some(card => card.id === $scope.currentCard.id)) {
+	                    $scope.reviewCards.push($scope.currentCard);
+	                }
 	                $scope.nextCard();
 	            };
 
@@ -398,14 +405,14 @@
 	            };
 	            
 	            $scope.nextCard = function() {
-	                if ($scope.currentCardIndex < $scope.assortment.cards.length - 1) {
+	                if ($scope.currentCardIndex < $scope.totalCards - 1) {
 	                	console.log("a");
 	                    $scope.currentCardIndex++;
 	                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
 	                    $scope.resetVisibility();
 	                } else {
 	                	console.log("b");
-	                	$scope.studyComplete = true;
+	                    $scope.studyComplete = true;
 	                }
 	            };
 
@@ -440,19 +447,28 @@
 	            
 	            
 	            $scope.reviewStillLearning = function() {
-	                $scope.assortment.cards = $scope.reviewCards;
+	                // Create a copy of reviewCards to avoid modifying the original array
+	                $scope.assortment.cards = [...$scope.reviewCards];
+	                $scope.totalCards = $scope.reviewCards.length;
+	                $scope.isReviewingStillLearning = true;
+	                $scope.reviewCards = []; // Clear the reviewCards array
 	                $scope.restartStudy();
 	            };
 
 	            $scope.reviewAllCards = function() {
 	                $scope.getCards();
+	                $scope.isReviewingStillLearning = false;
+	                $scope.reviewCards = [];
 	                $scope.restartStudy();
 	            };
 
 	            $scope.restartStudy = function() {
 	                $scope.currentCardIndex = 0;
 	                $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
-	                $scope.reviewCards = [];
+	                if (!$scope.isReviewingStillLearning) {
+	                    $scope.reviewCards = [];
+	                    $scope.totalCards = $scope.assortment.cards.length;
+	                }
 	                $scope.studyComplete = false;
 	                $scope.resetVisibility();
 	            };
