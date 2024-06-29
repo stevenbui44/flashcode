@@ -652,52 +652,49 @@
 				
 				// Expanding the text box height
 				$scope.initAutoExpand = function() {
-					
-					
 				    function autoExpand(element) {
-				        // Reset height to allow shrinking
 				        element.style.height = '33px';
-				        // Set to scroll height
 				        element.style.height = (element.scrollHeight) + 'px';
 				    }
-
-				    // Function 2: Makes all text fields in a row the same height
-				    function equalizeHeights(elements) {
-				        // TODO: Sets the first row to 66 px only
-				        // elements.forEach(el => el.style.height = '66px');
-				    	elements.forEach(el => {
-				            el.style.height = el.classList.contains('auto-expand-small') ? '33px' : '66px';
-				        });
-				        
-				        // Find the maximum scroll height
-				        let maxHeight = Math.max(...Array.from(elements).map(el => el.scrollHeight));
-				        // Set all elements to the maximum height
-				        elements.forEach(el => el.style.height = maxHeight + 'px');
+				
+				    function equalizeHeights(cardElement) {
+				        const mainTextareas = cardElement.querySelectorAll('.main-textarea');
+				        const complexityTextareas = cardElement.querySelectorAll('.complexity-textarea');
+				
+				        function setEqualHeight(elements) {
+				            elements.forEach(el => {
+				                el.style.height = el.classList.contains('auto-expand-small') ? '33px' : '66px';
+				            });
+				            
+				            let maxHeight = Math.max(...Array.from(elements).map(el => el.scrollHeight));
+				            elements.forEach(el => el.style.height = maxHeight + 'px');
+				        }
+				
+				        setEqualHeight(mainTextareas);
+				        setEqualHeight(complexityTextareas);
 				    }
-
-				    function adjustHeights() {
-				        const mainTextareas = document.querySelectorAll('.main-textarea');
-				        const complexityTextareas = document.querySelectorAll('.complexity-textarea');
-				        
-				        equalizeHeights(mainTextareas);
-				        equalizeHeights(complexityTextareas);
+				
+				    function adjustHeights(element) {
+				        const cardElement = element.closest('.card');
+				        if (cardElement) {
+				            equalizeHeights(cardElement);
+				        }
 				    }
-
+				
 				    document.querySelectorAll('.auto-expand, .auto-expand-small').forEach(function(element) {
 				        element.addEventListener('input', function() {
 				            autoExpand(this);
-				            adjustHeights();
+				            adjustHeights(this);
 				        });
 				        
-				        // Initial expansion
 				        autoExpand(element);
 				    });
-
-				    // Initial height adjustment
-				    adjustHeights();
-
-				    // Adjust heights on window resize
-				    window.addEventListener('resize', adjustHeights);
+				
+				    document.querySelectorAll('.card').forEach(equalizeHeights);
+				
+				    window.addEventListener('resize', function() {
+				        document.querySelectorAll('.card').forEach(equalizeHeights);
+				    });
 				};
 				
 				
