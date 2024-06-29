@@ -48,6 +48,20 @@
 		    margin-right: 20px;
 		}
 		
+		.back-arrow {
+		    font-size: 24px;
+		    color: var(--header-color);
+		    text-decoration: none;
+		    display: flex;
+		    align-items: center;
+		    transition: color 0.3s ease;
+		}
+		
+		.back-arrow:hover {
+		    color: color-mix(in srgb, var(--header-color) 70%, white);
+		    text-decoration: none;
+		}
+		
 		body {
 		    background-color: var(--background-color);
 		    height: 100%;
@@ -214,19 +228,11 @@
 	    <div class="custom-container mt-5" ng-controller="studyCtrl">
 	    
 	        <!-- 2.1: Title + Description -->
-		    <!-- <div class="header-container">
-		        <div class="left-header">
-		            <h1 class="assortment-title" th:text="${assortment.title}"></h1>
-		            <div class="vertical-divider"></div>
-		            <div class="right-header">
-		                <div class="username" th:text="${username}"></div>
-		                <div class="card-count">{{ assortment.cards.length }} card{{ assortment.cards.length !== 1 ? 's' : '' }}</div>
-		            </div>
-		        </div>
-		    </div> -->
-		    
 		    <div class="header-container">
 			    <div class="left-header">
+				    <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="back-arrow mr-3">
+			            <i class="fas fa-arrow-left"></i>
+			        </a>
 			        <h1 class="assortment-title" th:text="${assortment.title}"></h1>
 			        <div class="vertical-divider"></div>
 			        <div class="right-header">
