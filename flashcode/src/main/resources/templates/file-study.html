@@ -84,10 +84,42 @@
 		    padding: 8px 16px;
 		    font-size: 14px;
 		}
+		
+		.card-body {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    /* justify-content: center; */
+		    height: 100%;
+		    cursor: pointer;
+		}
+		
+		.card-content {
+		    width: 100%;
+		    height: 100%;
+		    text-align: left;
+		    align-items: center;
+		    justify-content: center;
+		}
 	    
 	    .card-count {
 		    font-size: 14px;
 		    color: #666;
+		}
+		
+		.card-title {
+		    font-size: 1.5rem; /* Adjust this value to make it smaller */
+		    text-align: center;
+		    margin-bottom: 1rem;
+		}
+		
+		.col-md-4:first-child .card-body {
+		    cursor: default;
+		}
+		
+		.col-md-4:first-child .card-text {
+		    text-align: left;
+		    align-self: flex-start;
 		}
 	    
 	    .content {
@@ -125,6 +157,10 @@
 		    border: 0;
 		    border-top: 1px solid #ccc;
 		    margin-top: 10px;
+		}
+		
+		.hidden {
+		    display: none;
 		}
 		
 		.left-header {
@@ -278,8 +314,9 @@
 	        <div ng-if="!studyComplete">
 		        
 		        <!-- 2.2: All Cards -->
-		        <div class="mt-4">
+		        <div class="mt-4" ng-if="!studyComplete">
 				    <div class="row">
+				        <!-- First third: Question (always visible) -->
 				        <div class="col-md-4">
 				            <div class="card mb-3">
 				                <div class="card-body">
@@ -287,38 +324,49 @@
 				                    <p class="card-text">{{ currentCard.question }}</p>
 				                </div>
 				            </div>
-				        </div>				        
+				        </div>
+				        
+				        <!-- Middle third: Code and Time Complexity -->
 				        <div class="col-md-4">
 				            <div class="card mb-3">
 				                <div class="card-body" ng-click="toggleVisibility('code')">
-				                    <h2 class="card-title">Code</h2>
-				                    <pre class="card-text" ng-if="visible.code">{{ currentCard.code }}</pre>
+				                    <h2 class="card-title" ng-if="!visible.code">Code</h2>
+				                    <div class="card-content" ng-class="{'hidden': !visible.code}">
+				                        <pre class="card-text">{{ currentCard.code }}</pre>
+				                    </div>
 				                </div>
 				            </div>
 				            <div class="card mb-3">
 				                <div class="card-body" ng-click="toggleVisibility('timeComplexity')">
-				                    <h2 class="card-title">Time Complexity</h2>
-				                    <p class="card-text" ng-if="visible.timeComplexity">{{ currentCard.timeComplexity }}</p>
+				                    <h2 class="card-title" ng-if="!visible.timeComplexity">Time Complexity</h2>
+				                    <div class="card-content" ng-class="{'hidden': !visible.timeComplexity}">
+				                        <p class="card-text">{{ currentCard.timeComplexity }}</p>
+				                    </div>
 				                </div>
 				            </div>
-				        </div>				        
+				        </div>
+				        
+				        <!-- Last third: Approach and Space Complexity -->
 				        <div class="col-md-4">
 				            <div class="card mb-3">
 				                <div class="card-body" ng-click="toggleVisibility('approach')">
-				                    <h2 class="card-title">Approach</h2>
-				                    <p class="card-text" ng-if="visible.approach">{{ currentCard.approach }}</p>
+				                    <h2 class="card-title" ng-if="!visible.approach">Approach</h2>
+				                    <div class="card-content" ng-class="{'hidden': !visible.approach}">
+				                        <p class="card-text">{{ currentCard.approach }}</p>
+				                    </div>
 				                </div>
 				            </div>
 				            <div class="card mb-3">
 				                <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
-				                    <h2 class="card-title">Space Complexity</h2>
-				                    <p class="card-text" ng-if="visible.spaceComplexity">{{ currentCard.spaceComplexity }}</p>
+				                    <h2 class="card-title" ng-if="!visible.spaceComplexity">Space Complexity</h2>
+				                    <div class="card-content" ng-class="{'hidden': !visible.spaceComplexity}">
+				                        <p class="card-text">{{ currentCard.spaceComplexity }}</p>
+				                    </div>
 				                </div>
 				            </div>
 				        </div>
 				    </div>
 				</div>
-		        
 		        
 		        <!-- 2.3: text box area -->
 		        <div class="mt-4">
