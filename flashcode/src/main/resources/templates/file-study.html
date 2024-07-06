@@ -242,7 +242,7 @@
 			<div class="header-container">
 			
 				<!-- 2.1.1: Title + Username + Number of cards -->
-			    <div class="left-header">
+			    <div class="left-header" ng-if="!studyComplete">
 			        <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="back-arrow mr-3">
 			            <i class="fas fa-arrow-left"></i>
 			        </a>
