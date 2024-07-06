@@ -41,6 +41,11 @@
         	--flashcode-title-color: #ffffff;
 	    }
 	    
+	    .approach-complexity-gap,
+		.code-complexity-gap {
+		    height: 10px;
+		}
+	    
 	    .assortment-title {
 		    font-size: 40px; 
 		    font-weight: bold;
@@ -49,11 +54,11 @@
 		}
 		
 		.back-arrow {
-		    font-size: 24px;
-		    color: var(--header-color);
-		    text-decoration: none;
-		    display: flex;
 		    align-items: center;
+		    color: var(--header-color);
+		    display: flex;
+		    font-size: 24px;
+		    text-decoration: none;
 		    transition: color 0.3s ease;
 		}
 		
@@ -64,10 +69,10 @@
 		
 		body {
 		    background-color: var(--background-color);
-		    height: 100%;
 		    display: flex;
     		flex-direction: column;
 		    font-family: 'Work Sans', sans-serif;
+		    height: 100%;
 		}
 		
 		.btn-primary {
@@ -80,95 +85,152 @@
 	        border-color: color-mix(in srgb, var(--header-color) 80%, white);
 	    }
 	    
-	    .btn-warning, .btn-success {
-		    padding: 8px 16px;
+	    .btn-success,
+		.btn-warning {
 		    font-size: 14px;
+		    padding: 8px 16px;
+		}
+		
+		.card {
+		    margin-bottom: 1rem;
+		    position: relative;
+		}
+		
+		.card-back {
+		    align-items: center;
+		    backface-visibility: hidden;
+		    background-color: #fff;
+		    border: 1px solid rgba(0,0,0,.125);
+		    border-radius: .25rem;
+		    display: flex;
+		    height: 100%;
+		    justify-content: center;
+		    overflow-y: auto;
+		    position: absolute;
+		    transform: rotateY(180deg);
+		    width: 100%;
 		}
 		
 		.card-body {
+		    align-items: center;
+		    cursor: pointer;
 		    display: flex;
 		    flex-direction: column;
-		    align-items: center;
-		    justify-content: center;
 		    height: 100%;
-		    /* padding: 1rem; */
-		    cursor: pointer;
+		    justify-content: center;
+		    padding: 1rem;
+		    position: relative;
+		    text-align: center;
+		    transform-style: preserve-3d;
+		    transition: transform 0.6s;
+		    width: 100%;
 		}
 		
-		.card-content {
-		    width: 100%;
-		    height: 100%;
-		    text-align: left;
-		    align-items: center;
-		    justify-content: center;
-		    overflow-y: auto;
+		.card-container {
+		    cursor: pointer;
+		    height: 200px;
+		    perspective: 1000px;
 		}
-	    
+
+		.card-container.complexity {
+		    height: 50px;
+		}
+		
+		.card-container.flipped .card-flipper {
+		    transform: rotateY(180deg);
+		}
+		
 	    .card-count {
-		    font-size: 14px;
 		    color: #666;
+		    font-size: 14px;
+		}
+		
+		.card-flipper {
+		    height: 100%;
+		    position: relative;
+		    transform-style: preserve-3d;
+		    transition: transform 0.6s;
+		    width: 100%;
+		}
+		
+		.card-front {
+		    align-items: center;
+		    backface-visibility: hidden;
+		    background-color: #fff;
+		    border: 1px solid rgba(0,0,0,.125);
+		    border-radius: .25rem;
+		    display: flex;
+		    height: 100%;
+		    justify-content: center;
+		    position: absolute;
+		    width: 100%;
+		}
+		
+		.card-text,
+		.card-title {
+		    backface-visibility: hidden;
+		    height: 100%;
+		    left: 0;
+		    position: absolute;
+		    top: 0;
+		    width: 100%;
 		}
 		
 		.card-title {
-		    font-size: 1.5rem; /* Adjust this value to make it smaller */
+		    display: flex;
+		    align-items: center;
+		    font-size: 1.5rem;
+		    justify-content: center;
+		    margin: 0;
 		    text-align: center;
-		    margin-bottom: 1rem;
-		    width: 100%;
+		    z-index: 2;
 		}
+		
+		
+		
+		
+		
 		
 		/* HEIGHT 2 */
-		.code-card, .approach-card {
+		/* .code-card, .approach-card {
 		    height: 300px;
-		}
+		} */
 		
-		.code-card .card-content,
-		.approach-card .card-content,
-		.complexity-card .card-content {
-		    justify-content: flex-start;
-		    align-items: flex-start;
-		}
 		
-		/* Center text for other cards */
+		
+		
+		
 		.code-card .card-text,
+		.code-card pre,
 		.approach-card .card-text,
-		.complexity-card .card-text,
-		.code-card pre {
+		.complexity-card .card-text {
 		    text-align: left;
 		    width: 100%;
 		}
 		
 		/* HEIGHT 3 */
-		.complexity-card {
+		/* .complexity-card {
 		    height: 80px;
-		    /* padding-top: 10px; */
-		}
+		} */
 		
-		.code-complexity-gap, .approach-complexity-gap {
-		    height: 10px; /* Adjust this value to increase or decrease the gap */
-		}
 		
-		.col-md-4:first-child .card-body {
-		    cursor: default;
-		}
 		
-		.col-md-4:first-child .card-text {
-		    text-align: left;
-		    align-self: flex-start;
-		}
+		
+		
 	    
 	    .content {
 		    flex: 1 0 auto;
-		    padding-bottom: 120px; /* Adjust this value to increase/decrease the gap */
+		    padding-bottom: 120px; /* Space to the copyright */
 		}
 		
 		.custom-container {
-		    width: 100%;
-		    max-width: 1200px;
-		    margin-right: auto;
 		    margin-left: auto;
-		    padding-right: 15px;
+		    margin-right: auto;
+		    max-width: 1200px;
 		    padding-left: 15px;
+		    padding-right: 15px;
 		    padding-top: 10px;
+		    width: 100%;
 		}
 		
 		.form-group label, h2, p {
@@ -180,13 +242,12 @@
 		}
 	    
 	    .header-container {
+	    	align-items: center;
 		    display: flex;
 		    justify-content: space-between;
-		    align-items: center;
 		    margin-bottom: 10px;
 		}
 		
-		/* TODO: remove this if we don't want a header */
 		.header-divider {
 		    border: 0;
 		    border-top: 1px solid #ccc;
@@ -198,8 +259,8 @@
 		}
 		
 		.left-header {
+			align-items: center;
 		    display: flex;
-		    align-items: center;
 		    flex-grow: 1;
 		}
 		
@@ -215,9 +276,13 @@
 		    color: var(--flashcode-title-color) !important;
 		}
 		
-		.nav-item {
-		    display: flex;
+		.navbar-nav {
 		    align-items: center;
+		}	  
+		
+		.nav-item {
+			align-items: center;
+		    display: flex;
 		}
 		
 		.nav-item form {
@@ -231,64 +296,83 @@
 		
 		.nav-link:hover .profile-pic {
 		    background-color: #666666; /* Darker grey on hover */
-		}
-		
-		.navbar-nav {
-		    align-items: center;
-		}	    
+		}  
 	    
 	    .profile-pic {
-		    width: 28px;
-		    height: 28px;
-		    border-radius: 50%;
+		    align-items: center;
 		    background-color: var(--profile-pic-background);
+		    border-radius: 50%;
 		    color: var(--profile-pic-text);
 		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		    font-weight: bold;
 		    font-size: 12px;
+		    font-weight: bold;
+		    height: 28px;
+		    justify-content: center;
+		    width: 28px;
 		}
+		
+		
 		
 		/* HEIGHT 1 */
 		.question-card {
 		    height: 390px; 
 		}
 		
+		
+		
 		.question-card .card-body {
 		    align-items: flex-start;
 		    cursor: default;
+		    justify-content: flex-start;
 		}
 		
 		.question-card .card-content {
-		    justify-content: flex-start;
 		    align-items: flex-start;
+		    justify-content: flex-start;
 		}
 		
 		.question-card .card-text {
-		    text-align: left;
 		    align-self: flex-start;
+		    text-align: left;
 		}
-
+		
+		.question-card .card-title {
+		    margin-bottom: 1rem;
+		    position: static;
+		    transform: none;
+		}
+		
+		
+		
+		
+		
+/* 		.question-card .card-title,
+.question-card .card-content {
+    position: static;
+    transform: none;
+    height: auto;
+} */
+		
+	
 		.right-header {
 		    display: flex;
 		    flex-direction: column;
 		}
 		
 		.row.custom-gutter {
+			margin-left: -5px;
 		    margin-right: -5px;
-		    margin-left: -5px;
 		}
 		
 		.row.custom-gutter > [class^="col-"],
 		.row.custom-gutter > [class*=" col-"] {
+			padding-left: 5px;
 		    padding-right: 5px;
-		    padding-left: 5px;
 		}
 		
 		.study-buttons {
+			align-items: center;
 		    display: flex;
-		    align-items: center;
 		}
 	    
 	    .username {
@@ -298,10 +382,10 @@
 		}
 	    
 	    .vertical-divider {
-		    width: 1px;
-		    height: 40px;
 		    background-color: #ccc;
+		    height: 40px;
 		    margin: 20px;
+		    width: 1px;
 		}
 	
 	</style>
@@ -379,9 +463,9 @@
 	        <div ng-if="!studyComplete">
 		        
 		        <!-- 2.2: All Cards -->
-				<div class="mt-4" ng-if="!studyComplete">
+				<!-- <div class="mt-4" ng-if="!studyComplete">
 				    <div class="row custom-gutter">
-				        <!-- First third: Question (always visible) -->
+				        First third: Question (always visible)
 				        <div class="col-md-4">
 				            <div class="card question-card">
 				                <div class="card-body">
@@ -393,7 +477,7 @@
 				            </div>
 				        </div>
 				        
-				        <!-- Middle third: Code and Time Complexity -->
+				        Middle third: Code and Time Complexity
 				        <div class="col-md-4">
 				            <div class="card code-card">
 				                <div class="card-body" ng-click="toggleVisibility('code')">
@@ -414,7 +498,7 @@
 				            </div>
 				        </div>
 				        
-				        <!-- Last third: Approach and Space Complexity -->
+				        Last third: Approach and Space Complexity
 				        <div class="col-md-4">
 				            <div class="card approach-card">
 				                <div class="card-body" ng-click="toggleVisibility('approach')">
@@ -429,6 +513,69 @@
 				                <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
 				                    <h2 class="card-title" ng-if="!visible.spaceComplexity">See Space Complexity</h2>
 				                    <div class="card-content" ng-class="{'hidden': !visible.spaceComplexity}">
+				                        <p class="card-text">{{ currentCard.spaceComplexity }}</p>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div> -->
+				<div class="mt-4" ng-if="!studyComplete">
+				    <div class="row custom-gutter">
+				        <!-- First third: Question (always visible) -->
+				        <div class="col-md-4">
+				            <div class="card question-card">
+				                <div class="card-body">
+				                    <h2 class="card-title">Question</h2>
+				                    <p class="card-text">{{ currentCard.question }}</p>
+				                </div>
+				            </div>
+				        </div>
+				        
+				        <!-- Middle third: Code and Time Complexity -->
+				        <div class="col-md-4">
+				            <div class="card-container" ng-class="{'flipped': visible.code}" ng-click="toggleVisibility('code')">
+				                <div class="card-flipper">
+				                    <div class="card-front">
+				                        <h2 class="card-title">Code</h2>
+				                    </div>
+				                    <div class="card-back">
+				                        <pre class="card-text">{{ currentCard.code }}</pre>
+				                    </div>
+				                </div>
+				            </div>
+				            <div class="code-complexity-gap"></div>
+				            <div class="card-container complexity" ng-class="{'flipped': visible.timeComplexity}" ng-click="toggleVisibility('timeComplexity')">
+				                <div class="card-flipper">
+				                    <div class="card-front">
+				                        <h2 class="card-title">Time Complexity</h2>
+				                    </div>
+				                    <div class="card-back">
+				                        <p class="card-text">{{ currentCard.timeComplexity }}</p>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        
+				        <!-- Last third: Approach and Space Complexity -->
+				        <div class="col-md-4">
+				            <div class="card-container" ng-class="{'flipped': visible.approach}" ng-click="toggleVisibility('approach')">
+				                <div class="card-flipper">
+				                    <div class="card-front">
+				                        <h2 class="card-title">Approach</h2>
+				                    </div>
+				                    <div class="card-back">
+				                        <p class="card-text">{{ currentCard.approach }}</p>
+				                    </div>
+				                </div>
+				            </div>
+				            <div class="approach-complexity-gap"></div>
+				            <div class="card-container complexity" ng-class="{'flipped': visible.spaceComplexity}" ng-click="toggleVisibility('spaceComplexity')">
+				                <div class="card-flipper">
+				                    <div class="card-front">
+				                        <h2 class="card-title">Space Complexity</h2>
+				                    </div>
+				                    <div class="card-back">
 				                        <p class="card-text">{{ currentCard.spaceComplexity }}</p>
 				                    </div>
 				                </div>
@@ -564,8 +711,19 @@
 	                };
 	            };
 	            
+	            /* $scope.toggleVisibility = function(section) {
+	                $scope.visible[section] = !$scope.visible[section];
+	            }; */
 	            $scope.toggleVisibility = function(section) {
 	                $scope.visible[section] = !$scope.visible[section];
+	                // Add a small delay to allow the flip animation to complete
+	                if (!$scope.visible[section]) {
+	                    setTimeout(function() {
+	                        $scope.$apply(function() {
+	                            $scope.resetVisibility();
+	                        });
+	                    }, 300);
+	                }
 	            };
 	            
 	            
