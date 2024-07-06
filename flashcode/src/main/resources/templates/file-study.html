@@ -89,8 +89,9 @@
 		    display: flex;
 		    flex-direction: column;
 		    align-items: center;
-		    /* justify-content: center; */
+		    justify-content: center;
 		    height: 100%;
+		    /* padding: 1rem; */
 		    cursor: pointer;
 		}
 		
@@ -100,6 +101,7 @@
 		    text-align: left;
 		    align-items: center;
 		    justify-content: center;
+		    overflow-y: auto;
 		}
 	    
 	    .card-count {
@@ -111,6 +113,38 @@
 		    font-size: 1.5rem; /* Adjust this value to make it smaller */
 		    text-align: center;
 		    margin-bottom: 1rem;
+		    width: 100%;
+		}
+		
+		/* HEIGHT 2 */
+		.code-card, .approach-card {
+		    height: 300px;
+		}
+		
+		.code-card .card-content,
+		.approach-card .card-content,
+		.complexity-card .card-content {
+		    justify-content: flex-start;
+		    align-items: flex-start;
+		}
+		
+		/* Center text for other cards */
+		.code-card .card-text,
+		.approach-card .card-text,
+		.complexity-card .card-text,
+		.code-card pre {
+		    text-align: left;
+		    width: 100%;
+		}
+		
+		/* HEIGHT 3 */
+		.complexity-card {
+		    height: 80px;
+		    /* padding-top: 10px; */
+		}
+		
+		.code-complexity-gap, .approach-complexity-gap {
+		    height: 10px; /* Adjust this value to increase or decrease the gap */
 		}
 		
 		.col-md-4:first-child .card-body {
@@ -215,10 +249,41 @@
 		    font-weight: bold;
 		    font-size: 12px;
 		}
+		
+		/* HEIGHT 1 */
+		.question-card {
+		    height: 390px; 
+		}
+		
+		.question-card .card-body {
+		    align-items: flex-start;
+		    cursor: default;
+		}
+		
+		.question-card .card-content {
+		    justify-content: flex-start;
+		    align-items: flex-start;
+		}
+		
+		.question-card .card-text {
+		    text-align: left;
+		    align-self: flex-start;
+		}
 
 		.right-header {
 		    display: flex;
 		    flex-direction: column;
+		}
+		
+		.row.custom-gutter {
+		    margin-right: -5px;
+		    margin-left: -5px;
+		}
+		
+		.row.custom-gutter > [class^="col-"],
+		.row.custom-gutter > [class*=" col-"] {
+		    padding-right: 5px;
+		    padding-left: 5px;
 		}
 		
 		.study-buttons {
@@ -314,31 +379,34 @@
 	        <div ng-if="!studyComplete">
 		        
 		        <!-- 2.2: All Cards -->
-		        <div class="mt-4" ng-if="!studyComplete">
-				    <div class="row">
+				<div class="mt-4" ng-if="!studyComplete">
+				    <div class="row custom-gutter">
 				        <!-- First third: Question (always visible) -->
 				        <div class="col-md-4">
-				            <div class="card mb-3">
+				            <div class="card question-card">
 				                <div class="card-body">
 				                    <h2 class="card-title">Question</h2>
-				                    <p class="card-text">{{ currentCard.question }}</p>
+				                    <div class="card-content">
+				                        <p class="card-text">{{ currentCard.question }}</p>
+				                    </div>
 				                </div>
 				            </div>
 				        </div>
 				        
 				        <!-- Middle third: Code and Time Complexity -->
 				        <div class="col-md-4">
-				            <div class="card mb-3">
+				            <div class="card code-card">
 				                <div class="card-body" ng-click="toggleVisibility('code')">
-				                    <h2 class="card-title" ng-if="!visible.code">Code</h2>
+				                    <h2 class="card-title" ng-if="!visible.code">See Code</h2>
 				                    <div class="card-content" ng-class="{'hidden': !visible.code}">
 				                        <pre class="card-text">{{ currentCard.code }}</pre>
 				                    </div>
 				                </div>
 				            </div>
-				            <div class="card mb-3">
+				            <div class="approach-complexity-gap"></div>
+				            <div class="card complexity-card">
 				                <div class="card-body" ng-click="toggleVisibility('timeComplexity')">
-				                    <h2 class="card-title" ng-if="!visible.timeComplexity">Time Complexity</h2>
+				                    <h2 class="card-title" ng-if="!visible.timeComplexity">See Time Complexity</h2>
 				                    <div class="card-content" ng-class="{'hidden': !visible.timeComplexity}">
 				                        <p class="card-text">{{ currentCard.timeComplexity }}</p>
 				                    </div>
@@ -348,17 +416,18 @@
 				        
 				        <!-- Last third: Approach and Space Complexity -->
 				        <div class="col-md-4">
-				            <div class="card mb-3">
+				            <div class="card approach-card">
 				                <div class="card-body" ng-click="toggleVisibility('approach')">
-				                    <h2 class="card-title" ng-if="!visible.approach">Approach</h2>
+				                    <h2 class="card-title" ng-if="!visible.approach">See Approach</h2>
 				                    <div class="card-content" ng-class="{'hidden': !visible.approach}">
 				                        <p class="card-text">{{ currentCard.approach }}</p>
 				                    </div>
 				                </div>
 				            </div>
-				            <div class="card mb-3">
+				            <div class="approach-complexity-gap"></div>
+				            <div class="card complexity-card">
 				                <div class="card-body" ng-click="toggleVisibility('spaceComplexity')">
-				                    <h2 class="card-title" ng-if="!visible.spaceComplexity">Space Complexity</h2>
+				                    <h2 class="card-title" ng-if="!visible.spaceComplexity">See Space Complexity</h2>
 				                    <div class="card-content" ng-class="{'hidden': !visible.spaceComplexity}">
 				                        <p class="card-text">{{ currentCard.spaceComplexity }}</p>
 				                    </div>
