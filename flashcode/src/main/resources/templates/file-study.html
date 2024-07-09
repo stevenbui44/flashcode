@@ -104,11 +104,12 @@
 		    border-radius: .25rem;
 		    display: flex;
 		    height: 100%;
-		    justify-content: center;
+		    justify-content: start;
 		    overflow-y: auto;
-		    padding: 1rem;
+		    padding: 10px;
 		    position: absolute;
 		    transform: rotateY(180deg);
+		    transition: transform 0.6s;
 		    width: 100%;
 		}
 		
@@ -141,8 +142,22 @@
 		    height: 100px;
 		}
 		
-		.card-container.flipped .card-flipper {
+		.card-container.flipped .card-back {
+		    transform: rotateY(0deg);
+		}
+		
+		/* .card-container.flipped .card-flipper {
 		    transform: rotateY(180deg);
+		} */
+		
+		.card-container.flipped .card-front {
+		    transform: rotateY(180deg);
+		}
+		
+		.card-content {
+		    height: 100%;
+		    overflow-y: auto;
+		    padding: 10px;
 		}
 		
 	    .card-count {
@@ -150,13 +165,13 @@
 		    font-size: 14px;
 		}
 		
-		.card-flipper {
+		/* .card-flipper {
 		    height: 100%;
 		    position: relative;
 		    transform-style: preserve-3d;
 		    transition: transform 0.6s;
 		    width: 100%;
-		}
+		} */
 		
 		.card-front {
 		    align-items: center;
@@ -169,6 +184,7 @@
 		    justify-content: center;
 		    overflow-y: auto;
 		    position: absolute;
+		    transition: transform 0.6s;
 		    width: 100%;
 		}
 		
@@ -289,6 +305,11 @@
 		.nav-link:hover .profile-pic {
 		    background-color: #666666; /* Darker grey on hover */
 		}  
+		
+		pre {
+		    white-space: pre-wrap;
+		    word-break: break-word;
+		}
 	    
 	    .profile-pic {
 		    align-items: center;
@@ -445,7 +466,7 @@
 		        <!-- 2.2: All Cards -->
 				<div class="mt-4" ng-if="!studyComplete">
 				    <div class="row custom-gutter">
-				        <!-- First third: Question (always visible) -->
+				        <!-- Question Card (no flip) -->
 				        <div class="col-md-4">
 				            <div class="card question-card">
 				                <div class="card-body">
@@ -454,57 +475,49 @@
 				                </div>
 				            </div>
 				        </div>
-				        
-				        <!-- Middle third: Code and Time Complexity -->
+				        <!-- Code Card -->
 				        <div class="col-md-4">
-            <div class="card-container" ng-class="{'flipped': visible.code}" ng-click="toggleVisibility('code')">
-                <div class="card-flipper">
-                    <div class="card-front">
-                        <h2 class="card-title">Code</h2>
-                    </div>
-                    <div class="card-back">
-                        <pre class="card-text"><code>{{ currentCard.code }}</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="code-complexity-gap"></div>
-            <div class="card-container complexity" ng-class="{'flipped': visible.timeComplexity}" ng-click="toggleVisibility('timeComplexity')">
-                <div class="card-flipper">
-                    <div class="card-front">
-                        <h2 class="card-title">Time Complexity</h2>
-                    </div>
-                    <div class="card-back">
-                        <p class="card-text">{{ currentCard.timeComplexity }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Approach Card -->
-        <div class="col-md-4">
-            <div class="card-container" ng-class="{'flipped': visible.approach}" ng-click="toggleVisibility('approach')">
-                <div class="card-flipper">
-                    <div class="card-front">
-                        <h2 class="card-title">Approach</h2>
-                    </div>
-                    <div class="card-back">
-                        <p class="card-text">{{ currentCard.approach }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="approach-complexity-gap"></div>
-            <div class="card-container complexity" ng-class="{'flipped': visible.spaceComplexity}" ng-click="toggleVisibility('spaceComplexity')">
-                <div class="card-flipper">
-                    <div class="card-front">
-                        <h2 class="card-title">Space Complexity</h2>
-                    </div>
-                    <div class="card-back">
-                        <p class="card-text">{{ currentCard.spaceComplexity }}</p>
-                    </div>
-                </div>
-            </div>
+				            <div class="card-container" ng-class="{'flipped': visible.code}" ng-click="toggleVisibility('code')">
+				                <div class="card-front">
+				                    <h2 class="card-title">See Code</h2>
+				                </div>
+				                <div class="card-back">
+				                    <pre class="card-content"><code>{{ currentCard.code }}</code></pre>
+				                </div>
+				            </div>
+				            <div class="approach-complexity-gap"></div>
+				            <div class="card-container complexity" ng-class="{'flipped': visible.timeComplexity}" ng-click="toggleVisibility('timeComplexity')">
+				                <div class="card-front">
+				                    <h2 class="card-title">Time Complexity</h2>
+				                </div>
+				                <div class="card-back">
+				                    <div class="card-content">{{ currentCard.timeComplexity }}</div>
+				                </div>
+				            </div>
+				        </div>
+				        <!-- Approach Card -->
+				        <div class="col-md-4">
+				            <div class="card-container" ng-class="{'flipped': visible.approach}" ng-click="toggleVisibility('approach')">
+				                <div class="card-front">
+				                    <h2 class="card-title">See Approach</h2>
+				                </div>
+				                <div class="card-back">
+				                    <div class="card-content">{{ currentCard.approach }}</div>
+				                </div>
+				            </div>
+				            <div class="approach-complexity-gap"></div>
+				            <div class="card-container complexity" ng-class="{'flipped': visible.spaceComplexity}" ng-click="toggleVisibility('spaceComplexity')">
+				                <div class="card-front">
+				                    <h2 class="card-title">Space Complexity</h2>
+				                </div>
+				                <div class="card-back">
+				                    <div class="card-content">{{ currentCard.spaceComplexity }}</div>
+				                </div>
+				            </div>
+				        </div>
 				    </div>
 				</div>
+				
 		        
 		        <!-- 2.3: text box area -->
 		        <div class="mt-4">
