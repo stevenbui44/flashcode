@@ -16,19 +16,19 @@ public class Card extends DomainObject {
     @Column ( name = "id" )
     private Long   id;
 
-    @Column ( name = "question" )
+    @Column ( name = "question", columnDefinition = "TEXT" )
     private String question;
 
-    @Column ( name = "approach" )
+    @Column ( name = "approach", columnDefinition = "TEXT" )
     private String approach;
 
-    @Column ( name = "code" )
+    @Column ( name = "code", columnDefinition = "TEXT" )
     private String code;
 
-    @Column ( name = "time_complexity" )
+    @Column ( name = "time_complexity", columnDefinition = "TEXT" )
     private String timeComplexity;
 
-    @Column ( name = "space_complexity" )
+    @Column ( name = "space_complexity", columnDefinition = "TEXT" )
     private String spaceComplexity;
 
     // // many cards can be in one assortment
