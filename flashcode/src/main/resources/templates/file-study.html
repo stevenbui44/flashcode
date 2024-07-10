@@ -524,39 +524,41 @@
 		<!-- PART TWO: HTML code -->
 	    <div class="custom-container mt-5" ng-controller="studyCtrl">
 	    
-	        <!-- 2.1: Title Header section -->
-			<div class="header-container">
-			
-				<!-- 2.1.1: Shuffle button -->
-				<div class="left-buttons">
-					<a th:href="@{/assortments/{id}(id=${assortment.id})}" class="btn btn-icon back-arrow" title="Back to Assortment">
-			            <i class="fas fa-chevron-left"></i>
-			        </a>
-		            <button class="btn btn-icon btn-shuffle" ng-click="shuffleCards()" title="Shuffle">
-		                <i class="fas fa-random"></i>
-		            </button>
-		        </div>
+	    	<div ng-if="!studyComplete">
+	    	
+	        	<!-- 2.1: Title Header section -->
+				<div class="header-container">
 				
-				<!-- 2.1.2: Number of cards -->
-			    <div class="card-progress">
-		            Card {{ currentCardIndex + 1 }} of {{ totalCards }}
-		        </div>
-			    
-			    <!-- 2.1.3: Still learning + Know buttons -->
-			    <div class="right-buttons">
-		            <button class="btn btn-icon btn-x" ng-click="stillLearning()" title="Still Learning">
-		                <i class="fas fa-times"></i>
-		            </button>
-		            <button class="btn btn-icon btn-check" ng-click="know()" title="Know">
-		                <i class="fas fa-check"></i>
-		            </button>
-		        </div>
-
-			</div>
+					<!-- 2.1.1: Shuffle button -->
+					<div class="left-buttons">
+						<a th:href="@{/assortments/{id}(id=${assortment.id})}" class="btn btn-icon back-arrow" title="Back to Assortment">
+				            <i class="fas fa-chevron-left"></i>
+				        </a>
+			            <button class="btn btn-icon btn-shuffle" ng-click="shuffleCards()" title="Shuffle">
+			                <i class="fas fa-random"></i>
+			            </button>
+			        </div>
+					
+					<!-- 2.1.2: Number of cards -->
+				    <div class="card-progress">
+			            Card {{ currentCardIndex + 1 }} of {{ totalCards }}
+			        </div>
+				    
+				    <!-- 2.1.3: Still learning + Know buttons -->
+				    <div class="right-buttons">
+			            <button class="btn btn-icon btn-x" ng-click="stillLearning()" title="Still Learning">
+			                <i class="fas fa-times"></i>
+			            </button>
+			            <button class="btn btn-icon btn-check" ng-click="know()" title="Know">
+			                <i class="fas fa-check"></i>
+			            </button>
+			        </div>
+	
+				</div>
 		    
 	        
 	        <!-- 2.1: previous and next buttons -->
-	        <div ng-if="!studyComplete">
+	        <!-- <div ng-if="!studyComplete"> -->
 		        
 		        <!-- 2.2: All Cards -->
 				<div class="mt-4" ng-if="!studyComplete">
