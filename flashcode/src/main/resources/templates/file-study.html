@@ -557,9 +557,6 @@
 				</div>
 		    
 	        
-	        <!-- 2.1: previous and next buttons -->
-	        <!-- <div ng-if="!studyComplete"> -->
-		        
 		        <!-- 2.2: All Cards -->
 				<div class="mt-4" ng-if="!studyComplete">
 				    <div class="row custom-gutter">
@@ -729,9 +726,11 @@
 	                    $scope.currentCardIndex++;
 	                    $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
 	                    $scope.resetVisibility();
+	                    $scope.clearNotes();
 	                } else {
 	                	console.log("b");
 	                    $scope.studyComplete = true;
+	                    $scope.clearNotes();
 	                }
 	            };
 
@@ -869,6 +868,17 @@
 			        $scope.currentCardIndex = 0;
 			        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
 			        $scope.resetVisibility();
+			        $scope.clearNotes();
+			    };
+			    
+			    
+			    // 3.9: Clear the text area
+			    $scope.clearNotes = function() {
+			        document.getElementById('notes-textarea').value = '';
+			        // If you're using the auto-resize functionality, you might need to trigger it here
+			        if ($scope.initAutoResize) {
+			            $scope.initAutoResize();
+			        }
 			    };
 			    
 			    
