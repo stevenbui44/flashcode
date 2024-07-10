@@ -271,7 +271,7 @@
 		.card-title {
 		    display: flex;
 		    align-items: center;
-		    font-size: 1.5rem;
+		    font-size: 1.4rem;
 		    justify-content: center;
 		    margin: 0;
 		    text-align: center;
@@ -295,7 +295,7 @@
 		
 	    .content {
 		    flex: 1 0 auto;
-		    padding-bottom: 120px; /* Space to the copyright */
+		    padding-bottom: 60px; /* Space to the copyright */
 		}
 		
 		.custom-container {
@@ -340,9 +340,11 @@
 		    flex-grow: 1;
 		} */
 		
-		.left-button {
+		.left-buttons {
+			display: flex;
 		    flex: 1;
 		    padding-left: 20px;
+		    gap: 5px;
 		}
 		
 		.mb-4 {
@@ -526,7 +528,10 @@
 			<div class="header-container">
 			
 				<!-- 2.1.1: Shuffle button -->
-				<div class="left-button">
+				<div class="left-buttons">
+					<a th:href="@{/assortments/{id}(id=${assortment.id})}" class="btn btn-icon back-arrow" title="Back to Assortment">
+			            <i class="fas fa-chevron-left"></i>
+			        </a>
 		            <button class="btn btn-icon btn-shuffle" ng-click="shuffleCards()" title="Shuffle">
 		                <i class="fas fa-random"></i>
 		            </button>
