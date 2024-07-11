@@ -886,6 +886,7 @@
 	                	console.log("b");
 	                    $scope.studyComplete = true;
 	                    $scope.clearNotes();
+	                    $scope.triggerConfetti();
 	                }
 	            };
 
@@ -1036,6 +1037,37 @@
 			    };
 			    
 			    
+			    
+			    // 3.10: Confetti lol
+			    $scope.triggerConfetti = function() {
+				    var end = Date.now() + (3 * 1000);
+				
+				    /* var colors = ['#bb0000', '#ffffff']; */
+				    var colors = ['#ffc107', '#dc3545'];
+				
+				    (function frame() {
+				        confetti({
+				            particleCount: 2,
+				            angle: 60,
+				            spread: 55,
+				            origin: { x: 0, y: 0.7 },
+				            colors: colors
+				        });
+				        confetti({
+				            particleCount: 2,
+				            angle: 120,
+				            spread: 55,
+				            origin: { x: 1, y: 0.7 },
+				            colors: colors
+				        });
+				
+				        if (Date.now() < end) {
+				            requestAnimationFrame(frame);
+				        }
+				    }());
+				};
+			    
+			    
 	            
 	            $scope.getCards();
 	        });
@@ -1047,5 +1079,6 @@
 	    </div>
 	</footer>
     <script src="/js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </body>
 </html>
