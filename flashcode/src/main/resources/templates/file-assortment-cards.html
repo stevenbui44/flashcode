@@ -4,83 +4,548 @@
 	<meta charset="UTF-8">
 	<title>Assortment Cards</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<style>		
+		:root {
+		    --background-color: #f9f7f1;
+		    --header-color: #1a2a57;
+		    
+		    --assortment-background: #ffffff;
+		    --card-count-background: #f0f0f0;
+		    --assortment-border: #ddd;
+		    --ellipsis-color: #333333;
+		    
+		    --title-color: #000000;
+		    --text-primary: #333333;
+		    --text-secondary: #666666;
+		    --no-description-color: #999999;
+		    --search-text-color: #ecf0f1;
+		    --no-assortments-text: #333333;
+		    
+		    --search-input-background: #ffffff;
+	        --search-input-text: #333333;
+	        --search-input-placeholder: #999999;
+	        
+	        --button-text: #ffffff;
+	        
+	        --username-text: #ffffff;
+	        --profile-pic-background: #808080;
+	        --profile-pic-text: #ffffff;
+        	--flashcode-title-color: #ffffff;
+		}
+		
+		.assortment-title {
+		    font-size: 40px; 
+		    font-weight: bold;
+		    margin: 0;
+		    margin-right: 20px;
+		}
+		
+		/* Removes the adjustable text field with click and drag */
+		.auto-expand {
+		    min-height: 33px !important;
+		    overflow-y: hidden;
+		    resize: none;
+		}
+		
+		/* Removes the adjustable text field with click and drag */
+		.auto-expand-small {
+		    min-height: 33px !important;
+		    overflow-y: hidden;
+		    resize: none;
+		}
+		
+		body {
+		    background-color: var(--background-color);
+		    height: 100%;
+		    display: flex;
+    		flex-direction: column;
+		    font-family: 'Work Sans', sans-serif;
+		}
+		
+		.btn-create-card {
+		    background-color: var(--header-color);
+		    color: white;
+		    border: none;
+		    padding: 12px 24px;
+		    border-radius: 5px;
+		    font-weight: bold;
+		    font-size: 18px;
+		    transition: all 0.3s ease;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		}
+		
+		.btn-create-card:hover {
+		    background-color: color-mix(in srgb, var(--header-color) 80%, white);
+		    transform: translateY(-2px);
+		    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		}
+		
+		.btn-create-card i {
+		    margin-right: 8px;
+		}
+		
+		.btn-study {
+		    background-color: var(--header-color);
+		    color: white;
+		    border: none;
+		    padding: 12px 24px;  /* Increased padding to make it larger */
+		    border-radius: 5px;
+		    font-weight: bold;
+		    font-size: 18px;  /* Increased font size */
+		    text-decoration: none;
+		    transition: background-color 0.3s ease;
+		    margin-right: 5px;
+		    margin-bottom: 10px;
+		}
+		
+		.btn-study:hover {
+		    background-color: color-mix(in srgb, var(--header-color) 80%, white);  /* Makes it 20% brighter */
+		    color: white;
+		    text-decoration: none;
+		}
+		
+		.card {
+			flex-grow: 1;
+		    position: relative;
+		    display: flex;
+		}
+		
+		/* Space between card order number and the card body */
+		.card-body {
+		    flex-grow: 1;
+		    padding-left: 30px; 
+		}
+		
+		.card-body textarea.form-control {
+		    font-size: 14px;
+		}
+		
+		.card-body textarea.code-textarea {
+		    font-size: 12px;
+		}
+				
+		.card-count {
+		    font-size: 14px;
+		    color: #666;
+		}
+		
+		/* To make the trash can appear only when hovering over the card */
+		.card .delete-button {
+		    opacity: 0;
+		    transition: opacity 0.3s ease;
+		}
+		
+		.card:hover .delete-button {
+		    opacity: 1;
+		}
+		
+		/* Distance between card text field and the left side of box */
+		.card .form-group {
+		    margin-left: -10px;
+		}
+		
+		/* Distance between each card */
+		.card.mb-4:not(:last-child) {
+		    margin-bottom: 20px !important;
+		}
+		
+		.card-order {
+		    width: 30px; /* Adjust width as needed */
+		    /* height: 30px; */
+		    background-color: #f0f0f0;
+		    /* background-color: var(--background-color); */
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: bold;
+		    margin-right: 10px; /* Distance between order box and card box */
+		    position: relative;
+		    /* top: 3px; */
+		}
+		
+		.card-wrapper {
+		    display: flex;
+		    /* align-items: flex-start; */
+		    align-items: stretch;
+		    margin-bottom: 20px; /* Distance between cards */
+		    position: relative; /* For proper positioning of absolute elements */
+		}
+		
+		
+	    .code-textarea {
+		    font-family: 'Source Code Pro', sans-serif;
+		    font-size: 0.6em;
+		    tab-size: 2;
+		    -moz-tab-size: 2;
+		    -o-tab-size: 2;
+		    white-space: pre-wrap;
+		}
+		
+		.complexity-textarea {
+		    min-height: 33px !important ;
+		    /* height: auto; */
+		}
+		
+		.content {
+		    flex: 1 0 auto;
+		    padding-bottom: 120px; /* Adjust this value to increase/decrease the gap */
+		}
+		
+		.custom-container {
+		    width: 100%;
+		    max-width: 1200px;
+		    margin-right: auto;
+		    margin-left: auto;
+		    padding-right: 15px;
+		    padding-left: 15px;
+		    padding-top: 10px;
+		}
+		
+		.delete-button {
+		    position: absolute;
+		    top: 10px;
+		    right: -30px; /* Moves the button slightly outside the card */
+		    cursor: pointer;
+		    transition: all 0.3s ease;
+		}
+		
+		.delete-button i {
+		    font-size: 18px;
+		    color: #888;
+		}
+		
+		.delete-button:hover i {
+		    color: #ff4444;
+		    transform: scale(1.2);
+		}
+		
+		.delete-button:hover i::before {
+		    content: "\f2ed"; /* Unicode for 'fa-trash-alt' (open trash can) */
+		}
+		
+		.description-container {
+		    margin-top: 10px;
+		    margin-bottom: 10px;
+		    cursor: pointer;
+		}
+		
+		.description-container:not(.editing):hover::after {
+		    content: ' ✎';
+		    color: #999;
+		}
+		
+		.description-input {
+		    width: 100%;
+		    border: none;
+		    border-bottom: 1px solid #ccc;
+		    font-size: 16px;
+		    padding: 5px 0;
+		    outline: none;
+		}
+		
+		.form-group label, h2, p {
+		    color: var(--assortment-title-color);
+		}
+		
+		/* The text boxes =  */
+		.form-control {
+		    background-color: var(--assortment-box-background);
+		    color: var(--assortment-description-color);
+		    min-height: 33px !important;
+		    /* margin-bottom: 15px; */
+		}
+		
+		/* .form-control.auto-expand {
+		    min-height: 10px;
+		}
+		
+		.form-control.auto-expand-small {
+			min-height: 5px;
+		} */
+		
+		/* To ensure the placeholder text color matches */
+		.form-control::placeholder {
+		    color: var(--assortment-description-color);
+		    opacity: 0.7;
+		}
+		
+		h1 {
+		    color: var(--title-color);
+		}
+		
+		.header-container {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 10px;
+		}
+		
+		/* TODO: remove this if we don't want a header */
+		.header-divider {
+		    border: 0;
+		    border-top: 1px solid #ccc;
+		    margin-top: 10px;
+		}
+		
+		.input-container {
+		    position: relative;
+		    margin-bottom: 40px;
+		}
+		
+		.input-container label {
+		    position: absolute;
+		    left: 0;
+		    bottom: -30px; /* How far the label is underneat the text field */
+		    font-size: 12px;
+		    text-transform: uppercase;
+		    color: #666;
+		    /* font-weight: bold; */
+		}
+		
+		.justify-content-end {
+		    justify-content: flex-end !important;
+		}
+				
+		.left-header {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.mb-4 {
+		    margin-bottom: 0rem !important;
+		}
+		
+		.navbar {
+		    background-color: var(--header-color) !important;
+		}
+		
+		.navbar-brand {
+		    color: var(--flashcode-title-color) !important;
+		}
+		
+		.nav-item {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.nav-item form {
+		    margin-left: 15px;
+		}
+		
+		.nav-link {
+			color: var(--username-text);
+		    text-decoration: none; 
+		}
+		
+		.nav-link:hover .profile-pic {
+		    background-color: #666666; /* Darker grey on hover */
+		}
+		
+		.navbar-nav {
+		    align-items: center;
+		}
+		
+		.no-description {
+		    font-style: italic;
+		    color: #999;
+		}
+		
+		.profile-pic {
+		    width: 28px;
+		    height: 28px;
+		    border-radius: 50%;
+		    background-color: var(--profile-pic-background);
+		    color: var(--profile-pic-text);
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: bold;
+		    font-size: 12px;
+		}
+		
+		.right-header {
+		    display: flex;
+		    flex-direction: column;
+		}
+				
+		.username {
+		    font-size: 16px;
+		    font-weight: bold;
+		    margin-bottom: 5px;
+		}
+		
+		.vertical-divider {
+		    width: 1px;
+		    height: 40px;
+		    background-color: #ccc;
+		    margin: 20px;
+		}
+		
+	</style>
 </head>
 <body ng-app="myApp">
 
+	<!-- PART THREE: navbar -->
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
-	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    <ul class="navbar-nav ml-auto">
-	      <li class="nav-item d-flex align-items-center">
-	      	<!-- Username -->
-	      	<span class="nav-link" th:text="${username}">Username</span>
-	      	<!-- Logout -->
-	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
-	       		<input class="btn btn-danger" type="submit" value="Logout" />
-	       	</form>
-	      </li>
-	    </ul>
-	  </div>
+	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item dropdown">
+	                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                    <span th:text="${username}" class="mr-2">Username</span>
+	                    <div class="profile-pic" th:text="${#strings.substring(username,0,1).toUpperCase()}">U</div>
+	                </a>
+	                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#themeModal">Themes</a>
+	                    <div class="dropdown-divider"></div>
+	                    <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</a>
+	                </div>
+	            </li>
+	            <li class="nav-item">
+	                <form th:action="@{/logout}" method="post" class="form-inline">
+	                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+	                </form>
+	            </li>
+	        </ul>
+	    </div>
 	</nav>
 
 
 	<!-- div to put script and code in any order -->
 	<div class="content">
 	    
-		<div class="container mt-5" ng-controller="assortmentCardsCtrl">
+	    <!-- PART TWO: html -->
+		<div class="custom-container mt-5" ng-controller="assortmentCardsCtrl">
 				
-		    <!-- <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1> -->
-		    <div class="d-flex justify-content-between align-items-center">
-                <h1>Cards for Assortment: <span th:text="${assortment.title}"></span></h1>
-                <a class="btn btn-primary" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
-            </div>
-		    <p><span th:text="${assortment.description}"></span></p>
+			<!-- 2.1: Title + Description -->
+		    <div class="header-container">
+		        <div class="left-header">
+		            <h1 class="assortment-title" th:text="${assortment.title}"></h1>
+		            <div class="vertical-divider"></div>
+		            <div class="right-header">
+		                <div class="username" th:text="${username}"></div>
+		                <div class="card-count">{{ assortment.cards.length }} card{{ assortment.cards.length !== 1 ? 's' : '' }}</div>
+		            </div>
+		        </div>
+		        <a class="btn btn-study" ng-href="/assortments/{{ assortment.id }}/study">Study</a>
+		    </div>
 		    
-		    <!-- PART 1: Form at the top to create a new card -->
-	        <form ng-submit="addCard()">
-	            <div class="form-group">
-	                <label for="question">Question:</label>
-	                <input type="text" class="form-control" id="question" ng-model="newCard.question" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="approach">Approach:</label>
-	                <textarea class="form-control" id="approach" ng-model="newCard.approach" required></textarea>
-	            </div>
-	            <div class="form-group">
-	                <label for="code">Code:</label>
-	                <textarea class="form-control" id="code" ng-model="newCard.code" required></textarea>
-	            </div>
-	            <div class="form-group">
-	                <label for="timeComplexity">Time Complexity:</label>
-	                <input type="text" class="form-control" id="timeComplexity" ng-model="newCard.timeComplexity" required>
-	            </div>
-	            <div class="form-group">
-	                <label for="spaceComplexity">Space Complexity:</label>
-	                <input type="text" class="form-control" id="spaceComplexity" ng-model="newCard.spaceComplexity" required>
-	            </div>
-	            <button type="submit" class="btn btn-primary">Add Card</button>
-	        </form>
-	        
-	        
-	        <!-- PART 2: Using ng-repeat to show each card -->
-		    <ul>
-		        <li ng-repeat="card in assortment.cards">
-		            <h2>{{ card.question }}</h2>
-		            <p>Approach:</p>
-		            <textarea class="form-control" ng-model="card.approach" ng-blur="updateCard(card)">{{ card.approach }}</textarea>
-		            <p>Code:</p>
-		            <textarea class="form-control" ng-model="card.code" ng-blur="updateCard(card)">{{ card.code }}</textarea>
-		            <p>Time Complexity:</p>
-		            <textarea class="form-control" ng-model="card.timeComplexity" ng-blur="updateCard(card)">{{ card.timeComplexity }}</textarea>
-		            <p>Space Complexity:</p>
-		            <textarea class="form-control" ng-model="card.spaceComplexity" ng-blur="updateCard(card)">{{ card.spaceComplexity }}</textarea>
-		            <button class="btn btn-danger" ng-click="deleteCard(card.id)">Delete</button>
-		        </li>
-		    </ul>
+		    <div class="description-container" ng-class="{'editing': editingDescription}" ng-click="editDescription()">
+			    <span ng-if="!editingDescription">
+			        {{assortment.description || 'Add description...'}}
+			    </span>
+			    <input ng-if="editingDescription" type="text" ng-model="assortment.description"
+			           ng-blur="saveDescription()" ng-keyup="$event.keyCode == 13 && saveDescription()"
+			           class="description-input" placeholder="Add description...">
+			</div>
+			<hr class="header-divider">
+    
+    
+		    <!-- 2.2: All Cards -->
+		   	<div class="card-wrapper" ng-repeat="card in assortment.cards track by $index">
+		   		<div class="card-order">
+			        <span>{{$index + 1}}</span>
+			    </div>
+				<div class="card mb-4">
+				
+					<!-- 2.2.2: Delete Card button -->
+					<div class="delete-button" ng-click="deleteCard(card.id)">
+				        <i class="fas fa-trash"></i>
+				    </div>
+					
+					<!-- 2.2.3: Card box -->
+			        <div class="card-body">
+			            <div class="row mb-4">
+			                <div class="col-md-3">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="card.question" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand main-textarea" id="question-{{$index}}" ng-model="assortment.cards[$index].question" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="question-{{$index}}">QUESTION</label>
+			                    </div>
+			                </div>
+			                <div class="col-md-6">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="code-{{$index}}" ng-model="card.code" ng-change="updateCard(card)" ng-keydown="handleCodeTab($event)"></textarea> -->
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="code code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea> -->
+			                        <textarea class="form-control auto-expand main-textarea code-textarea" id="code-{{$index}}" ng-model="assortment.cards[$index].code" ng-change="updateCard(assortment.cards[$index])" ng-keydown="handleCodeTab($event)"></textarea>
+			                        <label for="code-{{$index}}">CODE</label>
+			                    </div>
+			                </div>
+			                <div class="col-md-3">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="card.approach" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand main-textarea" id="approach-{{$index}}" ng-model="assortment.cards[$index].approach" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="approach-{{$index}}">APPROACH</label>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="row justify-content-end">
+			                <div class="col-md-3 offset-md-4">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="card.timeComplexity" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand-small complexity-textarea" id="timeComplexity-{{$index}}" ng-model="assortment.cards[$index].timeComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="timeComplexity-{{$index}}">TIME COMPLEXITY</label>
+			                    </div>
+			                </div>
+			                <div class="col-md-3">
+			                    <div class="form-group input-container">
+			                        <!-- <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="card.spaceComplexity" ng-change="updateCard(card)"></textarea> -->
+			                        <textarea class="form-control auto-expand-small complexity-textarea" id="spaceComplexity-{{$index}}" ng-model="assortment.cards[$index].spaceComplexity" ng-change="updateCard(assortment.cards[$index])"></textarea>
+			                        <label for="spaceComplexity-{{$index}}">SPACE COMPLEXITY</label>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
 		    
+		   <!-- 2.3 Create New Card button -->
+		    <div class="text-center mt-4">
+			    <button class="btn btn-create-card" ng-click="createNewCard()">
+			        <i class="fas fa-plus-circle mr-2"></i>Create New Card
+			    </button>
+			</div>
+		    
+		    <!-- Modal 1: Choose a theme -->
+		    <div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
+			    <div class="modal-dialog" role="document">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h5 class="modal-title" id="themeModalLabel">Choose Theme</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+			            </div>
+			            <div class="modal-body">
+			                <div class="list-group">
+			                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('default')">
+			                        Default
+			                        <i class="fas fa-check" ng-show="currentTheme === 'default'"></i>
+			                    </button>
+			                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('light')">
+			                        Light Mode
+			                        <i class="fas fa-check" ng-show="currentTheme === 'light'"></i>
+			                    </button>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			
+			
 	    </div>
 	    
+	    
+	    <!-- PART ONE: angularjs -->
 	    <script>
 	        var app = angular.module('myApp', []);
 	        app.controller('assortmentCardsCtrl', function($scope, $http, $q, $timeout) {
@@ -96,66 +561,243 @@
 	        	}
 	        	
 	        	$scope.assortment = { 
+	        		title: '[[${assortment.title}]]',
+	        		description: '[[${assortment.description}]]',
         			id: [[${assortment.id}]], 
         			cards: [] 
 	        	};
 	        	
 	        	
+	        	
 	        	$scope.getCards = function() {
-            	    $http.get('/api/v1/assortments/' + $scope.assortment.id)
-            	        .then(function(response) {
-            	            $scope.assortment.cards = response.data;
-            	        }, function(error) {
-            	            console.error('Error fetching cards:', error);
-            	        });
-            	};
-            	
+	        	    $http.get('/api/v1/assortments/' + $scope.assortment.id)
+	        	        .then(function(response) {
+	        	            $scope.assortment.cards = response.data.map(function(card) {
+	        	                return angular.isObject(card) ? card : {
+	        	                    question: '',
+	        	                    approach: '',
+	        	                    code: '',
+	        	                    timeComplexity: '',
+	        	                    spaceComplexity: ''
+	        	                };
+	        	            });
+	        	            if ($scope.assortment.cards.length === 0) {
+	        	                $scope.createNewCard();
+	        	            }
+	        	            $timeout($scope.initAutoExpand);
+	        	        }, function(error) {
+	        	            console.error('Error fetching cards:', error);
+	        	        });
+	        	};
+	        	
             	$scope.getCards();
             	
-            	$scope.addCard = function() {
-            	    $scope.success = false;
-            	    $scope.failure = false;
-            	    $http.post('/api/v1/assortments/' + $scope.assortment.id, $scope.newCard)
+            	$scope.createNewCard = function() {
+            	    var newCard = {
+            	        question: '',
+            	        approach: '',
+            	        code: '',
+            	        timeComplexity: '',
+            	        spaceComplexity: ''
+            	    };
+            	    
+            	    $http.post('/api/v1/assortments/' + $scope.assortment.id, newCard)
             	        .then(function(response) {
-            	            console.log('Card added successfully');
-            	            $scope.reset();
-            	            return $scope.getCards();  // Chain the getCards call here
-            	        })
-            	        .then(function() {
-            	            $scope.success = true;
-            	        })
-            	        .catch(function(rejection) {
-            	            console.error('Error adding card:', rejection);
-            	            $scope.failure = true;
+            	            $timeout(function() {
+            	                $scope.assortment.cards.push(angular.copy(response.data));
+            	            });
+            	           	$scope.getCards();
+            	        }, function(error) {
+            	            console.error('Error creating new card:', error);
             	        });
             	};
             	
-            	$scope.deleteCard = function(cardId) {  
-            		$http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
-	                    .then(function(response) {
-	                        // Remove the deleted card from the UI
-	                        var index = $scope.assortment.cards.findIndex(function(card) {
-	                            return card.id === parseInt(cardId);
-	                        });
-	                        if (index !== -1) {
-	                            $scope.assortment.cards.splice(index, 1);
-	                        }
-	                    }, function(error) {
-	                        console.error('Error deleting card:', error);
-	                    });
-            	};
+                $scope.deleteCard = function(cardId) {  
+                    $http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
+                        .then(function(response) {
+                            var index = $scope.assortment.cards.findIndex(function(card) {
+                                return card.id === cardId;
+                            });
+                            if (index !== -1) {
+                                $scope.assortment.cards.splice(index, 1);
+                            }
+                            if ($scope.assortment.cards.length === 0) {
+                                $scope.createNewCard();
+                            }
+                        }, function(error) {
+                            console.error('Error deleting card:', error);
+                        });
+                };
             	
-            	$scope.updateCard = function(card) {
-					$http.put('/api/v1/assortments/' + $scope.assortment.id + '/' + card.id, card)
-						.then(function(response) {
-							console.log('Card updated successfully');
-						}, function(error) {
-							console.error('Error updating card:', error);
-						});
+                $scope.updateCard = function(card) {
+                    if (!angular.isObject(card)) {
+                        console.error('Invalid card object:', card);
+                        return;
+                    }
+                    $http.put('/api/v1/assortments/' + $scope.assortment.id + '/' + card.id, card)
+                        .then(function(response) {
+                            console.log('Card updated successfully');
+                        }, function(error) {
+                            console.error('Error updating card:', error);
+                        });
+                };
+				
+				
+				
+                
+                
+                
+				
+				
+				
+				// Expanding the text box height
+				$scope.initAutoExpand = function() {
+				    function autoExpand(element) {
+				        element.style.height = '33px';
+				        element.style.height = (element.scrollHeight) + 'px';
+				    }
+				
+				    function equalizeHeights(cardElement) {
+				        const mainTextareas = cardElement.querySelectorAll('.main-textarea');
+				        const complexityTextareas = cardElement.querySelectorAll('.complexity-textarea');
+				
+				        function setEqualHeight(elements) {
+				            elements.forEach(el => {
+				                el.style.height = el.classList.contains('auto-expand-small') ? '33px' : '66px';
+				            });
+				            
+				            let maxHeight = Math.max(...Array.from(elements).map(el => el.scrollHeight));
+				            elements.forEach(el => el.style.height = maxHeight + 'px');
+				        }
+				
+				        setEqualHeight(mainTextareas);
+				        setEqualHeight(complexityTextareas);
+				    }
+				
+				    function adjustHeights(element) {
+				        const cardElement = element.closest('.card');
+				        if (cardElement) {
+				            equalizeHeights(cardElement);
+				        }
+				    }
+				
+				    document.querySelectorAll('.auto-expand, .auto-expand-small').forEach(function(element) {
+				        element.addEventListener('input', function() {
+				            autoExpand(this);
+				            adjustHeights(this);
+				        });
+				        
+				        autoExpand(element);
+				    });
+				
+				    document.querySelectorAll('.card').forEach(equalizeHeights);
+				
+				    window.addEventListener('resize', function() {
+				        document.querySelectorAll('.card').forEach(equalizeHeights);
+				    });
 				};
-            	
+				
+				
+				
+				
+				// Tabbing and indentation
+				$scope.handleCodeTab = function(event) {
+				    if (!event.target.id.startsWith('code-')) return;
+				
+				    var textarea = event.target;
+				    var start = textarea.selectionStart;
+				    var end = textarea.selectionEnd;
+				
+				    // Tab key
+				    if (event.key === "Tab") {
+				        event.preventDefault();
+				        if (event.shiftKey) {
+				            // Shift+Tab: Remove indentation
+				            var currentLineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+				            if (textarea.value.substring(currentLineStart, currentLineStart + 1) === "\t") {
+				                textarea.value = textarea.value.substring(0, currentLineStart) + textarea.value.substring(currentLineStart + 1);
+				                textarea.selectionStart = textarea.selectionEnd = start - 1;
+				            }
+				        } else {
+				            // Tab: Add indentation
+				            textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+				            textarea.selectionStart = textarea.selectionEnd = start + 1;
+				        }
+				    } 
+				    // Enter key
+				    else if (event.key === "Enter") {
+				        event.preventDefault();
+				        var currentLine = textarea.value.substring(0, start).split("\n").pop();
+				        var indentation = currentLine.match(/^\t*/)[0]; // Match tabs at the beginning of the line
+				        textarea.value = textarea.value.substring(0, start) + "\n" + indentation + textarea.value.substring(end);
+				        textarea.selectionStart = textarea.selectionEnd = start + 1 + indentation.length;
+				    }
+				
+				    // Update the model safely
+				    $scope.$evalAsync(function() {
+				        var index = textarea.id.split('-')[1];
+				        $scope.assortment.cards[index].code = textarea.value;
+				    });
+				
+				    // Adjust heights after content change
+				    $timeout(function() {
+				        $scope.initAutoExpand();
+				    });
+				};
+				
+				
+				
+				
+				// Set the theme
+				$scope.currentTheme = localStorage.getItem('theme') || 'default';
+
+			    $scope.setTheme = function(themeName) {
+			        setTheme(themeName);
+			        $scope.currentTheme = themeName;
+			        localStorage.setItem('theme', themeName);
+			    };
+			    
+			    
+			    
+			    $scope.editingDescription = false;
+
+			    $scope.editDescription = function() {
+			        $scope.editingDescription = true;
+			        $timeout(function() {
+			            document.querySelector('.description-input').focus();
+			        });
+			    };
+
+			    $scope.saveDescription = function() {
+			        $scope.editingDescription = false;
+			        
+			        // Create an Assortment object with the current data
+			        var updatedAssortment = {
+			            id: $scope.assortment.id,
+			            title: $scope.assortment.title,
+			            description: $scope.assortment.description,
+			            cards: $scope.assortment.cards
+			        };
+
+			        $http.put('/api/v1/assortments/' + $scope.assortment.id, updatedAssortment)
+			            .then(function(response) {
+			                console.log('Description updated successfully');
+			            }, function(error) {
+			                console.error('Error updating description:', error);
+			            });
+			    };
+			    
+			    
+			    $timeout($scope.initAutoExpand);
+			    $scope.getCards();
 	        });
 	    </script>
     </div>
+    <footer class="footer mt-auto py-3">
+	    <div class="container text-center">
+	        <span class="text-muted">&copy; FlashCode 2024</span>
+	    </div>
+	</footer>
+    <script src="/js/theme.js"></script>
 </body>
 </html>
