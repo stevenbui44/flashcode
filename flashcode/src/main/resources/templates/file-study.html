@@ -41,17 +41,18 @@
         	--flashcode-title-color: #ffffff;
 	    }
 	    
+	    .action-buttons {
+		    margin-bottom: 2rem;
+		}
+		
+		.action-buttons button {
+		    margin: 0 0.5rem;
+		}
+	    
 	    .approach-complexity-gap,
 		.code-complexity-gap {
 		    height: 10px;
 		}
-	    
-	    /* .assortment-title {
-		    font-size: 40px; 
-		    font-weight: bold;
-		    margin: 0;
-		    margin-right: 20px;
-		} */
 		
 		.back-arrow {
 		    align-items: center;
@@ -135,6 +136,15 @@
 		    background-color: rgba(0, 0, 0, 0.1);
 		}
 		
+		.btn-outline-primary {
+		    color: #007bff;
+		    border-color: #007bff;
+		}
+		
+		.btn-outline-primary:hover {
+		    color: #fff;
+		    background-color: #007bff;
+		}
 		
 	    .btn-success,
 		.btn-warning {
@@ -197,10 +207,6 @@
 		    transform: rotateY(0deg);
 		}
 		
-		/* .card-container.flipped .card-flipper {
-		    transform: rotateY(180deg);
-		} */
-		
 		.card-container.flipped .card-front {
 		    transform: rotateY(180deg);
 		}
@@ -217,14 +223,6 @@
 		    color: #666;
 		    font-size: 14px;
 		}
-		
-		/* .card-flipper {
-		    height: 100%;
-		    position: relative;
-		    transform-style: preserve-3d;
-		    transition: transform 0.6s;
-		    width: 100%;
-		} */
 		
 		.card-front {
 		    align-items: center;
@@ -291,6 +289,18 @@
 			padding-left:15px;
 			padding-right:15px;
 			tab-size:3;
+		}
+		
+		.completion-subtitle {
+		    font-size: 1.5rem;
+		    color: #495057;
+		    margin-bottom: 2rem;
+		}
+		
+		.congratulations-title {
+		    font-size: 2.5rem;
+		    color: #28a745;
+		    margin-bottom: 0.5rem;
 		}
 		
 	    .content {
@@ -447,6 +457,10 @@
 		    height: auto;
 		}
 		
+		.return-button {
+		    margin-top: 1rem;
+		}
+		
 		.right-buttons {
 		    flex: 1;
 		    display: flex;
@@ -471,10 +485,36 @@
 		    padding-right: 5px;
 		}
 		
-		/* .study-buttons {
-			align-items: center;
+		.stats-container {
 		    display: flex;
-		} */
+		    justify-content: space-around;
+		    margin-bottom: 2rem;
+		}
+		
+		.stat-item {
+		    display: flex;
+		    flex-direction: column;
+		}
+		
+		.stat-label {
+		    font-size: 1rem;
+		    color: #6c757d;
+		}
+		
+		.stat-value {
+		    font-size: 1.5rem;
+		    font-weight: bold;
+		    color: #495057;
+		}
+		
+		/* Ending screen */
+		.study-complete-container {
+		    text-align: center;
+		    padding: 2rem;
+		    max-width: 600px;
+		    margin: 0 auto;
+		}
+		
 	    
 	    .username {
 		    font-size: 16px;
@@ -620,15 +660,47 @@
 				</div>
 		    </div>
 	        
+	        
+	        
+	        
+	        
 	        <!-- 2.4: Show only if at the end of the deck -->
-	        <div ng-if="studyComplete" class="text-center mt-5">
-		        <h2>Congratulations! You finished reviewing this assortment!</h2>
-		        <div class="mt-4">
-		            <button class="btn btn-primary mr-2" ng-click="reviewStillLearning()" ng-disabled="!reviewCards.length">Review Still Learning Cards</button>
-		            <button class="btn btn-secondary mr-2" ng-click="reviewAllCards()">Review All Cards</button>
-		            <a class="btn btn-info" th:href="@{/assortments/{id}(id=${assortment.id})}">Return to Assortment</a>
-		        </div>
-		    </div>
+	        <div ng-if="studyComplete" class="study-complete-container">
+			    <h1 class="congratulations-title">Congratulations!</h1>
+			    <h2 class="completion-subtitle">You've finished reviewing this assortment!</h2>
+			    
+			    <div class="stats-container">
+				    <div class="stat-item">
+				        <span class="stat-label">Cards Reviewed:</span>
+				        <span class="stat-value">{{ isReviewingStillLearning ? currentSessionReviewedCards.length : totalCards }}</span>
+				    </div>
+				    <div class="stat-item">
+				        <span class="stat-label">Cards Known:</span>
+				        <span class="stat-value">{{ allTimeKnownCards.length }}</span>
+				    </div>
+				    <div class="stat-item">
+				        <span class="stat-label">Still Learning:</span>
+				        <span class="stat-value">{{ allCardsEver - allTimeKnownCards.length }}</span>
+				    </div>
+				</div>
+			
+			    <div class="action-buttons">
+			        <button class="btn btn-primary" ng-click="reviewStillLearning()" ng-disabled="!reviewCards.length">
+			            Review Still Learning Cards
+			        </button>
+			        <button class="btn btn-secondary" ng-click="reviewAllCards()">
+			            Review All Cards
+			        </button>
+			    </div>
+			
+			    <div class="return-button">
+			        <a class="btn btn-outline-primary" th:href="@{/assortments/{id}(id=${assortment.id})}">
+			            Return to Assortment
+			        </a>
+			    </div>
+			</div>
+		    
+		    
 	        
 	        
 	        <!-- Modal 1: Choose a theme -->
@@ -676,6 +748,8 @@
 	            $scope.studyComplete = false;
 	            $scope.totalCards = 0;
 	            $scope.isReviewingStillLearning = false;
+	            $scope.allTimeKnownCards = [];
+	            $scope.allCardsEver = 0;
 	            
 	            $scope.visible = {
                     question: false,
@@ -696,8 +770,12 @@
 	                $http.get('/api/v1/assortments/' + $scope.assortment.id)
 	                    .then(function(response) {
 	                        $scope.assortment.cards = response.data;
+	                        $scope.allCardsEver = $scope.assortment.cards.length;
 	                        $scope.currentCard = $scope.assortment.cards[$scope.currentCardIndex];
 	                        $scope.totalCards = $scope.assortment.cards.length;
+	                        if (!$scope.allTimeKnownCards) {
+	                            $scope.allTimeKnownCards = [];
+	                        }
 	                    }, function(error) {
 	                        console.error('Error fetching cards:', error);
 	                    });
@@ -709,6 +787,7 @@
 	            
 	            // 3.3: Still Learning and Know buttons 
 	            $scope.stillLearning = function() {
+	            	$scope.allTimeKnownCards = $scope.allTimeKnownCards.filter(card => card.id !== $scope.currentCard.id);
 	                if (!$scope.reviewCards.some(card => card.id === $scope.currentCard.id)) {
 	                    $scope.reviewCards.push($scope.currentCard);
 	                }
@@ -717,6 +796,9 @@
 
 	            $scope.know = function() {
 	            	console.log("know!!");
+	            	if (!$scope.allTimeKnownCards.some(card => card.id === $scope.currentCard.id)) {
+	                    $scope.allTimeKnownCards.push($scope.currentCard);
+	                }
 	                $scope.nextCard();
 	            };
 	            
@@ -766,6 +848,7 @@
 	            
 	            // 3.5: Cards when you get to the end of the deck
 	            $scope.reviewStillLearning = function() {
+	            	$scope.currentSessionReviewedCards = [...$scope.reviewCards];
 	                $scope.assortment.cards = [...$scope.reviewCards];
 	                $scope.totalCards = $scope.reviewCards.length;
 	                $scope.isReviewingStillLearning = true;
@@ -780,6 +863,7 @@
 	                $scope.getCards();
 	                $scope.isReviewingStillLearning = false;
 	                $scope.reviewCards = [];
+	                $scope.currentSessionReviewedCards = [];
 	                $scope.restartStudy();
 	            };
 
