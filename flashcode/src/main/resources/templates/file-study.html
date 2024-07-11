@@ -43,6 +43,10 @@
 	    
 	    .action-buttons {
 		    margin-bottom: 2rem;
+		    display: flex;
+		    flex-direction: center;
+		    align-items: center;
+		    gap: 10px;
 		}
 		
 		.action-buttons button {
@@ -299,13 +303,13 @@
 		
 		.congratulations-title {
 		    font-size: 2.5rem;
-		    color: #28a745;
+		    color: #495057;
 		    margin-bottom: 0.5rem;
 		}
 		
 	    .content {
 		    flex: 1 0 auto;
-		    padding-bottom: 60px; /* Space to the copyright */
+		    padding-bottom: 80px; /* Space to the copyright */
 		}
 		
 		.custom-container {
@@ -425,6 +429,37 @@
 		    width: 28px;
 		}
 		
+		.progress-bar {
+		    width: 100%;
+		    height: 30px; /* Increased height to accommodate text */
+		    background-color: #d1d1d1; /* Darker grey for the unfilled portion */
+		    border-radius: 15px;
+		    overflow: hidden;
+		    position: relative;
+		    border: 0px solid #a0a0a0; /* Border to make it pop */
+		}
+		
+		.progress-container {
+		    margin-top: 20px;
+		    margin-bottom: 60px; /* Added space between the bar and buttons */
+		}
+		
+		.progress-fill {
+		    height: 100%;
+		    background-color: #4CAF50;  /* Green color */
+		    transition: width 0.5s ease-in-out;
+		}
+		
+		.progress-text {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    color: #333;
+		    font-weight: bold;
+		    
+		}
+		
 		/* HEIGHT 1 */
 		.question-card {
 		    height: 410px; 
@@ -457,8 +492,36 @@
 		    height: auto;
 		}
 		
-		.return-button {
-		    margin-top: 1rem;
+		.restart-button {
+		    background-color: transparent;
+		    border: 2px solid #6c757d;
+		    color: #6c757d;
+		    width: 100%;
+		    max-width: 300px;
+		}
+		
+		.return-link {
+		    text-align: left;
+		    margin-top: 20px;
+		    padding-left: 50px;
+		}
+		
+		.return-text {
+		    color: #007bff;
+		    text-decoration: none;
+		    font-size: 14px;
+		}
+		
+		.return-text:hover {
+		    text-decoration: underline;
+		}
+		
+		.review-button {
+		    background-color: #007bff;
+		    border-color: #007bff;
+		    color: white;
+		    width: 100%;
+		    max-width: 300px;
 		}
 		
 		.right-buttons {
@@ -513,6 +576,7 @@
 		    padding: 2rem;
 		    max-width: 600px;
 		    margin: 0 auto;
+		    margin-top: -30px;
 		}
 		
 	    
@@ -683,19 +747,28 @@
 				        <span class="stat-value">{{ allCardsEver - allTimeKnownCards.length }}</span>
 				    </div>
 				</div>
+				
+				<div class="progress-container">
+				    <div class="progress-bar">
+				        <div class="progress-fill" ng-style="{ width: (allTimeKnownCards.length / allCardsEver) * 100 + '%' }"></div>
+				        <div class="progress-text">
+				            {{ allTimeKnownCards.length }} of {{ allCardsEver }}
+				        </div>
+				    </div>
+				</div>
 			
 			    <div class="action-buttons">
-			        <button class="btn btn-primary" ng-click="reviewStillLearning()" ng-disabled="!reviewCards.length">
+			        <button class="btn btn-primary review-button" ng-click="reviewStillLearning()" ng-disabled="!reviewCards.length">
 			            Review Still Learning Cards
 			        </button>
-			        <button class="btn btn-secondary" ng-click="reviewAllCards()">
-			            Review All Cards
+			        <button class="btn btn-outline-secondary restart-button" ng-click="reviewAllCards()">
+			            Restart Entire Assortment
 			        </button>
 			    </div>
 			
-			    <div class="return-button">
-			        <a class="btn btn-outline-primary" th:href="@{/assortments/{id}(id=${assortment.id})}">
-			            Return to Assortment
+			    <div class="return-link">
+			        <a th:href="@{/assortments/{id}(id=${assortment.id})}" class="return-text">
+			            ← Return to assortment
 			        </a>
 			    </div>
 			</div>
@@ -829,9 +902,6 @@
 	                };
 	            };
 	            
-	            /* $scope.toggleVisibility = function(section) {
-	                $scope.visible[section] = !$scope.visible[section];
-	            }; */
 	            $scope.toggleVisibility = function(section) {
 	                $scope.visible[section] = !$scope.visible[section];
 	                // Add a small delay to allow the flip animation to complete
