@@ -172,15 +172,15 @@ public class MappingController {
 
     }
 
-    @GetMapping ( "/settings" )
-    public String openSettings ( final Model model ) {
-        final MyUser currentUser = myUserService.getCurrentUser();
-        if ( currentUser != null ) {
-            model.addAttribute( "username", currentUser.getUsername() );
-            model.addAttribute( "user", currentUser );
-            return "settings";
-        }
-        return "redirect:/login";
-    }
+    // @GetMapping ( "/settings" )
+    // public String openSettings ( final Model model ) {
+    // final MyUser currentUser = myUserService.getCurrentUser();
+    // if ( currentUser != null ) {
+    // model.addAttribute( "username", currentUser.getUsername() );
+    // model.addAttribute( "user", currentUser );
+    // return "settings";
+    // }
+    // return "redirect:/login";
+    // }
 
 }

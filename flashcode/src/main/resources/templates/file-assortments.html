@@ -4,30 +4,356 @@
 	<meta charset="UTF-8">
 	<title>All Assortments</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<!-- <link rel="stylesheet" href="css/app.css" /> -->
-	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
-	
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<style>
+		:root {
+		    --background-color: #f9f7f1;
+		    --header-color: #1a2a57;
+		    
+		    --assortment-background: #ffffff;
+		    --card-count-background: #f0f0f0;
+		    --assortment-border: #ddd;
+		    --ellipsis-color: #333333;
+		    
+		    --title-color: #000000;
+		    --text-primary: #333333;
+		    --text-secondary: #666666;
+		    --no-description-color: #999999;
+		    --search-text-color: #ecf0f1;
+		    --no-assortments-text: #333333;
+		    
+		    --search-input-background: #ffffff;
+	        --search-input-text: #333333;
+	        --search-input-placeholder: #999999;
+	        
+	        --button-text: #ffffff;
+	        
+	        --username-text: #ffffff;
+	        --profile-pic-background: #808080;
+	        --profile-pic-text: #ffffff;
+        	--flashcode-title-color: #ffffff;
+		}
+				
+		.assortment-box {
+		    width: calc(33.33% - 20px);
+		    border: 1px solid var(--assortment-border);
+		    border-radius: 10px;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		    display: flex;
+		    flex-direction: column;
+		    background-color: var(--assortment-background);
+		    overflow: hidden;
+		    cursor: pointer;
+    		transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    		position: relative;
+		}
+		
+		.assortment-box:hover {
+		    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+		    transform: translateY(-3px);
+		}
+		
+		.assortment-box h3 {
+		    margin-top: 0;
+		    margin-bottom: 15px;
+		}
+		
+		.assortment-content {
+		    padding: 20px;
+		    flex-grow: 1;
+		    display: flex;
+		    flex-direction: column;
+		    position: relative;
+    		z-index: 0;
+		}
+		
+		.assortment-content h3 {
+			font-size: 1.5em;
+		    margin-top: 0;
+		    margin-bottom: 15px;
+		    color: var(--text-primary);
+		}
+		
+		.assortment-description {
+		    font-size: 0.8em;
+		    color: var(--text-secondary);
+		    margin-bottom: 80px;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    display: -webkit-box;
+		    -webkit-line-clamp: 2;
+		    -webkit-box-orient: vertical;
+		}
+		
+		.assortment-description.no-description {
+		    font-style: italic;
+		    color: var(--no-description-color);
+		}
+		
+		.assortment-grid {
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 20px;
+		    justify-content: flex-start;
+		}
+		
+		.assortment-header {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: flex-start;
+		    margin-bottom: 15px;
+		}
+		
+		.assortment-header h3 {
+		    margin: 0;
+		    flex-grow: 1;
+		}
+		
+		body {
+		    background-color: var(--background-color);
+		    height: 100%;
+		    display: flex;
+    		flex-direction: column;
+		    font-family: 'Work Sans', sans-serif;
+		}
+		
+		.button-group {
+		    display: flex;
+		    justify-content: space-between;
+			margin-top: auto;
+		}
+		
+		.button-group .btn {
+		    flex: 1;
+		    margin: 0 5px;
+		}
+		
+		.card-count {
+			background-color: var(--card-count-background);
+ 			padding: 1px;
+		    text-align: center;
+		    font-size: 0.6em;
+		    color: var(--text-secondary);
+		    border-top: 1px solid var(--assortment-border);
+		}
+		
+		.col-md-3 {
+		    /* padding-right: 30px; */
+		    flex: 0 0 20%; 
+    		max-width: 20%;
+		}
+		
+		.col-md-9 {
+		    flex: 0 0 80%; /* Adjust this percentage as needed */
+		    max-width: 80%; /* Should match the flex-basis above */
+		}
+		
+		.content {
+		    flex: 1 0 auto;
+		    padding-bottom: 120px; /* Adjust this value to increase/decrease the gap */
+		}
+		
+		.create-btn {
+		    background-color: var(--header-color);
+		    border: none;
+		    padding: 8px 16px;
+		    border-radius: 5px;
+		    font-weight: 500;
+		    font-size: 0.9em;
+		    color: var(--button-text);
+		    transition: all 0.3s ease;
+		    position: relative;
+    		top: -15px;
+    		right: 20px;
+		}
+		
+		.create-btn:hover {
+		    background-color: var(--header-color);
+		    filter: brightness(120%);
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		}
+		
+		.custom-container {
+		    width: 100%;
+		    max-width: 1200px;
+		    margin-right: auto;
+		    margin-left: auto;
+		    padding-right: 15px;
+		    padding-left: 15px;
+		    padding-top: 10px;
+		}
+		
+		.dropdown-item {
+		    padding: 0.25rem 1rem;
+		}
+		
+		.dropdown-item:hover {
+		    background-color: #f8f9fa;
+		}
+		
+		.dropdown-item.text-danger:hover {
+		    background-color: #dc3545;
+		    color: white !important;
+		}
+		
+		.dropdown-menu {
+		    min-width: 200px;
+		}
+	
+		.dropdown-toggle::after {
+		    display: none;
+		}
+		
+		.dropdown-toggle i {
+		    font-size: 1.2em;
+		    color: var(--ellipsis-color);
+		}
+		
+		.ellipsis-container {
+		    position: absolute;
+		    top: 10px;
+		    right: 6px;
+		    width: 25px;
+		    height: 25px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    z-index: 1;
+		}
+		
+		h1 {
+		    color: var(--title-color);
+		}
+		
+		html {
+			height: 100%;
+		}
+		
+		.navbar {
+		    background-color: var(--header-color) !important;
+		}
+		
+		.navbar-brand {
+		    color: var(--flashcode-title-color) !important;
+		}
+		
+		.nav-item {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.nav-item form {
+		    margin-left: 15px;
+		}
+		
+		.nav-link {
+			color: var(--username-text);
+		    text-decoration: none; 
+		}
+		
+		.nav-link:hover .profile-pic {
+		    background-color: #666666; /* Darker grey on hover */
+		}
+		
+		.navbar-nav {
+		    align-items: center;
+		}
+		
+		.no-assortments-message {
+		    font-size: 120%;
+		    color: var(--no-assortments-text);
+		    text-align: center;
+		    margin-top: 2rem;
+		}
+		
+		.no-assortments-message b {
+		    color: var(--no-assortments-bold);
+		}
+		
+		.profile-pic {
+		    width: 28px;
+		    height: 28px;
+		    border-radius: 50%;
+		    background-color: var(--profile-pic-background);
+		    color: var(--profile-pic-text);
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: bold;
+		    font-size: 12px;
+		}
+		
+		.search-box {
+		    margin-top: 12px;
+		    padding: 20px;
+		    border-radius: 5px;
+		    margin-bottom: 20px;
+		}
+		
+		.search-box input {
+		    height: 35px;
+		    background-color: var(--search-input-background);
+		    color: var(--search-input-text);
+		    /* width: 260px; */
+		}
+		
+		.search-box input::placeholder {
+		    color: var(--search-input-placeholder);
+		}
+		
+		.search-box h3 {
+		    margin-bottom: 15px;
+		    color: var(--search-text-color);
+		}
+		
+		@media (max-width: 1200px) {
+		    .assortment-box {
+		        width: calc(50% - 15px);
+		    }
+		}
+		
+		@media (max-width: 992px) {
+		    .assortment-box {
+		        width: calc(50% - 20px);
+		    }
+		}
+		
+		@media (max-width: 768px) {
+		    .assortment-box {
+		        width: 100%;
+		    }
+		}
+	</style>
 </head>
 <body ng-app="myApp">
-
+	
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 	    <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
 	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
 	        <ul class="navbar-nav ml-auto">
 	            <li class="nav-item dropdown d-flex align-items-center">
-	                <a class="nav-link" href="/settings" role="button" aria-haspopup="true" aria-expanded="false">
-	                    <!-- Username -->
-	                    <span th:text="${username}">Username</span>
+	                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                    <span th:text="${username}" class="mr-2">Username</span>
+	                    <div class="profile-pic" th:text="${#strings.substring(username,0,1).toUpperCase()}">U</div>
 	                </a>
-	                
-	                <!-- Logout -->
-	                <form th:action="@{/logout}" method="post" class="form-inline ml-2">
-	                    <input class="btn btn-danger" type="submit" value="Logout" />
-	                </form>
+	                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#themeModal">Themes</a>
+	                    <div class="dropdown-divider"></div>
+	                    <a class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</a>
+	                </div>
 	            </li>
+	            
+	            <li class="nav-item">
+				    <form th:action="@{/logout}" method="post" class="form-inline">
+				        <button type="submit" class="btn btn-link nav-link">Logout</button>
+				    </form>
+				</li>
+	            
 	        </ul>
 	    </div>
 	</nav>
@@ -36,102 +362,186 @@
 	<div class="content">
 	
 		<!-- PART TWO: html -->
-	    <div class="container mt-5" ng-controller="assortmentsCtrl">
+	    <div class="custom-container mt-5" ng-controller="assortmentsCtrl">
 	    
-	    	<!-- 2.1 Header -->
-	        <h1 class="mb-4">Assortment List</h1>
-	        
-	        <!-- 2.2 Button for making a new assortment -->
-	        <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#createAssortmentModal">
-				Create New Assortment
-			</button>
-	         	         
-	        <!-- 2.3 Listing all user assortments -->
-			<ul id="assortmentList" class="list-group">
-	            <li class="list-group-item" ng-repeat="assortment in assortments">
-	            	<span>{{ assortment.title }}</span>
-	            	
-	            	<a href="/assortments/{{ assortment.id }}" class="btn btn-secondary btn-sm ml-2">View Cards</a>
-	            	<button class="btn btn-danger btn-sm ml-2" ng-click="openConfirmDeleteModal(assortment.id)">Delete</button>
-	            	<button class="btn btn-primary btn-sm ml-2" ng-click="openEditAssortmentModal(assortment.id)">Edit</button>
-	            	
-	            </li>
-	        </ul>
-	        
-	        
-	        <!-- Modal 1: Creating new assortment -->
-	        <div class="modal fade" id="createAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="createAssortmentModalLabel" aria-hidden="true">
-		        <div class="modal-dialog" role="document">
-		            <div class="modal-content">
-		                <form name="createAssortmentForm" ng-submit="createAssortment(createAssortmentForm.$valid)" novalidate>
-		                    <div class="modal-header">
-		                        <h5 class="modal-title" id="createAssortmentModalLabel">Create New Assortment</h5>
-		                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                            <span aria-hidden="true">&times;</span>
-		                        </button>
-		                    </div>
-		                    <div class="modal-body">
-		                        <div class="form-group">
-		                            <label for="assortmentTitle">Assortment Title</label>
-		                            <input type="text" class="form-control" id="assortmentTitle" ng-model="newAssortmentTitle" placeholder="Enter assortment title" required>
-		                        </div>
-		                    </div>
-		                    <div class="modal-footer">
-		                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-		                        <button type="submit" class="btn btn-primary" ng-disabled="createAssortmentForm.$invalid">Create</button>
-		                    </div>
-		                </form>
+	    	<div class="row">
+		        <!-- Left side - Search -->
+		        <div class="col-md-3" ng-show="assortments.length > 0">
+		            <div class="search-box" >
+		                <h3>Search</h3>
+		               	<input type="text" class="form-control" ng-model="searchQuery" ng-change="filterAssortments()" placeholder="Search by title...">
 		            </div>
 		        </div>
-   			</div>
-   			
-   			<!-- Modal 2: Deleting an assortment -->
-   			<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog">
-			    <div class="modal-dialog" role="document">
-			        <div class="modal-content">
-			            <div class="modal-header">
-			                <h5 class="modal-title">Confirm Deletion</h5>
-			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			                    <span aria-hidden="true">&times;</span>
-			                </button>
-			            </div>
-			            <div class="modal-body">
-			                <p>Are you sure you want to delete this assortment?</p>
-			            </div>
-			            <div class="modal-footer">
-			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-			                <button type="button" class="btn btn-danger" ng-click="deleteAssortmentConfirmed()">Delete</button>
-			            </div>
-			        </div>
-			    </div>
-			</div>
 			
-			<!-- Modal 3: Editing an assortment -->
-			<div class="modal fade" id="editAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="editAssortmentModalLabel" aria-hidden="true">
-			    <div class="modal-dialog" role="document">
-			        <div class="modal-content">
-			            <div class="modal-header">
-			                <h5 class="modal-title" id="editAssortmentModalLabel">Edit Assortment</h5>
-			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			                    <span aria-hidden="true">&times;</span>
-			                </button>
-			            </div>
-			            <div class="modal-body">
-			                <div class="form-group">
-			                    <label for="editAssortmentTitle">Assortment Title</label>
-			                    <input type="text" class="form-control" id="editAssortmentTitle" ng-model="editAssortment.title" placeholder="Enter assortment title" required>
-			                </div>
-			                <div class="form-group">
-			                    <label for="editAssortmentDescription">Assortment Description</label>
-			                    <textarea class="form-control" id="editAssortmentDescription" ng-model="editAssortment.description" placeholder="Enter assortment description"></textarea>
-			                </div>
-			            </div>
-			            <div class="modal-footer">
-			                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-			                <button type="button" class="btn btn-primary" ng-click="saveAssortmentChanges()">Save</button>
-			            </div>
-			        </div>
-			    </div>
+			
+				<!-- Right side - Assortments -->
+				<div ng-class="{'col-md-9': assortments.length > 0, 'col-md-12': assortments.length === 0}">
+					<!-- 2.1 Header + Create new assortment button -->
+				    <div class="d-flex justify-content-between align-items-center mb-4">
+				        <h1>Your Assortments</h1>
+				        <button type="button" class="btn create-btn" data-toggle="modal" data-target="#createAssortmentModal">
+				            Create New Assortment
+				        </button>
+				    </div>
+			         	         
+			        <!-- 2.2 Listing all user assortments (including filtered by title) -->
+					<div class="assortment-grid" ng-if="assortments.length > 0">
+					    <div class="assortment-box" ng-repeat="assortment in filteredAssortments">
+					        <div class="assortment-content" ng-click="viewAssortment(assortment.id)">
+					            <div class="assortment-header">
+					                <h3>{{ assortment.title }}</h3>
+					            </div>
+					            <p class="assortment-description" ng-if="assortment.description">{{ assortment.description }}</p>
+					            <p class="assortment-description no-description" ng-if="!assortment.description"><i>No description</i></p>
+				            </div>
+				            <div class="card-count">
+					            {{ assortment.cardCount }} {{ assortment.cardCount === 1 ? 'card' : 'cards' }}
+					        </div>
+					        <div class="ellipsis-container">
+				                <div class="dropdown">
+				                
+				                	<!-- ng-mousedown="$event.stopPropagation()" -->
+				                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton-{{assortment.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    <i class="fas fa-ellipsis-v"></i>
+									</button>
+				                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-{{assortment.id}}">
+				                        <a class="dropdown-item" href="#" ng-mousedown="openEditAssortmentModal(assortment.id)">Edit</a>
+				                        <a class="dropdown-item" href="#" ng-mousedown="openConfirmDeleteModal(assortment.id)">Delete</a>
+				                    </div>
+				                </div>
+				            </div>
+					    </div>
+					</div>
+					
+					<p class="no-assortments-message" ng-if="filteredAssortments.length === 0 && assortments.length !== 0">No assortments found!</p>
+					<p class="no-assortments-message" ng-if="assortments.length === 0">
+					    No assortments made yet :( <br><br> 
+					    Press the <b>Create New Assortment</b> button in the top right corner to get started!
+					</p>
+				
+			        <!-- Modal 1: Creating new assortment -->
+			        <div class="modal fade" id="createAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="createAssortmentModalLabel" aria-hidden="true">
+				        <div class="modal-dialog" role="document">
+				            <div class="modal-content">
+				                <form name="createAssortmentForm" ng-submit="createAssortment(createAssortmentForm.$valid)" novalidate>
+				                    <div class="modal-header">
+				                        <h5 class="modal-title" id="createAssortmentModalLabel">Create New Assortment</h5>
+				                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                            <span aria-hidden="true">&times;</span>
+				                        </button>
+				                    </div>
+				                    <div class="modal-body">
+				                        <div class="form-group">
+				                            <label for="assortmentTitle">Assortment Title</label>
+				                            <input type="text" class="form-control" id="assortmentTitle" ng-model="newAssortmentTitle" placeholder="Enter assortment title" required>
+				                        </div>
+				                    </div>
+				                    <div class="modal-footer">
+				                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				                        <button type="submit" class="btn btn-primary" ng-disabled="createAssortmentForm.$invalid">Create</button>
+				                    </div>
+				                </form>
+				            </div>
+				        </div>
+		   			</div>
+		   			
+		   			<!-- Modal 2: Deleting an assortment -->
+		   			<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title">Confirm Deletion</h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                <p>Are you sure you want to delete this assortment?</p>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					                <button type="button" class="btn btn-danger" ng-click="deleteAssortmentConfirmed()">Delete</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					<!-- Modal 3: Editing an assortment -->
+					<div class="modal fade" id="editAssortmentModal" tabindex="-1" role="dialog" aria-labelledby="editAssortmentModalLabel" aria-hidden="true">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title" id="editAssortmentModalLabel">Edit Assortment</h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                <div class="form-group">
+					                    <label for="editAssortmentTitle">Assortment Title</label>
+					                    <input type="text" class="form-control" id="editAssortmentTitle" ng-model="editAssortment.title" placeholder="Enter assortment title" required>
+					                </div>
+					                <div class="form-group">
+					                    <label for="editAssortmentDescription">Assortment Description</label>
+					                    <textarea class="form-control" id="editAssortmentDescription" ng-model="editAssortment.description" placeholder="Enter assortment description"></textarea>
+					                </div>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					                <button type="button" class="btn btn-primary" ng-click="saveAssortmentChanges()">Save</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					<!-- Modal 4: Delete your account -->
+					<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                Are you sure you want to delete your account? This action cannot be undone.
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					                <button type="button" class="btn btn-danger" ng-click="deleteAccount()">Delete Account</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					<!-- Modal 5: Choose a theme -->
+					<div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title" id="themeModalLabel">Choose Theme</h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                <div class="list-group">
+					                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('default')">
+					                        Default
+					                        <i class="fas fa-check" ng-show="currentTheme === 'default'"></i>
+					                    </button>
+					                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" ng-click="setTheme('light')">
+					                        Light Mode
+					                        <i class="fas fa-check" ng-show="currentTheme === 'light'"></i>
+					                    </button>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+				</div>
 			</div>
 	    </div>
 	    
@@ -142,6 +552,8 @@
 	        	
 	            $scope.assortments = [];
 	            $scope.errorMessage = '';
+	            $scope.filteredAssortments = [];
+	            $scope.searchQuery = '';
 	            
 	            $scope.newAssortment = {
                     title: ''
@@ -154,10 +566,46 @@
 	                $http.get('/api/v1/assortments')
 	                    .then(function(response) {
 	                        $scope.assortments = response.data;
+	                        $scope.filteredAssortments = $scope.assortments;
+	                        
+	                        // Create an array of promises for fetching card counts
+	                        var cardCountPromises = $scope.assortments.map(function(assortment) {
+	                            return $http.get('/api/v1/assortments/' + assortment.id)
+	                                .then(function(cardResponse) {
+	                                    // Set the cardCount property on the assortment
+	                                    assortment.cardCount = cardResponse.data.length;
+	                                    return assortment;
+	                                });
+	                        });
+	                        
+	                        // Wait for all card count requests to complete
+	                        return $q.all(cardCountPromises);
+	                    })
+	                    .then(function(assortmentsWithCardCounts) {
+	                        // All assortments now have their card counts
+	                        $scope.assortments = assortmentsWithCardCounts;
+	                        $scope.filteredAssortments = $scope.assortments; // Initialize filtered assortments
 	                        $scope.errorMessage = '';
-	                    }, function(error) {
-	                        $scope.errorMessage = 'Error fetching assortments.';
+	                    })
+	                    .catch(function(error) {
+	                        $scope.errorMessage = 'Error fetching assortments or card counts.';
+	                        console.error('Error:', error);
 	                    });
+	            };
+
+	            $scope.filterAssortments = function() {
+	                if (!$scope.searchQuery) {
+	                    $scope.filteredAssortments = $scope.assortments;
+	                } else {
+	                    $scope.filteredAssortments = $scope.assortments.filter(function(assortment) {
+	                        return assortment.title.toLowerCase().includes($scope.searchQuery.toLowerCase());
+	                    });
+	                }
+	            };
+	            
+	            
+	            $scope.viewAssortment = function(assortmentId) {
+	                window.location.href = '/assortments/' + assortmentId;
 	            };
 	            
 	            
@@ -254,12 +702,47 @@
                	    }
                	};
                	
+               	
+               	
+               	// Delete account
+               	$scope.deleteAccount = function() {
+			        $http.get('/api/v1/users/current')
+			            .then(function(response) {
+			                var currentUser = response.data;
+			                $http.delete('/api/v1/users/' + currentUser.id)
+			                    .then(function(response) {
+			                        // Account deleted successfully, redirect to login page
+			                        window.location.href = '/login';
+			                    }, function(error) {
+			                        $scope.errorMessage = 'Error deleting account.';
+			                    });
+			            }, function(error) {
+			                $scope.errorMessage = 'Error retrieving current user.';
+			            });
+			    };
+			    
+			    
+			    // Set the theme
+			    $scope.currentTheme = localStorage.getItem('theme') || 'default';
+
+			    $scope.setTheme = function(themeName) {
+			        setTheme(themeName);
+			        $scope.currentTheme = themeName;
+			        localStorage.setItem('theme', themeName);
+			    };
+               	
 	            
 				$scope.getAssortments();
+				$scope.filterAssortments();
 	            
 	        });
 	    </script>
     </div>
-
+    <footer class="footer mt-auto py-3">
+	    <div class="container text-center">
+	        <span class="text-muted">&copy; FlashCode 2024</span>
+	    </div>
+	</footer>
+    <script src="/js/theme.js"></script>
 </body>
-</html>
+</html> 
