@@ -115,6 +115,9 @@
 			flex-grow: 1;
 		    position: relative;
 		    display: flex;
+		    /* background-color: #38353A; */
+		    background-color: #302D32;
+		    border: 0px;
 		}
 		
 		/* Space between card order number and the card body */
@@ -157,19 +160,20 @@
 		}
 		
 		.card-order {
-		    width: 30px; /* Adjust width as needed */
-		    /* height: 30px; */
-		    background-color: #f0f0f0;
-		    /* background-color: var(--background-color); */
-		    border: 1px solid #ddd;
+		    width: 30px;
+		    /* background-color: #f0f0f0; */
+		    background-color: #4A464E; /* Slightly lighter than the background */
+		    color: #E1E1E1;
+		    /* border-color: #4A464E; */
+    
+		    border: 0px solid #ddd;
 		    border-radius: 5px;
 		    display: flex;
 		    align-items: center;
 		    justify-content: center;
 		    font-weight: bold;
-		    margin-right: 10px; /* Distance between order box and card box */
+		    margin-right: 10px;
 		    position: relative;
-		    /* top: 3px; */
 		}
 		
 		.card-wrapper {
@@ -264,20 +268,20 @@
 		
 		/* The text boxes =  */
 		.form-control {
-		    background-color: var(--assortment-box-background);
-		    color: var(--assortment-description-color);
 		    min-height: 33px !important;
-		    /* margin-bottom: 15px; */
+		    /* background-color: #38353A; */
+		    background-color: #444046;
+    		color: #E1E1E1;
+    		border: 0px;
 		}
 		
-		/* .form-control.auto-expand {
-		    min-height: 10px;
+		.form-control:focus {
+		    background-color: #444046;
+		    filter: brightness(130%);
+		    color: #E1E1E1;
+		    box-shadow: none; /* Remove weird highlight around box when clicked on */
 		}
-		
-		.form-control.auto-expand-small {
-			min-height: 5px;
-		} */
-		
+	
 		/* To ensure the placeholder text color matches */
 		.form-control::placeholder {
 		    color: var(--assortment-description-color);
@@ -313,8 +317,8 @@
 		    bottom: -30px; /* How far the label is underneat the text field */
 		    font-size: 12px;
 		    text-transform: uppercase;
-		    color: #666;
-		    /* font-weight: bold; */
+		    /*  color: #666; */
+		   	color: #E1E1E1;
 		}
 		
 		.justify-content-end {
