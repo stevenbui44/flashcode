@@ -35,6 +35,8 @@
             cursor: pointer;
             font-size: 16px;
             transition: filter 0.3s ease;
+            margin-top: 20px;            
+
         }
 
         button:hover {
@@ -46,7 +48,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: -40px;
         }
         
         .custom-container {
@@ -61,14 +62,6 @@
 		    align-items: center;
 		    height: 100%;
 		}
-		
-		/* .footer {
-            background-color: var(--header-color);
-            color: var(--flashcode-title-color);
-            text-align: center;
-            padding: 10px 0;
-            margin-top: auto;
-        } */
 
         h2 {
             margin-bottom: 20px;
@@ -81,10 +74,12 @@
         input[type="password"] {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 8px auto;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            font-size: 14px;
+            
         }
 
         .link {
@@ -105,7 +100,10 @@
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
+            width: 400px;
+            display: flex;
+		    flex-direction: column;
+		    align-items: center;
         }
         
         .navbar {
@@ -152,11 +150,11 @@
     <div class="content">
     
     	<!-- PART TWO: html -->
-    	<div class="custom-container mt-5" ng-controller="loginCtrl">
+    	<div class="custom-container" ng-controller="loginCtrl">
     
 	    	<!-- 2.1: Login square -->
 	        <div class="login-container">
-		        <h2>Login</h2>
+		        <h2>Log in</h2>
 		         <div th:if="${message}" class="message" th:text="${message}"></div>
 		        <form action="/login" method="post">
 		        	<!-- <label for="username">Username:</label> -->
