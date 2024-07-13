@@ -549,7 +549,15 @@
 	    <script>
 	        var app = angular.module('myApp', []);
 	        app.controller('assortmentCardsCtrl', function($scope, $http, $q, $timeout) {
-	            
+	        	
+	        	// 3.1: Setting up variables
+	        	$scope.assortment = { 
+	        		title: '[[${assortment.title}]]',
+	        		description: '[[${assortment.description}]]',
+        			id: [[${assortment.id}]], 
+        			cards: [] 
+	        	};
+	        
 	        	$scope.reset = function() {
 	        		$scope.newCard = {
                         question: '',
@@ -560,15 +568,9 @@
                     };
 	        	}
 	        	
-	        	$scope.assortment = { 
-	        		title: '[[${assortment.title}]]',
-	        		description: '[[${assortment.description}]]',
-        			id: [[${assortment.id}]], 
-        			cards: [] 
-	        	};
 	        	
 	        	
-	        	
+	        	// 3.2: Get cards
 	        	$scope.getCards = function() {
 	        	    $http.get('/api/v1/assortments/' + $scope.assortment.id)
 	        	        .then(function(response) {
@@ -592,6 +594,10 @@
 	        	
             	$scope.getCards();
             	
+            	
+            	
+            	
+            	// 3.3: Creating a new card
             	$scope.createNewCard = function() {
             	    var newCard = {
             	        question: '',
@@ -612,6 +618,9 @@
             	        });
             	};
             	
+            	
+            	
+            	// 3.4: Deleting a card
                 $scope.deleteCard = function(cardId) {  
                     $http.delete('/api/v1/assortments/' + $scope.assortment.id + '/' + cardId)
                         .then(function(response) {
@@ -629,6 +638,10 @@
                         });
                 };
             	
+                
+                
+                
+                // 3.5: Updating a card
                 $scope.updateCard = function(card) {
                     if (!angular.isObject(card)) {
                         console.error('Invalid card object:', card);
@@ -644,13 +657,8 @@
 				
 				
 				
-                
-                
-                
 				
-				
-				
-				// Expanding the text box height
+				// 3.6: Increasing the height of a text area
 				$scope.initAutoExpand = function() {
 				    function autoExpand(element) {
 				        element.style.height = '33px';
@@ -700,7 +708,7 @@
 				
 				
 				
-				// Tabbing and indentation
+				// 3.7: Tabbing and indentation in a text area
 				$scope.handleCodeTab = function(event) {
 				    if (!event.target.id.startsWith('code-')) return;
 				
@@ -748,7 +756,7 @@
 				
 				
 				
-				// Set the theme
+				// 3.8: Themes
 				$scope.currentTheme = localStorage.getItem('theme') || 'default';
 
 			    $scope.setTheme = function(themeName) {
@@ -759,6 +767,8 @@
 			    
 			    
 			    
+			    
+			    // 3.9: Assortment description
 			    $scope.editingDescription = false;
 
 			    $scope.editDescription = function() {
@@ -786,6 +796,8 @@
 			                console.error('Error updating description:', error);
 			            });
 			    };
+			    
+			    
 			    
 			    
 			    $timeout($scope.initAutoExpand);
