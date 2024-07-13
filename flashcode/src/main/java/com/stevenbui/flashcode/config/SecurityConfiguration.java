@@ -33,7 +33,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests( registry -> {
 
                     // everyone, even if they are not logged in
-                    registry.requestMatchers( "/login", "/register", "/api/v1/**" ).permitAll();
+                    registry.requestMatchers( "/login", "/register", "/api/v1/**", "/error", "/images/no-no.png" )
+                            .permitAll();
 
                     // for just users
                     registry.requestMatchers( "/assortments", "/assortments/**", "/settings" ).hasRole( "USER" );

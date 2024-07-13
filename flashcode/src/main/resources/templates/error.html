@@ -1,60 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>403 Forbidden</title>
+    <title>Error - FlashCode</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --background-color: #232124;
+            --header-color: #302D32;
+            --text-primary: #E1E1E1;
+            --button-text: #E1E1E1;
+            --flashcode-title-color: #ffffff;
+            --error-accent: #e74c3c;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Work Sans', sans-serif;
+            background-color: var(--background-color);
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .navbar {
+            background-color: var(--header-color) !important;
+        }
+
+        .navbar-brand {
+            color: var(--flashcode-title-color) !important;
+        }
+
+        .content {
+            flex: 1 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #333;
+            padding: 2rem;
         }
-        .container {
-            text-align: center;
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        .error-container {
+            background:var(--background-color);
+            padding: 3rem;
+            border-radius: 10px;
+            /* box-shadow: 0 4px 15px rgba(0,0,0,0.2); */
+            max-width: 600px;
+            width: 100%;
         }
+
+        .error-icon {
+		    width: 300px;
+		    height: auto;
+		    margin-bottom: 1rem;
+		}
+
         h1 {
-            font-size: 72px;
-            margin: 0;
-            color: #e74c3c;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
-        h2 {
-            font-size: 24px;
-            margin: 10px 0 20px;
-        }
+
         p {
-            font-size: 16px;
-            margin: 20px 0;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
         }
-        a {
-            display: inline-block;
-            padding: 10px 20px;
-            color: #fff;
-            background-color: #3498db;
-            border-radius: 4px;
+
+        .btn-home {
+            background-color: var(--header-color);
+            color: var(--button-text);
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: filter 0.3s ease;
+            display: inline-block;
         }
-        a:hover {
-            background-color: #2980b9;
+
+        .btn-home:hover {
+            filter: brightness(130%);
+            text-decoration: none;
+            color: var(--button-text);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>403</h1>
-        <h2>Forbidden</h2>
-        <p>Sorry, you don't have permission to access this page.</p>
-        <a href="/">Go to Homepage</a>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">FlashCode</a>
+    </nav>
+
+    <div class="content">
+        <div class="error-container text-center">
+            <!-- <div class="error-icon">Oopsies :3</div> -->
+            <img src="/images/no-no.png" alt="Error" class="error-icon">
+            <h1>Unexpected Error</h1>
+            <p>An unexpected error has occurred. This page may not exist, or you may not be authorized to view this page.</p>
+            <a href="/" class="btn-home">Return to Homepage</a>
+        </div>
     </div>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span class="text-muted">&copy; FlashCode 2024</span>
+        </div>
+    </footer>
 </body>
 </html>
