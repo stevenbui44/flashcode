@@ -23,4 +23,30 @@ FlashCode is a web application designed to help users study LeetCode questions m
 
 ## Installation
 
+1. Ensure that you have the following prerequisites installed:
+  - Java Development Kit (JDK), version 8 or higher
+  - Eclipse IDE for Enterprise Java and Web Developers
+  - MySQL Server
+2. Open Eclipse
+3. Go to Git Repositories > Clone a Git Repository > Clone URI
+4. Enter the repository URL:
+```
+https://github.com/yourusername/flashcode.git
+```
+5. Locate src/main/resources/application.properties
+6. Update configurations:
+```
+spring.application.name=flashcode
+spring.datasource.url=jdbc:mysql://localhost:3306/flashcode?useSSL=false&serverTimeZone=EST&useLegacyDattimeCode=false&createDatabaseIfNotExist=true
+spring.datasource.username=[YOUR_MYSQL_USERNAME_HERE]
+spring.datasource.password=[YOUR_MYSQL_PASSWORD_HERE]
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.web.resources.add-mappings=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto=update
+logging.level.org.hibernate.SQL=DEBUG
+```
+7. Right click on the project > Run As > Java Application > FlashcodeApplication
+
 ## Usage
+1. Open the application in http://localhost:8080
