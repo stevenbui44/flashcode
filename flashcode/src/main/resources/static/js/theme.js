@@ -1,30 +1,48 @@
 const themes = {
 	default: {
         '--background-color': '#232124',
-        '--header-color': '#302D32',
-        
-        '--assortment-background': '#38353A',
-        '--card-count-background': '#6c6472',
-        '--assortment-border': '#0f1122',
-        '--ellipsis-color': '#B5A9BD',
-        
-        '--title-color': '#E1E1E1',
-        '--text-primary': '#E1E1E1',
-        '--text-secondary': '#E1E1E1',
-        '--no-description-color': '#E1E1E1',
-        '--search-text-color': '#E1E1E1',
-        '--no-assortments-text': '#E1E1E1',
-        
-        '--search-input-background': '#E1E1E1',
-        '--search-input-text': '#333333',
-        '--search-input-placeholder': '#999999',
-        
-        '--button-text': '#E1E1E1',
-        
-        '--username-text': '#ffffff',
-        '--profile-pic-background': '#808080',
-        '--profile-pic-text': '#ffffff',
-        '--flashcode-title-color': '#ffffff'
+	    '--header-color': '#302D32',
+	    
+	    '--assortment-background': '#38353A',
+	    '--card-count-background': '#6c6472',
+	    '--assortment-border': '#0f1122',
+	    '--ellipsis-color': '#B5A9BD',
+	    
+	    '--title-color': '#E1E1E1',
+	    '--text-primary': '#E1E1E1',
+	    '--text-secondary': '#E1E1E1',
+	    '--no-description-color': '#E1E1E1',
+	    '--search-text-color': '#E1E1E1',
+	    '--no-assortments-text': '#E1E1E1',
+	    
+	    '--search-input-background': '#E1E1E1',
+	    '--search-input-text': '#333333',
+	    '--search-input-placeholder': '#999999',
+	    
+	    '--button-text': '#E1E1E1',
+	    
+	    '--username-text': '#ffffff',
+	    '--profile-pic-background': '#808080',
+	    '--profile-pic-text': '#ffffff',
+	    '--flashcode-title-color': '#ffffff',
+	    
+	    '--card-background': '#302D32',
+	    '--card-order-background': '#444046',
+	    '--form-control-background': '#4E4A50',
+	    '--delete-button-color': '#888',
+	    '--delete-button-hover-color': '#ff4444',
+	    '--vertical-divider-color': '#ccc',
+	    
+	    '--card-order-color': '#E1E1E1',
+	    '--card-order-border-color': '#ddd',
+	    '--code-textarea-color': '#E1E1E1',
+	    '--description-container-color': '#E1E1E1',
+	    '--description-input-border-color': '#ccc',
+	    '--form-label-color': '#E1E1E1',
+	    '--header-divider-color': '#ccc',
+	    '--input-label-color': '#E1E1E1',
+	    '--no-description-color': '#999',
+	    '--profile-pic-hover-color': '#666666'
     },
     light: {
         '--header-color': '#4F5459',
