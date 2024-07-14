@@ -96,7 +96,7 @@
 		    text-decoration: none;
 		    background-color: var(--button-hover-background);
 		    color: var(--text-brightest);
-		    filter: brightness(150%);
+		    filter: brightness(var(--hover-brightness));
 		}
 		
 		
@@ -138,7 +138,7 @@
 		.btn-shuffle:hover {
 		    color: var(--button-primary-color);
 		    border-color: var(--button-primary-color);
-		    filter: brightness(150%);
+		    filter: brightness(var(--hover-brightness));
 		}
 		
 		
@@ -160,7 +160,7 @@
 		.btn-x:hover {
 			background-color: rgba(0, 0, 0, 0.1);
 			color: var(--button-danger-color);
-			filter: brightness(150%);
+			filter: brightness(var(--hover-brightness));
 			background-color: var(--button-hover-background);
 		}
 		
@@ -173,7 +173,7 @@
 		.btn-check:hover {
 		    background-color: rgba(0, 0, 0, 0.1);
 		    color: var(--button-success-color);
-		    filter: brightness(150%);
+		    filter: brightness(var(--hover-brightness));
 		    background-color: var(--button-hover-background);
 		}
 		
@@ -200,6 +200,8 @@
 		    border-color: var(--card-border-color);
 		    color: var(--text-primary);
 		    border: 0px;
+		    box-shadow: 0 1px 3px var(--card-shadow-color);  /* Add this line */
+		    transition: box-shadow 0.3s ease;
 		}
 		
 		.card-back {
@@ -221,6 +223,7 @@
 		    background-color: var(--card-background-bright);
 		    border-color: var(--card-border-color);
 		    color: var(--text-primary);
+		    
 		}
 		
 		.card-body {
@@ -245,6 +248,8 @@
 		    height: 300px;
 		    perspective: 1000px;
 		    overflow: hidden;
+		    box-shadow: 0 1px 3px var(--card-shadow-color);  /* Add this line */
+		    transition: box-shadow 0.3s ease;
 		}
 
 		/* HEIGHT 3 */
@@ -354,7 +359,7 @@
 		
 		.congratulations-title {
 		    font-size: 2.5rem;
-		    color: #495057;
+		    color: var(--text-primary);
 		    margin-bottom: 0.5rem;
 		}
 		
@@ -510,7 +515,8 @@
 		
 		.progress-fill {
 		    height: 100%;
-		    background-color: var(--progress-fill-color);
+		    /* background-color: var(--progress-fill-color); */
+		    background-color: #4CAF50;
 		    transition: width 0.5s ease-in-out;
 		}
 		
@@ -571,21 +577,28 @@
 		}
 		
 		.return-text {
-		    color: var(--return-link-color);
+		    /* color: var(--return-link-color); */
+		    color: var(--progress-fill-color);
 		    text-decoration: none;
 		    font-size: 14px;
 		}
 		
 		.return-text:hover {
 		    text-decoration: underline;
+		    color: var(--progress-fill-hover-color);
 		}
 		
 		.review-button {
-		    background-color: var(--button-primary-color);
-		    border-color: var(--button-primary-color);
-		    color: var(--button-text);
+		    background-color: var(--progress-fill-color);
+		    border-color: var(--progress-fill-color);
+		    color: var(--text-brightest);
 		    width: 100%;
 		    max-width: 300px;
+		}
+		
+		.review-button:hover {
+		    background-color: var(--progress-fill-hover-color);
+		    border-color: var(--progress-fill-hover-color);
 		}
 		
 		.right-buttons {

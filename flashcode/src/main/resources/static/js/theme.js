@@ -62,6 +62,9 @@ const themes = {
 	    '--button-hover-brightness': 1.3,
 	    '--text-brightest': '#FFFFFF',
 	    '--button-hover-background': '#302D32',
+	    '--hover-brightness': '150%',
+	    '--progress-fill-color': '#6c6472',
+	    '--progress-fill-hover-color': '#5a5460',
 	    
 	    '--notes-background': '#38353A',
 	    '--notes-text-color': '#FFFFFF',
@@ -78,7 +81,7 @@ const themes = {
 	
 	    '--title-color': '#443E46',
 	    '--text-primary': '#443E46',
-	    '--text-secondary': '#443E46',
+	    '--text-secondary': '#666666',
 	    '--no-description-color': '#443E46',
 	    '--search-text-color': '#443E46',
 	    '--no-assortments-text': '#333333',
@@ -111,7 +114,31 @@ const themes = {
 	    '--input-label-color': '#666666',
 	    '--no-description-color': '#999999',
 	    '--profile-pic-hover-color': '#A0A0A0',
-	    '--card-shadow-color': 'rgba(0, 0, 0, 0.1)'
+	    '--card-shadow-color': 'rgba(0, 0, 0, 0.1)',
+	    
+	    // New colors
+	    
+	    '--card-border-color': 'rgba(0, 0, 0, 0.125)',
+	    '--progress-bar-background': '#D0D0D0',
+	    '--progress-fill-color': '#C3C3C3',
+	    '--progress-text-color': '#FFFFFF',
+	    '--stat-label-color': '#666666',
+	    '--stat-value-color': '#443E46',
+	    '--return-link-color': '#3498db',
+	    '--button-primary-color': '#3498db',
+	    '--button-success-color': '#2ecc71',
+	    '--button-warning-color': '#f39c12',
+	    '--button-danger-color': '#e74c3c',
+	    '--card-background-bright': '#F0F0F0',
+	    '--button-hover-brightness': 0.9,
+	    '--text-brightest': '#000000',
+	    '--button-hover-background': '#E0E0E0',
+	    '--hover-brightness': '80%',
+  		'--progress-fill-hover-color': '#A8A8A8',
+	
+	    '--notes-background': '#F5F5F5',
+	    '--notes-text-color': '#333333',
+	    '--notes-placeholder-color': '#999999'
 	}
 };
 
