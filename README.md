@@ -7,12 +7,14 @@ FlashCode is a web application designed to help users study LeetCode questions m
 - **User Registration and Authentication**: Secure account creation and login system with Spring Security
 - **Assortment Creation**: Ability to create multiple flashcard sets for different topics and difficulty levels
 - **Comprehensive Card Content**: Each flashcard contains the question, code solution, approach explanation, time complexity, and space complexity
+- **Assortment Search**: Ability to search assortments by name
 - **Study Mode**: Flip-card functionality to test knowledge retention, where users can mark cards as 'Still Learning' or 'Know'
 - **In-Study Note-Taking**: Option to add temporary notes underneath each card while studying
 - **Shuffle Cards**: Randomize the order of cards during study sessions
+- **Automatic Indentation**: Starting a new line automatically indents to match the previous line
+- **Tab Support**: Pressing tab indents your code and notes, and pressing ctrl+tab outdents (goes back one tab)
 - **Real-time Saving**: All card content is automatically saved to the MySQL database using REST APIs as the user types
 - **Color Themes**: Toggle between dark and light themes for user convenience
-- **Assortment Search**: Ability to search assortments by name
 
 ## Tech Stack
 
@@ -49,7 +51,7 @@ logging.level.org.hibernate.SQL=DEBUG
 7. Right click on the project > Run As > Java Application > FlashcodeApplication
 
 ## Usage
-1. Open the application in http://localhost:8080
+1. Open the application in localhost:8080
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/48567cc8-8f1c-416f-bed5-fc210ce7148b">
 
 2. Create a new account (if you do not have an account)
