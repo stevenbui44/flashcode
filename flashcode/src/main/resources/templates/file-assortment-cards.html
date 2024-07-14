@@ -11,33 +11,51 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<style>		
+	<style>				
 		:root {
-		    --background-color: #f9f7f1;
-		    --header-color: #1a2a57;
+		    --background-color: #232124;
+		    --header-color: #302D32;
 		    
-		    --assortment-background: #ffffff;
-		    --card-count-background: #f0f0f0;
-		    --assortment-border: #ddd;
-		    --ellipsis-color: #333333;
+		    --assortment-background: #38353A;
+		    --card-count-background: #6c6472;
+		    --assortment-border: #0f1122;
+		    --ellipsis-color: #B5A9BD;
 		    
-		    --title-color: #000000;
-		    --text-primary: #333333;
-		    --text-secondary: #666666;
-		    --no-description-color: #999999;
-		    --search-text-color: #ecf0f1;
-		    --no-assortments-text: #333333;
+		    --title-color: #E1E1E1;
+		    --text-primary: #E1E1E1;
+		    --text-secondary: #E1E1E1;
+		    --no-description-color: #E1E1E1;
+		    --search-text-color: #E1E1E1;
+		    --no-assortments-text: #E1E1E1;
 		    
-		    --search-input-background: #ffffff;
-	        --search-input-text: #333333;
-	        --search-input-placeholder: #999999;
-	        
-	        --button-text: #ffffff;
-	        
-	        --username-text: #ffffff;
-	        --profile-pic-background: #808080;
-	        --profile-pic-text: #ffffff;
-        	--flashcode-title-color: #ffffff;
+		    --search-input-background: #E1E1E1;
+		    --search-input-text: #333333;
+		    --search-input-placeholder: #999999;
+		    
+		    --button-text: #E1E1E1;
+		    
+		    --username-text: #ffffff;
+		    --profile-pic-background: #808080;
+		    --profile-pic-text: #ffffff;
+		    --flashcode-title-color: #ffffff;
+		    
+		    --card-background: #302D32;
+		    --card-order-background: #444046;
+		    --form-control-background: #4E4A50;
+		    --delete-button-color: #888;
+		    --delete-button-hover-color: #ff4444;
+		    --vertical-divider-color: #ccc;
+		    
+		    --card-order-color: #E1E1E1;
+		    --card-order-border-color: #ddd;
+		    --code-textarea-color: #E1E1E1;
+		    --description-container-color: #E1E1E1;
+		    --description-input-border-color: #ccc;
+		    --form-label-color: #E1E1E1;
+		    --header-divider-color: #ccc;
+		    --input-label-color: #E1E1E1;
+		    --no-description-color: #999;
+		    --profile-pic-hover-color: #666666;
 		}
 		
 		.assortment-title {
@@ -71,7 +89,7 @@
 		
 		.btn-create-card {
 		    background-color: var(--header-color);
-		    color: white;
+		    color: var(--button-text);
 		    border: none;
 		    padding: 12px 24px;
 		    border-radius: 5px;
@@ -93,7 +111,7 @@
 		
 		.btn-study {
 		    background-color: var(--header-color);
-		    color: white;
+		    color: var(--button-text);
 		    border: none;
 		    padding: 8px 40px;  /* Increased padding to make it larger */
 		    border-radius: 5px;
@@ -107,7 +125,7 @@
 		
 		.btn-study:hover {
 		    background-color: color-mix(in srgb, var(--header-color) 80%, white);  /* Makes it 20% brighter */
-		    color: white;
+		    color: var(--button-text);
 		    text-decoration: none;
 		}
 		
@@ -116,7 +134,7 @@
 		    position: relative;
 		    display: flex;
 		    /* background-color: #38353A; */
-		    background-color: #302D32;
+		    background-color: var(--card-background);
 		    border: 0px;
 		}
 		
@@ -136,7 +154,7 @@
 				
 		.card-count {
 		    font-size: 14px;
-		    color: #666;
+		    color: var(--text-secondary);
 		}
 		
 		/* To make the trash can appear only when hovering over the card */
@@ -162,8 +180,8 @@
 		.card-order {
 		    width: 30px;
 		    /* background-color: #f0f0f0; */
-		    background-color: #444046; /* Slightly lighter than the background */
-		    color: #E1E1E1;
+		    background-color: var(--card-order-background);
+		    color: var(--card-order-color);
 		    /* border-color: #4A464E; */
     
 		    border: 0px solid #ddd;
@@ -224,11 +242,11 @@
 		
 		.delete-button i {
 		    font-size: 18px;
-		    color: #888;
+		    color: var(--delete-button-color);
 		}
 		
 		.delete-button:hover i {
-		    color: #ff4444;
+		    color: var(--delete-button-hover-color);
 		    transform: scale(1.2);
 		}
 		
@@ -240,7 +258,7 @@
 		    margin-top: 10px;
 		    margin-bottom: 10px;
 		    cursor: pointer;
-		    color: #E1E1E1;
+		    color: var(--description-container-color);
 		    background-color: var(--background-color);
 		}
 		
@@ -248,18 +266,18 @@
 		    content: ' ✎';
 		    /* color: #999; */
 		    background-color: var(--background-color);
-		    color: #E1E1E1;
+		    color: var(--description-container-color);
 		}
 		
 		.description-input {
 		    width: 100%;
 		    border: none;
-		    border-bottom: 1px solid #ccc;
+		    border-bottom: 1px solid var(--description-input-border-color);
 		    font-size: 16px;
 		    padding: 5px 0;
 		    outline: none;
-		    background-color: var(--background-color);
-		    color: #E1E1E1;
+		   background-color: var(--background-color);
+		   color: var(--description-container-color);
 		}
 		
 		.description-input:focus {
@@ -276,21 +294,21 @@
 		.form-control {
 		    min-height: 33px !important;
 		    /* background-color: #38353A; */
-		    background-color: #4E4A50;
-    		color: #E1E1E1;
+		    background-color: var(--form-control-background);
+		    color: var(--text-primary);
     		border: 0px;
 		}
 		
 		.form-control:focus {
-		    background-color: #4E4A50;
+		    background-color: var(--form-control-background);
 		    filter: brightness(150%);
-		    color: #E1E1E1;
+		    color: var(--text-primary);
 		    box-shadow: none; /* Remove weird highlight around box when clicked on */
 		}
 	
 		/* To ensure the placeholder text color matches */
 		.form-control::placeholder {
-		    color: var(--assortment-description-color);
+		    color: var(--text-secondary);
 		    opacity: 0.7;
 		}
 		
@@ -308,7 +326,7 @@
 		/* TODO: remove this if we don't want a header */
 		.header-divider {
 		    border: 0;
-		    border-top: 1px solid #ccc;
+		    border-top: 1px solid var(--header-divider-color);;
 		    margin-top: 10px;
 		}
 		
@@ -324,7 +342,7 @@
 		    font-size: 12px;
 		    text-transform: uppercase;
 		    /*  color: #666; */
-		   	color: #E1E1E1;
+		   	color: var(--input-label-color);
 		}
 		
 		.justify-content-end {
@@ -363,7 +381,7 @@
 		}
 		
 		.nav-link:hover .profile-pic {
-		    background-color: #666666; /* Darker grey on hover */
+		    background-color: var(--profile-pic-hover-color);
 		}
 		
 		.navbar-nav {
@@ -372,7 +390,7 @@
 		
 		.no-description {
 		    font-style: italic;
-		    color: #999;
+		    color: var(--no-description-color);
 		}
 		
 		.profile-pic {
@@ -397,13 +415,13 @@
 		    font-size: 16px;
 		    font-weight: bold;
 		    margin-bottom: 5px;
-		    color: #E1E1E1;
+		    color: var(--text-primary);
 		}
 		
 		.vertical-divider {
 		    width: 1px;
 		    height: 40px;
-		    background-color: #ccc;
+		    background-color: var(--vertical-divider-color);
 		    margin: 20px;
 		}
 		
