@@ -60,6 +60,9 @@
 		    --text-brightest: #FFFFFF;
 		    --button-hover-background: #302D32;
 		    
+		    --notes-background: #38353A;
+		    --notes-text-color: #FFFFFF; 
+		    --notes-placeholder-color: #B5A9BD;
 	    }
 	    
 	    .action-buttons {
@@ -196,13 +199,15 @@
 		    background-color: var(--card-background-bright);
 		    border-color: var(--card-border-color);
 		    color: var(--text-primary);
+		    border: 0px;
 		}
 		
 		.card-back {
 		    align-items: start;
 		    backface-visibility: hidden;
 		    background-color: var(--card-background);
-		    border: 1px solid var(--card-border-color);;
+		    /* border: 1px solid var(--card-border-color);; */
+		    border: 0px;
 		    border-radius: .25rem;
 		    display: flex;
 		    height: 100%;
@@ -272,7 +277,8 @@
 		    align-items: center;
 		    backface-visibility: hidden;
 		    background-color: #fff;
-		    border: 1px solid rgba(0,0,0,.125);
+		    /* border: 1px solid rgba(0,0,0,.125); */
+		    border: 0px;
 		    border-radius: .25rem;
 		    display: flex;
 		    height: 100%;
@@ -456,6 +462,18 @@
 		    resize: vertical;
 		    tab-size: 3;
 		    font-size: 14px;
+		    background-color: var(--notes-background);
+		    color: var(--notes-text-color);
+		    border: 1px solid var(--notes-background);
+		}
+		
+		.notes-textarea:focus {
+		    background-color: var(--notes-background);
+		    color: var(--notes-text-color);
+		    outline: none;
+		    /* box-shadow: 0 0 0 2px var(--button-primary-color); */
+		    box-shadow: none;
+		    border: 1px solid var(--notes-background);
 		}
 		
 		pre {
