@@ -43,6 +43,10 @@ const themes = {
 	    '--input-label-color': '#E1E1E1',
 	    '--no-description-color': '#999',
 	    '--profile-pic-hover-color': '#666666'
+	    
+	    // New colors
+	    
+	    
     },
     light: {
         '--header-color': '#4F5459',
