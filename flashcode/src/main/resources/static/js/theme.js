@@ -42,11 +42,29 @@ const themes = {
 	    '--header-divider-color': '#ccc',
 	    '--input-label-color': '#E1E1E1',
 	    '--no-description-color': '#999',
-	    '--profile-pic-hover-color': '#666666'
+	    '--profile-pic-hover-color': '#666666',
 	    
 	    // New colors
 	    
+	    '--card-border-color': 'rgba(255,255,255,0.125)',
+	    '--progress-bar-background': '#4E4A50',
+	    '--progress-fill-color': '#6c6472',
+	    '--progress-text-color': '#E1E1E1',
+	    '--stat-label-color': '#B5A9BD',
+	    '--stat-value-color': '#E1E1E1',
+	    '--return-link-color': '#3498db',
+	    '--button-primary-color': '#3498db',
+	    '--button-success-color': '#2ecc71',
+	    '--button-warning-color': '#f39c12',
+	    '--button-danger-color': '#e74c3c',
+	    '--card-background-bright': '#464248',
+	    '--button-hover-brightness': 1.3,
+	    '--text-brightest': '#FFFFFF',
+	    '--button-hover-background': '#302D32',
 	    
+	    '--notes-background': '#38353A',
+	    '--notes-text-color': '#FFFFFF',
+	    '--notes-placeholder-color': '#B5A9BD'
     },
     light: {
         '--header-color': '#4F5459',
