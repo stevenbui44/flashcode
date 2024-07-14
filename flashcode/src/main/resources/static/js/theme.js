@@ -43,6 +43,7 @@ const themes = {
 	    '--input-label-color': '#E1E1E1',
 	    '--no-description-color': '#999',
 	    '--profile-pic-hover-color': '#666666',
+	    '--card-shadow-color': 'rgba(0, 0, 0, 0.2)',
 	    
 	    // New colors
 	    
@@ -67,30 +68,51 @@ const themes = {
 	    '--notes-placeholder-color': '#B5A9BD'
     },
     light: {
-        '--header-color': '#4F5459',
-        '--background-color': '#E1E1E1',
-        
-        '--assortment-background': '#EFEFEF',
-        '--card-count-background': '#B8BEC4',
-        '--assortment-border': '#E1E1E1',
-        
-        '--title-color': '#443E46',
-        '--text-primary': '#443E46',
-        '--text-secondary': '#443E46',
-        '--no-description-color': '#443E46',
-        '--search-text-color': '#443E46',
-        '--no-assortments-text': '#333333',
-        
-        '--search-input-background': '#EFEFEF',
-        '--search-input-text': '#333333',
-        '--search-input-placeholder': '#999999',
-        
-        '--button-text': '#EFEFEF',
-        
-        '--username-text': '#ffffff',
-        '--profile-pic-background': '#808080',
-        '--profile-pic-text': '#ffffff'
-    }
+	    '--background-color': '#E1E1E1',
+	    '--header-color': '#4F5459',
+	
+	    '--assortment-background': '#EFEFEF',
+	    '--card-count-background': '#B8BEC4',
+	    '--assortment-border': '#E1E1E1',
+	    '--ellipsis-color': '#7A7A7A',
+	
+	    '--title-color': '#443E46',
+	    '--text-primary': '#443E46',
+	    '--text-secondary': '#443E46',
+	    '--no-description-color': '#443E46',
+	    '--search-text-color': '#443E46',
+	    '--no-assortments-text': '#333333',
+	
+	    '--search-input-background': '#EFEFEF',
+	    '--search-input-text': '#333333',
+	    '--search-input-placeholder': '#999999',
+	
+	    '--button-text': '#EFEFEF',
+	
+	    '--username-text': '#ffffff',
+	    '--profile-pic-background': '#808080',
+	    '--profile-pic-text': '#ffffff',
+	    '--flashcode-title-color': '#ffffff',
+	
+	    '--card-background': '#E3E5E6',
+	    '--card-order-background': '#E2E7E9',
+	    '--form-control-background': '#F5F5F5',
+	    '--delete-button-color': '#888',
+	    '--delete-button-hover-color': '#ff4444',
+	    '--vertical-divider-color': '#CCCCCC',
+	
+	    '--card-order-color': '#333333',
+	    '--card-order-border-color': '#CCCCCC',
+	    '--code-textarea-color': '#333333',
+	    '--description-container-color': '#443E46',
+	    '--description-input-border-color': '#CCCCCC',
+	    '--form-label-color': '#443E46',
+	    '--header-divider-color': '#CCCCCC',
+	    '--input-label-color': '#666666',
+	    '--no-description-color': '#999999',
+	    '--profile-pic-hover-color': '#A0A0A0',
+	    '--card-shadow-color': 'rgba(0, 0, 0, 0.1)'
+	}
 };
 
 function setTheme(themeName) {
