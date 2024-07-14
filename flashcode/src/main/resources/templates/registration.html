@@ -1,104 +1,257 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" ng-app="myApp">
 <head>
-	<meta charset="UTF-8">
-	<title>Register</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
-</head>
-<body ng-app="myApp">
+    <meta charset="UTF-8">
+    <title>Register - FlashCode</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <style>
+        :root {
+            --background-color: #232124;
+            --header-color: #302D32;
+            --text-primary: #E1E1E1;
+            --button-text: #E1E1E1;
+            --flashcode-title-color: #ffffff;
+            --input-background: #38353A;
+        }
 
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-	  <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
-	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    <ul class="navbar-nav ml-auto">
-	      <li class="nav-item d-flex align-items-center">
-	      	<!-- Username -->
-	      	<span class="nav-link" th:text="${username}">Username</span>
-	      	<!-- Logout -->
-	      	<form th:action="@{/logout}" method="post" class="form-inline ml-2">
-	       		<input class="btn btn-danger" type="submit" value="Logout" />
-	       	</form>
-	      </li>
-	    </ul>
-	  </div>
-	</nav>
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        button {
+	        width: 100%;
+	        padding: 10px;
+	        color: var(--button-text);
+	        background-color: var(--header-color);
+	        border: none;
+	        border-radius: 4px;
+	        cursor: pointer;
+	        font-size: 16px;
+	        transition: filter 0.3s ease;
+	        margin-top: 30px;            
+	    }
+        
+        button[type="submit"] {
+            background-color: var(--header-color);
+            color: var(--button-text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
+
+        button[type="submit"]:hover:not(:disabled) {
+        	color: var(--button-text);
+        	background-color: var(--header-color);
+		    filter: brightness(130%);
+		}
+		
+		button[type="submit"]:disabled {
+			background-color: var(--header-color);
+			color: var(--button-text);
+		    opacity: 0.6;
+		    cursor: not-allowed;
+		}
+
+        .content {
+            flex: 1;
+            padding: 75px 0 40px;
+        }
+        
+        .custom-container {
+	        width: 100%;
+	        max-width: 1200px;
+	        margin-right: auto;
+	        margin-left: auto;
+	        padding-right: 15px;
+	        padding-left: 15px;
+	    }
+
+        h2 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+	        padding: 10px;
+	        margin: 8px auto;
+	        border: 1px solid #4A464E;
+	        border-radius: 4px;
+	        box-sizing: border-box;
+	        font-size: 14px;
+	        margin-top: 0px;
+        }
+
+        label {
+            color: var(--text-primary);
+            margin-bottom: 0px;
+        }
+        
+        .link {
+	        display: block;
+	        text-align: center;
+	        margin-top: 20px;
+	        color: var(--text-primary);
+	        text-decoration: none;
+	        transition: filter 0.3s ease;
+	    }
 	
-	<div class="content">
-		<div class="container mt-5" ng-controller="registrationCtrl">
-				
-		    <h1>Register</h1>
-		    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
-		        <div>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()" />
-                    <span ng-if="usernameExists" class="text-danger">This username already exists!</span>
-                </div>
-                <div>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" th:field="*{password}" ng-model="password" ng-change="checkFormValidity()" />
-                </div>
-                <div>
-                    <label for="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" ng-model="confirmPassword" ng-change="checkFormValidity()" />
-                    <span ng-if="passwordsDoNotMatch" class="text-danger">Passwords do not match!</span>
-                </div>
-		        
-		        <!-- <button type="submit" ng-disabled="usernameExists">Register</button> -->
-		        <button type="submit" ng-disabled="isFormInvalid()">Register</button>
-		    </form>
-		    
-	    </div>
+	    .link:hover {
+	        filter: brightness(130%);
+		    color: var(--text-primary);
+	    }
+        
+        .navbar {
+	        background-color: var(--header-color) !important;
+	    }
 	    
-	    <script>
-		    var app = angular.module('myApp', []);
-		    app.controller('registrationCtrl', function($scope, $http) {
-		    	
-		        $scope.username = '';
-		        $scope.password = '';
-		        $scope.confirmPassword = '';
-		        $scope.usernameExists = false;
-		        $scope.passwordsDoNotMatch = false;
+	    .navbar-brand {
+	        color: var(--flashcode-title-color) !important;
+	    }
+	    
+	    .nav-item {
+	        display: flex;
+	        align-items: center;
+	    }
+	    
+	    .nav-item form {
+	        margin-left: 15px;
+	    }
+	    
+	    .nav-link {
+	        color: var(--username-text);
+	        text-decoration: none; 
+	    }
+	    
+	    .nav-link:hover .profile-pic {
+	        background-color: #666666; /* Darker grey on hover */
+	    }
+	    
+	    .navbar-nav {
+	        align-items: center;
+	    }
+	    
+	    .registration-form {
+            background-color: #4A464E;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .text-danger {
+            color: #e74c3c !important;
+        }
+    
+    </style>
+</head>
+<body>
 
-		        
-		        // Checks for valid username
-		        $scope.checkUsername = function() {
-		        	$scope.usernameExists = false;
-		        	if ($scope.username.trim() === '') {
-                        return;
-                    }
-	                $http.get('/api/v1/users/' + $scope.username)
-	                    .then(function(response) {
-	                    			                    	
-	                        $scope.usernameExists = response.data;
-	                        
-	                        console.log("usernameExists");
-	                        console.log($scope.usernameExists);
-	                        
-	                        $scope.checkFormValidity();
-	                        
-	                    }, function(error) {
-	                        console.error('Error checking username:', error);
-	                    });
-		        }
-		        
-		        $scope.checkPasswordsMatch = function() {
-                    $scope.passwordsDoNotMatch = $scope.password !== $scope.confirmPassword;
-                }
-		        
-		        // Checks if ready to submit (username not empty, username not taken, password not empty)
-		        $scope.checkFormValidity = function() {
-                    $scope.checkPasswordsMatch();
-                    return $scope.username.trim() !== '' && !$scope.usernameExists && $scope.password.trim() !== '' && $scope.confirmPassword.trim() !== '' && !$scope.passwordsDoNotMatch;
-                }
-		        
-		        $scope.isFormInvalid = function() {
-                    return !$scope.checkFormValidity();
-                }
-		        
-		        
-		    });
-		</script>
+	<!-- PART THREE: navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+    </nav>
+    
+    <!-- div to put script and code in any order -->
+    <div class="content">
+    
+    	<!-- PART TWO: html -->
+        <div class="custom-container" ng-controller="registrationCtrl">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="registration-form">
+                        <h2 class="text-center">Create an Account</h2>
+                        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" ng-model="username" ng-blur="checkUsername()" required>
+                                <small ng-if="usernameExists" class="text-danger">This username already exists!</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}" ng-model="password" ng-change="checkFormValidity()" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" ng-model="confirmPassword" ng-change="checkFormValidity()" required>
+                                <small ng-if="passwordsDoNotMatch" class="text-danger">Passwords do not match!</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" ng-disabled="isFormInvalid()">Register</button>
+                        </form>
+				        <a th:href="@{/login}" class="link">Already have an account? Log in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+	<!-- PART ONE: angularjs -->
+    <script>
+	    var app = angular.module('myApp', []);
+	    app.controller('registrationCtrl', function($scope, $http) {
+	    	
+	        $scope.username = '';
+	        $scope.password = '';
+	        $scope.confirmPassword = '';
+	        $scope.usernameExists = false;
+	        $scope.passwordsDoNotMatch = false;
+
+	        
+	        // Checks for valid username
+	        $scope.checkUsername = function() {
+	        	$scope.usernameExists = false;
+	        	if ($scope.username.trim() === '') {
+                       return;
+                   }
+                $http.get('/api/v1/users/' + $scope.username)
+                    .then(function(response) {
+                    			                    	
+                        $scope.usernameExists = response.data;
+                        
+                        console.log("usernameExists");
+                        console.log($scope.usernameExists);
+                        
+                        $scope.checkFormValidity();
+                        
+                    }, function(error) {
+                        console.error('Error checking username:', error);
+                    });
+	        }
+	        
+	        $scope.checkPasswordsMatch = function() {
+                   $scope.passwordsDoNotMatch = $scope.password !== $scope.confirmPassword;
+               }
+	        
+	        // Checks if ready to submit (username not empty, username not taken, password not empty)
+	        $scope.checkFormValidity = function() {
+                   $scope.checkPasswordsMatch();
+                   return $scope.username.trim() !== '' && !$scope.usernameExists && $scope.password.trim() !== '' && $scope.confirmPassword.trim() !== '' && !$scope.passwordsDoNotMatch;
+               }
+	        
+	        $scope.isFormInvalid = function() {
+                   return !$scope.checkFormValidity();
+               }
+	        
+	        
+	    });
+	</script>
+	
+	<footer class="footer mt-auto py-3">
+	    <div class="container text-center">
+	        <span class="text-muted">&copy; FlashCode 2024</span>
+	    </div>
+	</footer>
+    
 </body>
 </html>

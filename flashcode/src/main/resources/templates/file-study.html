@@ -14,31 +14,55 @@
 	<style>
 	
 		:root {
-	        --background-color: #f9f7f1;
-		    --header-color: #1a2a57;
+	        --background-color: #232124;
+		    --header-color: #302D32;
 		    
-		    --assortment-background: #ffffff;
-		    --card-count-background: #f0f0f0;
-		    --assortment-border: #ddd;
-		    --ellipsis-color: #333333;
+		    --assortment-background: #38353A;
+		    --card-count-background: #6c6472;
+		    --assortment-border: #0f1122;
+		    --ellipsis-color: #B5A9BD;
 		    
-		    --title-color: #000000;
-		    --text-primary: #333333;
-		    --text-secondary: #666666;
-		    --no-description-color: #999999;
-		    --search-text-color: #ecf0f1;
-		    --no-assortments-text: #333333;
+		    --title-color: #E1E1E1;
+		    --text-primary: #E1E1E1;
+		    --text-secondary: #B5A9BD;
+		    --no-description-color: #E1E1E1;
+		    --search-text-color: #E1E1E1;
+		    --no-assortments-text: #E1E1E1;
 		    
-		    --search-input-background: #ffffff;
-	        --search-input-text: #333333;
-	        --search-input-placeholder: #999999;
-	        
-	        --button-text: #ffffff;
-	        
-	        --username-text: #ffffff;
-	        --profile-pic-background: #808080;
-	        --profile-pic-text: #ffffff;
-        	--flashcode-title-color: #ffffff;
+		    --search-input-background: #E1E1E1;
+		    --search-input-text: #333333;
+		    --search-input-placeholder: #999999;
+		    
+		    --button-text: #E1E1E1;
+		    
+		    --username-text: #ffffff;
+		    --profile-pic-background: #808080;
+		    --profile-pic-text: #ffffff;
+		    --flashcode-title-color: #ffffff;
+		    
+		    --form-control-background: #4E4A50;
+		    
+		    /* New colors */
+		    
+		    --card-border-color: rgba(255,255,255,0.125);
+		    --progress-bar-background: #4E4A50;
+		    --progress-fill-color: #6c6472;
+		    --progress-text-color: #E1E1E1;
+		    --stat-label-color: #B5A9BD;
+		    --stat-value-color: #E1E1E1;
+		    --return-link-color: #3498db;
+		    --button-primary-color: #3498db;
+		    --button-success-color: #2ecc71;
+		    --button-warning-color: #f39c12;
+		    --button-danger-color: #e74c3c;
+		    --card-background-bright: #464248;
+		    --button-hover-brightness: 1.3;
+		    --text-brightest: #FFFFFF;
+		    --button-hover-background: #302D32;
+		    
+		    --notes-background: #38353A;
+		    --notes-text-color: #FFFFFF; 
+		    --notes-placeholder-color: #B5A9BD;
 	    }
 	    
 	    .action-buttons {
@@ -65,12 +89,16 @@
 		    font-size: 24px;
 		    text-decoration: none;
 		    transition: color 0.3s ease;
+		    filter: brightness(80%);
 		}
 		
 		.back-arrow:hover {
-		    color: color-mix(in srgb, var(--header-color) 70%, white);
 		    text-decoration: none;
+		    background-color: var(--button-hover-background);
+		    color: var(--text-brightest);
+		    filter: brightness(var(--hover-brightness));
 		}
+		
 		
 		body {
 		    background-color: var(--background-color);
@@ -95,19 +123,22 @@
 		    display: flex;
 		    align-items: center;
 		    justify-content: center;
+		    color: var(--button-text);
 		}
 		.btn-icon:hover {
-		    background-color: rgba(0, 0, 0, 0.1);
+		    background-color: var(--button-hover-background);
 		}
 		
 		
 		/* BUTTON 1: Shuffle button */
 		.btn-shuffle {
-		    color: #3498db; /* Light blue for shuffle */
-		    border-color: #3498db;
+		    color: var(--button-primary-color);
+		    border-color: var(--button-primary-color);
 		}
 		.btn-shuffle:hover {
-		    background-color: rgba(0, 0, 0, 0.1);
+		    color: var(--button-primary-color);
+		    border-color: var(--button-primary-color);
+		    filter: brightness(var(--hover-brightness));
 		}
 		
 		
@@ -122,32 +153,38 @@
 		    justify-content: center;
 		}
 		.btn-x {
-		    color: #e74c3c; /* Light red for X */
-		    border-color: #e74c3c;
+		    color: var(--button-danger-color);
+		    border-color: var(--button-danger-color);
 		}
 		
 		.btn-x:hover {
 			background-color: rgba(0, 0, 0, 0.1);
+			color: var(--button-danger-color);
+			filter: brightness(var(--hover-brightness));
+			background-color: var(--button-hover-background);
 		}
 		
 		
 		/* BUTTON 3: Check button */
 		.btn-check {
-		    color: #2ecc71; /* Light green for checkmark */
-		    border-color: #2ecc71;
+		    color: var(--button-success-color);
+		    border-color: var(--button-success-color);
 		}
 		.btn-check:hover {
 		    background-color: rgba(0, 0, 0, 0.1);
+		    color: var(--button-success-color);
+		    filter: brightness(var(--hover-brightness));
+		    background-color: var(--button-hover-background);
 		}
 		
 		.btn-outline-primary {
-		    color: #007bff;
-		    border-color: #007bff;
+		    color: var(--button-primary-color);
+		    border-color: var(--button-primary-color);
 		}
 		
 		.btn-outline-primary:hover {
-		    color: #fff;
-		    background-color: #007bff;
+		    background-color: var(--button-primary-color);
+		    color: var(--button-text);
 		}
 		
 	    .btn-success,
@@ -159,13 +196,20 @@
 		.card {
 		    margin-bottom: 1rem;
 		    position: relative;
+		    background-color: var(--card-background-bright);
+		    border-color: var(--card-border-color);
+		    color: var(--text-primary);
+		    border: 0px;
+		    box-shadow: 0 1px 3px var(--card-shadow-color);  /* Add this line */
+		    transition: box-shadow 0.3s ease;
 		}
 		
 		.card-back {
 		    align-items: start;
 		    backface-visibility: hidden;
-		    background-color: #fff;
-		    border: 1px solid rgba(0,0,0,.125);
+		    background-color: var(--card-background);
+		    /* border: 1px solid var(--card-border-color);; */
+		    border: 0px;
 		    border-radius: .25rem;
 		    display: flex;
 		    height: 100%;
@@ -176,6 +220,10 @@
 		    transform: rotateY(180deg);
 		    transition: transform 0.6s;
 		    width: 100%;
+		    background-color: var(--card-background-bright);
+		    border-color: var(--card-border-color);
+		    color: var(--text-primary);
+		    
 		}
 		
 		.card-body {
@@ -200,6 +248,8 @@
 		    height: 300px;
 		    perspective: 1000px;
 		    overflow: hidden;
+		    box-shadow: 0 1px 3px var(--card-shadow-color);  /* Add this line */
+		    transition: box-shadow 0.3s ease;
 		}
 
 		/* HEIGHT 3 */
@@ -221,10 +271,10 @@
 		    padding: 10px;
 		    white-space: pre-wrap;
 		    font-size: 14px;
+		    color: var(--text-brightest);
 		}
 		
 	    .card-count {
-		    color: #666;
 		    font-size: 14px;
 		}
 		
@@ -232,7 +282,7 @@
 		    align-items: center;
 		    backface-visibility: hidden;
 		    background-color: #fff;
-		    border: 1px solid rgba(0,0,0,.125);
+		    /* border: 1px solid rgba(0,0,0,.125); */
 		    border-radius: .25rem;
 		    display: flex;
 		    height: 100%;
@@ -241,6 +291,9 @@
 		    position: absolute;
 		    transition: transform 0.6s;
 		    width: 100%;
+		    background-color: var(--card-background-bright);
+		    border-color: var(--card-border-color);
+		    color: var(--text-primary);
 		}
 		
 		.card-progress {
@@ -248,6 +301,7 @@
 		    font-weight: bold;
 		    text-align: center;
 		    flex: 1;
+		    color: var(--text-brightest);
 		}
 		
 		.card-text {
@@ -257,6 +311,7 @@
 		    max-height: 100%;
 		    padding: 1rem;
 		    box-sizing: border-box;
+		    color: var(--text-brightest);
 		}
 		
 		
@@ -278,6 +333,7 @@
 		    margin: 0;
 		    text-align: center;
 		    z-index: 2;
+		    color: var(--text-brightest);
 		}
 		
 		.code-card .card-text,
@@ -297,13 +353,13 @@
 		
 		.completion-subtitle {
 		    font-size: 1.5rem;
-		    color: #495057;
+		    color: var(--text-primary);
 		    margin-bottom: 2rem;
 		}
 		
 		.congratulations-title {
 		    font-size: 2.5rem;
-		    color: #495057;
+		    color: var(--text-primary);
 		    margin-bottom: 0.5rem;
 		}
 		
@@ -402,6 +458,7 @@
 		    margin-bottom: 5px;
 		    display: block;
 		    margin-top: -20px;
+		    color: var(--text-brightest);
 		}
 		
 		.notes-textarea {
@@ -409,6 +466,18 @@
 		    resize: vertical;
 		    tab-size: 3;
 		    font-size: 14px;
+		    background-color: var(--notes-background);
+		    color: var(--notes-text-color);
+		    border: 1px solid var(--notes-background);
+		}
+		
+		.notes-textarea:focus {
+		    background-color: var(--notes-background);
+		    color: var(--notes-text-color);
+		    outline: none;
+		    /* box-shadow: 0 0 0 2px var(--button-primary-color); */
+		    box-shadow: none;
+		    border: 1px solid var(--notes-background);
 		}
 		
 		pre {
@@ -432,7 +501,7 @@
 		.progress-bar {
 		    width: 100%;
 		    height: 30px; /* Increased height to accommodate text */
-		    background-color: #d1d1d1; /* Darker grey for the unfilled portion */
+		    background-color: var(--progress-bar-background);
 		    border-radius: 15px;
 		    overflow: hidden;
 		    position: relative;
@@ -446,7 +515,8 @@
 		
 		.progress-fill {
 		    height: 100%;
-		    background-color: #4CAF50;  /* Green color */
+		    /* background-color: var(--progress-fill-color); */
+		    background-color: #4CAF50;
 		    transition: width 0.5s ease-in-out;
 		}
 		
@@ -455,7 +525,7 @@
 		    top: 50%;
 		    left: 50%;
 		    transform: translate(-50%, -50%);
-		    color: #333;
+		    color: var(--progress-text-color);
 		    font-weight: bold;
 		    
 		}
@@ -494,8 +564,8 @@
 		
 		.restart-button {
 		    background-color: transparent;
-		    border: 2px solid #6c757d;
-		    color: #6c757d;
+		    border-color: var(--text-secondary);
+		    color: var(--text-secondary);
 		    width: 100%;
 		    max-width: 300px;
 		}
@@ -507,21 +577,28 @@
 		}
 		
 		.return-text {
-		    color: #007bff;
+		    /* color: var(--return-link-color); */
+		    color: var(--progress-fill-color);
 		    text-decoration: none;
 		    font-size: 14px;
 		}
 		
 		.return-text:hover {
 		    text-decoration: underline;
+		    color: var(--progress-fill-hover-color);
 		}
 		
 		.review-button {
-		    background-color: #007bff;
-		    border-color: #007bff;
-		    color: white;
+		    background-color: var(--progress-fill-color);
+		    border-color: var(--progress-fill-color);
+		    color: var(--text-brightest);
 		    width: 100%;
 		    max-width: 300px;
+		}
+		
+		.review-button:hover {
+		    background-color: var(--progress-fill-hover-color);
+		    border-color: var(--progress-fill-hover-color);
 		}
 		
 		.right-buttons {
@@ -561,13 +638,13 @@
 		
 		.stat-label {
 		    font-size: 1rem;
-		    color: #6c757d;
+		    color: var(--stat-label-color);
 		}
 		
 		.stat-value {
 		    font-size: 1.5rem;
 		    font-weight: bold;
-		    color: #495057;
+		    color: var(--stat-value-color);
 		}
 		
 		/* Ending screen */

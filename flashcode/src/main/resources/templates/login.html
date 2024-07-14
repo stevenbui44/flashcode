@@ -1,81 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - FlashCode</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #333;
-        }
-        .container {
-            background: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
-        }
-        h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            color: #fff;
-            background-color: #3498db;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        .link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #3498db;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .link:hover {
-            color: #2980b9;
-        }
-    </style>
+    :root {
+        --background-color: #232124;
+        --header-color: #302D32;
+        --text-primary: #E1E1E1;
+        --button-text: #E1E1E1;
+        --flashcode-title-color: #ffffff;
+    }
+
+    body {
+        font-family: 'Work Sans', sans-serif;
+        background-color: var(--background-color);
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        color: var(--text-primary);
+    }
+    
+    button {
+        width: 100%;
+        padding: 10px;
+        color: var(--button-text);
+        background-color: var(--header-color);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: filter 0.3s ease;
+        margin-top: 20px;            
+    }
+
+    button:hover {
+        filter: brightness(130%);
+    }
+
+    .content {
+        flex: 1 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .custom-container {
+        width: 100%;
+        max-width: 1200px;
+        margin-right: auto;
+        margin-left: auto;
+        padding-right: 15px;
+        padding-left: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        flex-direction: column;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: var(--text-primary);
+        font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px auto;
+        border: 1px solid #4A464E;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    .link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: filter 0.3s ease;
+    }
+
+    .link:hover {
+        filter: brightness(130%);
+	    color: var(--text-primary);
+    }
+    
+    .login-container {
+        background: #4A464E;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .message {
+	    background-color: #302D32; /* Slightly darker than the login container */
+	    color: #E1E1E1; /* Light text color for contrast */
+	    padding: 10px 15px;
+	    border-radius: 4px;
+	    margin-bottom: 20px;
+	    text-align: center;
+	    width: 100%;
+	    max-width: 400px; /* Match the width of the login container */
+	    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	}
+    
+    .navbar {
+        background-color: var(--header-color) !important;
+    }
+    
+    .navbar-brand {
+        color: var(--flashcode-title-color) !important;
+    }
+    
+    .nav-item {
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-item form {
+        margin-left: 15px;
+    }
+    
+    .nav-link {
+        color: var(--username-text);
+        text-decoration: none; 
+    }
+    
+    .nav-link:hover .profile-pic {
+        background-color: #666666; /* Darker grey on hover */
+    }
+    
+    .navbar-nav {
+        align-items: center;
+    }
+    
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-         <div th:if="${message}" class="message" th:text="${message}"></div>
-        <form action="/login" method="post">
-        	<!-- <label for="username">Username:</label> -->
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <!-- <label for="password">Password:</label> -->
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <!-- <a href="#" class="link">Forgot your password?</a> -->
-        <a href="/register" class="link">Create an account</a>
+	
+	<!-- PART THREE: navbar -->
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" th:href="@{/assortments}">FlashCode</a>
+    </nav>
+    
+    
+	<!-- div to put script and code in any order -->
+    <div class="content">
+    
+    	<!-- PART TWO: html -->
+    	<div class="custom-container" ng-controller="loginCtrl">
+    
+	    	<!-- 2.1: Login square -->
+	    	<div th:if="${message}" class="message" th:text="${message}"></div>
+	        <div class="login-container">
+		        <h2>Log in</h2>
+		        <!-- <div th:if="${message}" class="message" th:text="${message}"></div> -->
+		        <form action="/login" method="post">
+		        	<!-- <label for="username">Username:</label> -->
+		            <input type="text" id="username" name="username" placeholder="Username" required>
+		            <!-- <label for="password">Password:</label> -->
+		            <input type="password" id="password" name="password" placeholder="Password" required>
+		            <button type="submit">Login</button>
+		        </form>
+		        <!-- <a href="#" class="link">Forgot your password?</a> -->
+		        <a href="/register" class="link">Create an account</a>
+		    </div>
+		
+		</div>
+		
+		<!-- PART ONE: angularjs -->
+		<script>
+	        var app = angular.module('myApp', []);
+	        app.controller('loginCtrl', function($scope, $http, $q, $timeout) {
+	        	
+	        	
+	        	
+	        	/* // 3.8: Themes
+				$scope.currentTheme = localStorage.getItem('theme') || 'default';
+
+			    $scope.setTheme = function(themeName) {
+			        setTheme(themeName);
+			        $scope.currentTheme = themeName;
+			        localStorage.setItem('theme', themeName);
+			    }; */
+			    
+			    
+			    
+	        });
+	    </script>
+	    
     </div>
+
+    <footer class="footer mt-auto py-3">
+	    <div class="container text-center">
+	        <span class="text-muted">&copy; FlashCode 2024</span>
+	    </div>
+	</footer>
+
 </body>
 </html>
