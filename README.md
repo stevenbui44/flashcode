@@ -50,3 +50,23 @@ logging.level.org.hibernate.SQL=DEBUG
 
 ## Usage
 1. Open the application in http://localhost:8080
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/48567cc8-8f1c-416f-bed5-fc210ce7148b">
+
+2. Create a new account (if you do not have an account)
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/2345877f-8a08-49bd-b374-6a28e9a8044b">
+
+3. Create a new assortment by pressing 'Create New Assortment' in the top right corner
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/8a0f3957-1095-4f2f-a4e8-0a5281b439ab">
+
+4. Create cards with question, code, approach, time complexity, and space complexity sections
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/7f12b628-7d2c-4d2b-b4f4-8ba558eebdb7">
+
+5. Press 'Study' in the top right corner to study the assortment
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/caf4b97b-a7d9-4c31-ace1-fc1f41365fe3">
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/4a71442e-9072-426d-90a5-a48d2ac5f794">
+
+6. Finish studying and study again!
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/6c390a52-94b0-4195-bcbc-2f60e429935e">
+
+
+
