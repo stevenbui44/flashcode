@@ -33,7 +33,7 @@ FlashCode is a web application designed to help users study LeetCode questions m
 3. Go to Git Repositories > Clone a Git Repository > Clone URI
 4. Enter the repository URL:
 ```
-https://github.com/yourusername/flashcode.git
+https://github.com/stevenbui44/flashcode.git
 ```
 5. Locate src/main/resources/application.properties
 6. Update configurations:
