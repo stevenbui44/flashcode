@@ -1,18 +1,18 @@
 # FlashCode
 
-FlashCode is a web application designed to help users study LeetCode questions more effectively. This project allows users to create and study flashcard sets specifically tailored for LeetCode problems, where each card contains a problem's question, solution, approach, and time/space complexity. 
+FlashCode is a web application designed to help users study data structures, algorithms, and other code snippets more effectively. This project allows users to create and study flashcard sets specifically tailored for short code snippets like data structures and algorithms, where each card keeps track of its title, code, notes, time complexity, and space complexity.
 
 ## Features
 
 - **User Registration and Authentication**: Secure account creation and login system with Spring Security
-- **Assortment Creation**: Ability to create multiple flashcard sets for different topics and difficulty levels
-- **Comprehensive Card Content**: Each flashcard contains the question, code solution, approach explanation, time complexity, and space complexity
+- **Assortment Creation**: Ability to create multiple flashcard sets for different topics
+- **Comprehensive Card Content**: Each flashcard contains the title, code, notes, time complexity, and space complexity
 - **Assortment Search**: Ability to search assortments by name
 - **Study Mode**: Flip-card functionality to test knowledge retention, where users can mark cards as 'Still Learning' or 'Know'
 - **In-Study Note-Taking**: Option to add temporary notes underneath each card while studying
 - **Shuffle Cards**: Randomize the order of cards during study sessions
 - **Automatic Indentation**: Starting a new line automatically indents to match the previous line
-- **Tab Support**: Pressing tab indents your code and notes, and pressing ctrl+tab outdents (goes back one tab)
+- **Tab Support**: Pressing tab indents your code and notes, and pressing ctrl+tab goes back one tab
 - **Real-time Saving**: All card content is automatically saved to the MySQL database using REST APIs as the user types
 - **Color Themes**: Toggle between dark and light themes for user convenience
 
@@ -28,7 +28,7 @@ FlashCode is a web application designed to help users study LeetCode questions m
 1. Ensure that you have the following prerequisites installed:
   - Java Development Kit (JDK), version 8 or higher
   - Eclipse IDE for Enterprise Java and Web Developers
-  - MySQL Server
+  - MySQL Workbench
 2. Open Eclipse
 3. Go to Git Repositories > Clone a Git Repository > Clone URI
 4. Enter the repository URL:
@@ -60,12 +60,12 @@ logging.level.org.hibernate.SQL=DEBUG
 3. Create a new assortment by pressing 'Create New Assortment' in the top right corner
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/8a0f3957-1095-4f2f-a4e8-0a5281b439ab">
 
-4. Create cards with question, code, approach, time complexity, and space complexity sections
-<img width="1440" alt="image" src="https://github.com/user-attachments/assets/7f12b628-7d2c-4d2b-b4f4-8ba558eebdb7">
+4. Create cards with title, code, notes, time complexity, and space complexity
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/285006c3-65a1-4e1a-9854-167cc8f992cb">
 
 5. Press 'Study' in the top right corner to study the assortment
-<img width="1440" alt="image" src="https://github.com/user-attachments/assets/caf4b97b-a7d9-4c31-ace1-fc1f41365fe3">
-<img width="1440" alt="image" src="https://github.com/user-attachments/assets/4a71442e-9072-426d-90a5-a48d2ac5f794">
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/bfa7a7b4-dde1-4f7a-9631-55ecb642813a">
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/8c0b49ab-9c01-401a-870e-53bfd58c7b35">
 
 6. Finish studying and study again!
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/6c390a52-94b0-4195-bcbc-2f60e429935e">
